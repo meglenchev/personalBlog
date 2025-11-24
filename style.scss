@@ -1,0 +1,181 @@
+*,
+*::before,
+*::after {
+    // 1. Use a more-intuitive box-sizing model for all elements
+    box-sizing: border-box;
+}
+
+// 2. Remove default margins for consistency
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+figure,
+blockquote,
+dl,
+dd {
+    margin: 0;
+}
+
+// 3. Set core body defaults
+body {
+    line-height: 1.5;
+    // Improve text rendering (optional, may vary by preference)
+    -webkit-font-smoothing: antialiased;
+    // Use smooth scrolling if user prefers
+    scroll-behavior: smooth;
+}
+
+// 4. Improve media defaults (images, video, etc.)
+img,
+picture,
+video,
+canvas,
+svg {
+    display: block;
+    max-width: 100%;
+}
+
+// 5. Inherit fonts for form controls
+input,
+button,
+textarea,
+select {
+    font: inherit;
+}
+
+// 6. Remove list styles (bullets/numbers) on ul, ol elements with a class attribute
+// This is a targeted reset, allowing you to use list styles when needed without a class
+ul,
+ol {
+    list-style: none;
+    padding: 0;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    overflow-wrap: break-word;
+}
+
+
+// Create a root stacking context (useful for certain modern layouts/frameworks)
+// #root, #__next {
+//   isolation: isolate;
+// }
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    color: #000;
+    line-height: 1.6;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    color: #a7846e;
+
+    .wrap {
+        width: 100%;
+        background-color: #eae8e2;
+        margin: 0 auto;
+
+        .content {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    nav {
+        ul {
+            display: flex;
+            gap: 20px;
+
+            li {
+                a {
+                    text-decoration: none;
+                    text-transform: uppercase;
+                    color: #a7846e;
+
+                    &:hover {
+                        text-decoration: underline;
+                    }
+                }
+            }
+        }
+    }
+
+
+    .auth-nav {
+        display: flex;
+        gap: 20px;
+
+        li {
+            a {
+                text-decoration: none;
+                text-transform: uppercase;
+                color: #a7846e;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+
+    .logo {
+        width: 100%;
+        max-width: 440px;
+    }
+}
+
+@media screen and (min-device-width: 1280px) {
+    header {
+        padding-bottom: 40px;
+
+        .wrap {
+            height: 56px;
+            margin-bottom: 40px;
+
+            .content {
+                width: 1280px;
+                margin: 0 auto;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 1200px) {}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {}
+
+@media only screen and (width: 1024px) and (height: 768px) {}
+
+@media screen and (max-width: 1024px) {}
+
+@media screen and (max-width: 860px) {}
+
+@media screen and (max-width: 768px) {}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 1024px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {}
+
+@media screen and (max-width: 640px) {}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 640px) and (orientation: portrait) and (-webkit-min-device-pixel-ratio: 2) {}
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 640px) and (orientation: landscape) and (-webkit-min-device-pixel-ratio: 2) {}
+
+@media screen and (max-width: 420px) {}
+
+@media screen and (max-width: 320px) {}
