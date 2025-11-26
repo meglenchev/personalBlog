@@ -9,3 +9,4 @@
 - [x] Create Quick links
 - [x] Create quick author info box
 - [x] Create Latest posts
+- [x] Create Upcoming practices
