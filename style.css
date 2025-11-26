@@ -274,7 +274,7 @@ main {
   margin-bottom: 20px;
 }
 .latest-posts .posts-container .post h3 {
-  font-size: 2em;
+  font-size: 1.8em;
   line-height: 1.2;
   margin-bottom: 20px;
 }
@@ -284,10 +284,22 @@ main {
   margin-bottom: 10px;
 }
 .latest-posts .posts-container .post .post-date {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   margin-bottom: 20px;
   font-size: 0.9em;
   color: #5d5d5f;
+}
+.latest-posts .posts-container .post .post-date::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  margin-right: 5px;
+  background-color: #5d5d5f;
+  -webkit-mask: url(/images/date.svg) no-repeat center;
+  mask: url(/images/date.svg) no-repeat center;
+  -webkit-mask-size: contain;
 }
 .latest-posts .posts-container .post .btn {
   width: 100%;

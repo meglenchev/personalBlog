@@ -327,7 +327,7 @@ main {
             }
 
             h3 {
-                font-size: 2em;
+                font-size: 1.8em;
                 line-height: 1.2;
                 margin-bottom: 20px;
             }
@@ -339,10 +339,23 @@ main {
             }
 
             .post-date {
-                display: inline-block;
+                display: inline-flex;
+                align-items: center;
                 margin-bottom: 20px;
                 font-size: 0.9em;
                 color: #5d5d5f;
+
+                &::before {
+                    content: '';
+                    display: inline-block;
+                    width: 18px;
+                    height: 18px;
+                    margin-right: 5px;
+                    background-color: #5d5d5f;
+                    -webkit-mask: url(/images/date.svg) no-repeat center;
+                    mask: url(/images/date.svg) no-repeat center;
+                    -webkit-mask-size: contain;
+                }
             }
 
             .btn {
@@ -423,6 +436,7 @@ footer {
         font-weight: 500;
         line-height: 1;
     }
+
     .btn {
         &:hover {
             background-color: #F4F3F0;
