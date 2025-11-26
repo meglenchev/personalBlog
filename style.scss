@@ -239,6 +239,7 @@ main {
             font-family: "Caveat", cursive;
             font-optical-sizing: auto;
             font-size: 1.5em;
+            margin-bottom: 10px;
         }
 
         a {
@@ -260,6 +261,43 @@ main {
                 transform: translateX(0px);
                 transition: transform 0.3s ease;
             }
+        }
+    }
+}
+
+// About the Author Section
+.about-author {
+    width: calc(33.33% + 33.33%);
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 40px;
+
+    .author-photo {
+        width: 50%;
+        padding-right: 20px;
+
+        img {
+            width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            width: 100%;
+        }
+    }
+
+    .author-bio {
+        width: 50%;
+        padding: 0 10px;
+
+        h2 {
+            margin-bottom: 30px;
+        }
+
+        p {
+            font-size: 1em;
+            line-height: 1.6;
         }
     }
 }
@@ -315,6 +353,11 @@ footer {
 
 // Media Queries
 @media screen and (min-device-width: 1280px) {
+    h2 {
+        font-size: 3em;
+        font-weight: 500;
+        line-height: 1;
+    }
     .btn {
         &:hover {
             background-color: #F4F3F0;

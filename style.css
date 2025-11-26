@@ -200,6 +200,7 @@ main {
   font-family: "Caveat", cursive;
   font-optical-sizing: auto;
   font-size: 1.5em;
+  margin-bottom: 10px;
 }
 .quick-links section a {
   display: inline-flex;
@@ -219,6 +220,36 @@ main {
   mask: url(/images/arrow-right.svg) no-repeat center;
   transform: translateX(0px);
   transition: transform 0.3s ease;
+}
+
+.about-author {
+  width: 66.66%;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 40px;
+}
+.about-author .author-photo {
+  width: 50%;
+  padding-right: 20px;
+}
+.about-author .author-photo img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+}
+.about-author .author-photo .btn {
+  width: 100%;
+}
+.about-author .author-bio {
+  width: 50%;
+  padding: 0 10px;
+}
+.about-author .author-bio h2 {
+  margin-bottom: 30px;
+}
+.about-author .author-bio p {
+  font-size: 1em;
+  line-height: 1.6;
 }
 
 footer {
@@ -262,6 +293,11 @@ footer .footer-bottom p {
 }
 
 @media screen and (min-device-width: 1280px) {
+  h2 {
+    font-size: 3em;
+    font-weight: 500;
+    line-height: 1;
+  }
   .btn:hover {
     background-color: #F4F3F0;
   }

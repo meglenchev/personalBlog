@@ -7,3 +7,4 @@
 - [x] Аdding resources for buttons and quick linksFooter
 - [x] Create Header Image
 - [x] Create Quick links
+- [x] Create quick author info box
