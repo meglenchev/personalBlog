@@ -11,3 +11,4 @@
 - [x] Create Latest posts
 - [x] Create Upcoming practices
 - [x] Create Post categories
+- [x] Create Login form

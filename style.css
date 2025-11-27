@@ -39,6 +39,7 @@ button,
 textarea,
 select {
   font: inherit;
+  border: 1px solid #a7846e;
 }
 
 ul,
@@ -123,6 +124,15 @@ textarea:focus {
   transform: translateX(0px);
   transition: transform 0.3s ease;
 }
+.btn.btn-login {
+  width: 100%;
+  height: 50px;
+  background-color: #C1AD9D;
+  color: #fff;
+}
+.btn.btn-login::after {
+  background-color: #fff;
+}
 
 body {
   background-color: #fff;
@@ -202,6 +212,48 @@ header .auth-nav li a {
 }
 header .auth-nav li a:hover {
   text-decoration: underline;
+}
+header .login-container {
+  display: flex;
+  flex-direction: column;
+  width: 380px;
+  position: absolute;
+  right: 0;
+  top: 56px;
+  background-color: #f6f6f6;
+  padding: 2rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+header .login-container::after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #f6f6f6;
+}
+header .login-container .form-group {
+  margin-bottom: 1rem;
+}
+header .login-container .form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+header .login-container .form-group input::-moz-placeholder {
+  color: #999;
+}
+header .login-container .form-group input::placeholder {
+  color: #999;
+}
+header .login-container .form-group input:focus {
+  outline: none;
+  border-color: #000;
+  background-color: #fff;
 }
 header .logo {
   width: 100%;
@@ -427,6 +479,9 @@ footer .footer-bottom p {
     transform: translateX(5px);
     transition: transform 0.3s ease;
   }
+  .btn.btn-login:hover {
+    background-color: #A7846E;
+  }
   header {
     padding: 96px 0 40px;
   }
@@ -435,6 +490,7 @@ footer .footer-bottom p {
     margin-bottom: 40px;
   }
   header .wrap .content {
+    position: relative;
     width: 1280px;
     height: 100%;
     margin: 0 auto;
