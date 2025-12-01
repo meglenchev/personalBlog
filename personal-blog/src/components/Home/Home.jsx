@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export function Home() {
     return (
         <main>
@@ -10,21 +12,21 @@ export function Home() {
                     <img src="/images/praktiki.svg" alt="Предстоящи практики" />
                     <div>
                         <h2>Предстоящи практики</h2>
-                        <a href="#" title="виж повече">виж повече</a>
+                        <Link to="/practices" title="виж повече">виж повече</Link>
                     </div>
                 </section>
                 <section>
                     <img src="/images/novo.svg" alt="Ново в блога" />
                     <div>
                         <h2>Ново в блога</h2>
-                        <a href="#" title="виж повече">виж повече</a>
+                        <Link to="/blog" title="виж повече">виж повече</Link>
                     </div>
                 </section>
                 <section>
                     <img src="/images/author.svg" alt="За авторката" />
                     <div>
                         <h2>За авторката</h2>
-                        <a href="#" title="виж повече">виж повече</a>
+                        <Link to="/about" title="виж повече">виж повече</Link>
                     </div>
                 </section>
             </article>
@@ -44,19 +46,19 @@ export function Home() {
                             voluptates sint facere hic voluptatum. Minus placeat asperiores voluptatum ducimus beatae,
                             reiciendis eveniet facere facilis tenetur vel, aut officiis, nostrum repudiandae similique
                             provident.</p>
-                        <a href="#" className="btn" title="Button style">Научи повече</a>
+                        <Link to="/about" className="btn" title="Научи повече">Научи повече</Link>
                     </div>
                 </section>
                 <section className="post-categories">
                     <h3>Категории в блога</h3>
                     <ul>
-                        <li><a href="#" title="Арт">Арт</a></li>
-                        <li><a href="#" title="Създаване">Създаване</a></li>
-                        <li><a href="#" title="Знания">Знания</a></li>
-                        <li><a href="#" title="Вдъхновение">Вдъхновение</a></li>
-                        <li><a href="#" title="Здраве">Здраве</a></li>
-                        <li><a href="#" title="Мъдрост">Мъдрост</a></li>
-                        <li><a href="#" title="Почерк">Почерк</a></li>
+                        <li><Link to="#" title="Арт">Арт</Link></li>
+                        <li><Link to="#" title="Създаване">Създаване</Link></li>
+                        <li><Link to="#" title="Знания">Знания</Link></li>
+                        <li><Link to="#" title="Вдъхновение">Вдъхновение</Link></li>
+                        <li><Link to="#" title="Здраве">Здраве</Link></li>
+                        <li><Link to="#" title="Мъдрост">Мъдрост</Link></li>
+                        <li><Link to="#" title="Почерк">Почерк</Link></li>
                     </ul>
                 </section>
             </article>
@@ -73,7 +75,7 @@ export function Home() {
                             excepturi deleniti totam beatae voluptatibus! Commodi odit, fugiat architecto iste non
                             minima sequi cupiditate?</p>
                         <span className="post-date">01-03-2025</span>
-                        <a href="#" className="btn" title="Прочети повече">Прочети</a>
+                        <Link to="/blog" className="btn" title="Прочети повече">Прочети</Link>
                     </section>
                     <section className="post">
                         <img src="/images/last-post-image.jpg" alt="Post 2" />
@@ -84,7 +86,7 @@ export function Home() {
                             excepturi
                             quisquam eos recusandae veritatis non ipsum.</p>
                         <span className="post-date">01-03-2025</span>
-                        <a href="#" className="btn" title="Прочети повече">Прочети</a>
+                        <Link to="/blog" className="btn" title="Прочети повече">Прочети</Link>
                     </section>
                     <section className="post">
                         <img src="/images/last-post-image.jpg" alt="Post 3" />
@@ -97,7 +99,7 @@ export function Home() {
                             quam
                             quidem dolor!</p>
                         <span className="post-date">01-03-2025</span>
-                        <a href="#" className="btn" title="Прочети повече">Прочети</a>
+                        <Link to="/blog" className="btn" title="Прочети повече">Прочети</Link>
                     </section>
                 </div>
             </article>
@@ -107,7 +109,7 @@ export function Home() {
                 <div className="posts-container">
                     <section className="post">
                         <img src="/images/upcoming-practices-1.jpg" alt="Post 1" />
-                        <a href="#" className="btn" title="Научи повече">Научи повече</a>
+                         <Link to="/practices" className="btn" title="Научи повече">Научи повече</Link>
                         <h3>Естетика танци и ритмично дишане</h3>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae nobis in praesentium
                             hic
@@ -117,7 +119,7 @@ export function Home() {
                     </section>
                     <section className="post">
                         <img src="/images/upcoming-practices-2.jpg" alt="Post 2" />
-                        <a href="#" className="btn" title="Научи повече">Научи повече</a>
+                        <Link to="/practices" className="btn" title="Научи повече">Научи повече</Link>
                         <h3>Естетика танци и ритмично дишане</h3>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolores alias voluptatem saepe
                             aliquam iste, labore at molestias odio excepturi corporis rem exercitationem pariatur
@@ -127,7 +129,7 @@ export function Home() {
                     </section>
                     <section className="post">
                         <img src="/images/upcoming-practices-3.jpg" alt="Post 3" />
-                        <a href="#" className="btn" title="Научи повече">Научи повече</a>
+                        <Link to="/practices" className="btn" title="Научи повече">Научи повече</Link>
                         <h3>Естетика танци и ритмично дишане</h3>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt fuga beatae quaerat ea.
                             Alias

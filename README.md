@@ -25,4 +25,7 @@
 - [x] Add NaviLink (Dynamic Navigation) to App
 
 ## 4. Adding login, registration and functionality
--[x] Show and hide the login modal
+- [x] Show and hide the login modal
+- [x] Create useForm Hook
+- [x] Using useForm in login
+- [x] Sending login fetch to server

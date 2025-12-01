@@ -6,12 +6,12 @@ export function Header() {
     const [showLoginModal, setShowLoginModal] = useState(false);
 
     // Show/Hide Login User Modal
-    const addUserClickHandler =  () => {
-        setShowLoginModal(showLoginModal => !showLoginModal);
+    const addUserClickHandler = () => {
+        setShowLoginModal(true);
     }
 
     const closeUserModalHandler = () => {
-        setShowLoginModal(showLoginModal => !showLoginModal);
+        setShowLoginModal(false);
     }
 
     return (
@@ -28,9 +28,10 @@ export function Header() {
                     </nav>
 
                     <ul className="auth-nav">
-                        <li onClick={addUserClickHandler}><a>Логин</a></li>
+                        <li className={showLoginModal ? 'active' : ''} onClick={addUserClickHandler}>Логин</li>
                     </ul>
-                    {showLoginModal && <LoginModal onClose={closeUserModalHandler} />}
+
+                    {showLoginModal && <LoginModal onClose={closeUserModalHandler} setShowLoginModal={setShowLoginModal} />}
                 </div>
             </div>
             <h1><a href="/"><img src="/images/strateva.png" className="logo" alt="Стратева" /></a></h1>

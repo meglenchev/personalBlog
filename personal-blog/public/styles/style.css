@@ -118,7 +118,8 @@ button:hover,
 input,
 input:focus,
 textarea,
-textarea:focus {
+textarea:focus, 
+li {
   transition: all 0.3s linear;
   -o-transition: all 0.3s linear;
   -moz-transition: all 0.3s linear;
@@ -237,7 +238,7 @@ header .auth-nav {
   display: flex;
   gap: 20px;
 }
-header .auth-nav li a {
+header .auth-nav li {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -247,8 +248,11 @@ header .auth-nav li a {
   text-transform: uppercase;
   color: #a7846e;
 }
-header .auth-nav li a:hover {
-  text-decoration: underline;
+header .auth-nav li:hover, 
+header .auth-nav li.active {
+  color: #745D4E;
+  background-color: #ddd2c5;
+  transition: all 0.3s linear;
 }
 header .login-modal {
   display: flex;
