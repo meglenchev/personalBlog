@@ -13,3 +13,8 @@
 - [x] Create Post categories
 - [x] Create Login form
 - [x] Create Register page
+
+## 2 Create React Project
+- [x] Install React `npm i vite`
+- [x] Add resources and clean project
+- [x] Add Header / Footer components
