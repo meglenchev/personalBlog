@@ -18,3 +18,11 @@
 - [x] Install React `npm i vite`
 - [x] Add resources and clean project
 - [x] Add Header / Footer components
+
+## 3. Аdd Reacr Router And Dynamic Navigation 
+- [x] Install Reacr Router `npm i react-router`
+- [x] Add And Setup React Router
+- [x] Add NaviLink (Dynamic Navigation) to App
+
+## 4. Adding login, registration and functionality
+-[x] Show and hide the login modal

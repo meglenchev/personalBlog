@@ -1,15 +1,20 @@
-import '../public/styles/style.css'
-import { Footer } from './components/Footer.jsx'
-import { Header } from './components/Header.jsx'
+import { Routes, Route } from 'react-router'
+import { Footer } from './components/footer/Footer.jsx'
+import { Header } from './components/header/Header.jsx'
+import { Home } from './components/home/Home.jsx'
 
 function App() {
-  return (
-    <>
-      <Header />
-      <h1>Personal blog</h1>
-      <Footer />
-    </>
-  )
+    return (
+        <>
+            <Header />
+            <main>
+                <Routes>
+                    <Route path='/' element={<Home />} />
+                </Routes>
+            </main>
+            <Footer />
+        </>
+    )
 }
 
 export default App

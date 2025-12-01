@@ -250,6 +250,15 @@ header .auth-nav li a {
 header .auth-nav li a:hover {
   text-decoration: underline;
 }
+header .login-modal {
+  display: flex;
+  position: fixed;
+  top: 56px;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 56px);
+  background-color: rgba(0, 0, 0, .5);
+}
 header .login-container {
   display: flex;
   flex-direction: column;
