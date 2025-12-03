@@ -34,3 +34,7 @@
 - [x] Create useForm Hook
 - [x] Using useForm in login
 - [x] Sending login fetch to server
+
+## 5. Server change
+- [x] Delete the server
+- [x] Adding the SoftUni practice server
