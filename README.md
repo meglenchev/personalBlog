@@ -39,4 +39,8 @@
 - [x] Delete the server
 - [x] Adding the SoftUni practice server
 - [x] Adding Firebase to the project
+- [x] Create useFetch hook form 
+- [x] Creating endpoints with the links to the server
+- [x] Fetching dynamic blog data on the homepage
+
 - [] Adding initial values ​​to the server
