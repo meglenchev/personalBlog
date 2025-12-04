@@ -1,7 +1,7 @@
 export function AboutAuthor() {
     return (
         <article className="about-author">
-            <img src="/images/about.jpg" alt="" />
+            <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/about.jpg?alt=media&token=63293c91-f390-47a1-99e0-baa9a3ffc05f" alt="" />
             <h2>За автора</h2>
             <blockquote>Казвам се Гергана Стратева – писател, водещ на индивидуални и групови практики, търсач по
                 пътя на мистичното!</blockquote>

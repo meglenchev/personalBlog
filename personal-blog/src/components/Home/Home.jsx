@@ -5,7 +5,7 @@ export function Home() {
     return (
         <main>
             <article className="header-image">
-                <img src="/images/header-image.jpg" alt="Гергана Стратева" />
+                <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/header-image.jpg?alt=media&token=76ae0ef2-08f0-4297-a313-93ae8a50cf1f" alt="Гергана Стратева" />
             </article>
 
             <article className="quick-links">
@@ -35,7 +35,7 @@ export function Home() {
             <article className="wrap-section">
                 <section className="about-author-short">
                     <div className="author-photo">
-                        <img src="/images/author.jpg" alt="Гергана Стратева" />
+                        <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/author.jpg?alt=media&token=47068abe-1588-444b-9394-22367515a27a" alt="Гергана Стратева" />
                     </div>
                     <div className="author-bio">
                         <h2>Гергана Стратева</h2>
