@@ -32,7 +32,7 @@ export function Home() {
             </article>
 
             <article className="wrap-section">
-                <section className="about-author">
+                <section className="about-author-short">
                     <div className="author-photo">
                         <img src="/images/author.jpg" alt="Гергана Стратева" />
                     </div>

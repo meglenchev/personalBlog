@@ -31,22 +31,20 @@ export function LoginModal({ onClose, setShowLoginModal }) {
             const res = await fetch('http://localhost:5000/login', {
                 method: 'POST',
                 headers: {
-                    'content-type': 'aplication/json'
+                    'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({ email, password })
             });
 
             if (!res.ok) {
-                throw res.statusText;
+                throw new Error(res.statusText);
             }
 
             const user = await res.json();
 
-            console.log(user)
-
             setShowLoginModal(false)
         } catch (err) {
-            alert(err.messages)
+            alert(`Err: ${err.message}`)
         }
     }
 

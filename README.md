@@ -38,3 +38,5 @@
 ## 5. Server change
 - [x] Delete the server
 - [x] Adding the SoftUni practice server
+- [x] Adding Firebase to the project
+- [] Adding initial values ​​to the server
