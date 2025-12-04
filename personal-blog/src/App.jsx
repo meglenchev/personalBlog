@@ -6,6 +6,7 @@ import { AboutAuthor } from './components/about-author/AboutAuthor.jsx'
 import { EditAuthorInfo } from './components/edit-author-info/EditAuthorInfo.jsx'
 import { CreateBlog } from './components/create-blog/CreateBolg.jsx'
 import { CreatePractices } from './components/create-practices/CreatePractices.jsx'
+import { UserRegister } from './components/users/UserRegister.jsx'
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                     <Route path='/about/edit' element={<EditAuthorInfo />} />
                     <Route path='/blog/create' element={<CreateBlog />} />
                     <Route path='/practices/create' element={<CreatePractices />} />
+                    <Route path='/user/register' element={<UserRegister />} />
                 </Routes>
             </main>
             <Footer />

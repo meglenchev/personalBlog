@@ -34,6 +34,8 @@
 - [x] Create useForm Hook
 - [x] Using useForm in login
 - [x] Sending login fetch to server
+- [x] Create useRequest Hook
+- [x] Sending Register request to server
 
 ## 5. Server change
 - [x] Delete the server

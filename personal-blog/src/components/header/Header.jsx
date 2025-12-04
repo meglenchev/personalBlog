@@ -33,6 +33,7 @@ export function Header() {
 
                     <ul className="auth-nav">
                         <li className={showLoginModal ? 'active' : ''} onClick={addUserClickHandler}>Вход</li>
+                        <li><NavLink to="/user/register">Регистрация</NavLink></li>
                         <li>Изход</li>
                     </ul>
 
