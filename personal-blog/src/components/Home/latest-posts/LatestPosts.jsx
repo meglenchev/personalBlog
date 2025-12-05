@@ -1,6 +1,6 @@
 import { endPoints } from "../../../utils/endpoints.js";
 import { useFetch } from "../../hooks/useFetch.js"
-import { Post } from "./Post.jsx";
+import { Post } from "../../blogs/Post.jsx";
 
 export function LatestPosts() {
     const { data, isPanding } = useFetch(endPoints.latestBlogs, []);
