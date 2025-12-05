@@ -50,5 +50,6 @@
 ## 6. Dynamic App Functionality ( Authorization, Authentication, Logout, Add, Edit, Delete )
 - [x] Create blogs page
 - [x] Fetching dynamic blogs data
+- [x] Fetching blog details data
 - [] Create practices page
 - [] Fetching dynamic practices data

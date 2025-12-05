@@ -9,6 +9,7 @@ import { CreatePractices } from './components/create-practices/CreatePractices.j
 import { UserRegister } from './components/users/UserRegister.jsx'
 import { UserLogin } from './components/users/UserLogin.jsx'
 import { Blogs } from './components/blogs/Blogs.jsx'
+import { PostDetails } from './components/blogs/PostDetails.jsx'
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path='/about' element={<AboutAuthor />} />
                     <Route path='/about/edit' element={<EditAuthorInfo />} />
                     <Route path='/blogs' element={<Blogs />} />
+                    <Route path="/blogs/:blogId/details" element={<PostDetails />} />
                     <Route path='/blogs/create' element={<CreateBlog />} />
                     <Route path='/practices/create' element={<CreatePractices />} />
                     <Route path='/user/register' element={<UserRegister />} />

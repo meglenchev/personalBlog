@@ -1,4 +1,5 @@
 import { Link } from "react-router";
+import { useDate } from "../hooks/useDate.js";
 
 export function Post({
     id,
@@ -7,15 +8,7 @@ export function Post({
     presentation,
     date
 }) {
-    const dateObject = new Date(date);
-    
-    const day = dateObject.getDate().toString().padStart(2, '0');
-
-    const month = (dateObject.getMonth() + 1).toString().padStart(2, '0');
-
-    const year = dateObject.getFullYear();
-    
-    const formattedDate = `${day}-${month}-${year}`;
+    const formattedDate = useDate(date)
 
     return (
         <section className="post">
@@ -23,7 +16,7 @@ export function Post({
             <h3>{title}</h3>
             <p>{presentation}</p>
             <span className="post-date">{formattedDate}</span>
-            <Link to={`/blog/${id}/details`} className="btn" title="Прочети повече">Прочети</Link>
+            <Link to={`/blogs/${id}/details`} className="btn" title="Прочети повече">Прочети</Link>
         </section>
     )
 }

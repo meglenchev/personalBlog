@@ -10,7 +10,7 @@ export function Blogs() {
             <h2>Публикации</h2>
             <div className={data.length === 0 ? 'posts-container center' : 'posts-container'}>
                 {isPanding
-                    ? <img src="/images/loading_icon.gif" alt="" />
+                    ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
                     : data.length > 0
                         ? (data.map(blog => <Post
                             key={blog._id}
