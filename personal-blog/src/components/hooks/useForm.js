@@ -5,7 +5,7 @@ export function useForm(callback, initialValues) {
 
     const changeHandler = (e) => {
         setFormValues(state => ({
-            ...state, 
+            ...state,
             [e.target.name]: e.target.value
         }))
     }
@@ -16,16 +16,16 @@ export function useForm(callback, initialValues) {
 
     const inputPropertiesRegister = (inputName) => {
         return {
-            name: inputName, 
+            name: inputName,
             onChange: changeHandler,
             value: formValues[inputName]
         }
     }
 
     return {
-        formValues, 
-        changeHandler, 
-        formAction, 
+        formValues,
+        changeHandler,
+        formAction,
         inputPropertiesRegister
     }
 }
