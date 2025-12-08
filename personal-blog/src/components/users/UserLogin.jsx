@@ -9,36 +9,37 @@ const initialLoginValues = {
 }
 
 function validate(values) {
-    let errors = {}
+    let errors = {};
 
     if (!values.email) {
-        errors['email'] = 'E-mail is required!'
+        errors['email'] = 'Имейла е задължителен!'
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+        errors['email'] = 'Имейл формата е неправилен!';
     }
 
     if (!values.password) {
-        errors['password'] = 'Password is required!'
+        errors['password'] = 'Паролата е задължителна!'
     }
 
     return errors;
 }
 
 export function UserLogin() {
-
     const { onLogin } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const submitLoginHandler = (formValues) => {
-        const { email, password } = formValues;
+    const submitLoginHandler = async (formValues) => {
+        const errors = validate(formValues);
 
-        if (Object.keys(validate(formValues)).length > 0) {
-            return alert(Object.values(validate(formValues)).at(0));
+        if (Object.keys(errors).length > 0) {
+            return alert(Object.values(errors).at(0));;
         }
 
         try {
-            onLogin(email, password);
+            await onLogin(formValues);
             navigate('/');
         } catch (err) {
-            alert(err.message);
+            alert(`Технически затруднения: ${err.message}`);
         }
     }
 

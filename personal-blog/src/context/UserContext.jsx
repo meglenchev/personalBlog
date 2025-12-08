@@ -32,8 +32,8 @@ export function UserProvider({ children }) {
         setUser(loggedUser)
     };
 
-    const onLogin = async (email, password) => {
-        const result = await request(endPoints.login, 'POST', { email, password });
+    const onLogin = async (loginData) => {
+        const result = await request(endPoints.login, 'POST', loginData);
 
         const loggedUser = {
             email: result.email, 

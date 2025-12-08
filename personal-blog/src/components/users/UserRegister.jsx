@@ -10,8 +10,6 @@ let initialRegisterData = {
     confirmPassword: ''
 }
 
-const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
 function validate(values) {
     let errors = {};
 
@@ -20,18 +18,16 @@ function validate(values) {
     }
 
     if (!values.email) {
-        errors['email'] = 'Имейл е задължителен!'
-    }
-
-    if (!emailRegex.test(values.email)) {
-        errors['email'] = 'Грешно изписан имейл!'
+        errors['email'] = 'Имейла е задължителен!'
+    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+        errors['email'] = 'Имейл формата е неправилен!';
     }
 
     if (!values.password) {
         errors['password'] = 'Паролата е задължителена!'
     }
 
-    if (values.confirmPassword != values.password) {
+    if (values.confirmPassword !== values.password) {
         errors['confirmPassword'] = 'Паролите трябва да са еднакви!'
     }
 
@@ -46,15 +42,17 @@ export function UserRegister() {
 
         const { username, email, password } = formValues;
 
-        if (Object.keys(validate(formValues)).length > 0) {
-            return alert(Object.values(validate(formValues)).at(0));
+        const errors = validate(formValues);
+
+        if (Object.keys(errors).length > 0) {
+            return alert(Object.values(errors).at(0));
         }
 
         try {
-            onRegister(username, email, password);
+            await onRegister(username, email, password);
             navigate('/');
         } catch (err) {
-            alert(err.message);
+            alert(`Регистрацията беше неуспешна: ${err.message}`);
         }
     }
 
