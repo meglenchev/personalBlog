@@ -1,6 +1,7 @@
-import { endPoints } from "../../utils/endpoints.js";
+import { useContext } from "react";
 import { useForm } from "../hooks/useForm.js";
-import { useRequest } from "../hooks/useRequest.js";
+import UserContext from "../../context/UserContext.jsx";
+import { useNavigate } from "react-router";
 
 const initialLoginValues = {
     email: '',
@@ -23,18 +24,22 @@ function validate(values) {
 
 export function UserLogin() {
 
-    const { request } = useRequest();
+    const { onLogin } = useContext(UserContext);
+    const navigate = useNavigate();
 
-    const submitLoginHandler = async (formValues) => {
+    const submitLoginHandler = (formValues) => {
         const { email, password } = formValues;
 
         if (Object.keys(validate(formValues)).length > 0) {
             return alert(Object.values(validate(formValues)).at(0));
         }
 
-        const response = await request(endPoints.login, 'POST', { email, password });
-
-        console.log(response);
+        try {
+            onLogin(email, password);
+            navigate('/');
+        } catch (err) {
+            alert(err.message);
+        }
     }
 
     const { inputPropertiesRegister, formAction } = useForm(submitLoginHandler, initialLoginValues);

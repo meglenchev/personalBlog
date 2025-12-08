@@ -53,6 +53,6 @@
 - [x] Fetching blog details data
 - [x] Creating a user context
 - [x] Create a new hook to save user information
-- [] Moving user state up the tree
+- [x] Moving user state up the tree
 - [] Create practices page
 - [] Fetching dynamic practices data
