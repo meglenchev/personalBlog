@@ -55,5 +55,6 @@
 - [x] Create a new hook to save user information
 - [x] Moving user state up the tree
 - [x] Modification of registration to work with UserContext
+- [x] Show different navigation options depending on whether a user is logged in
 - [] Create practices page
 - [] Fetching dynamic practices data

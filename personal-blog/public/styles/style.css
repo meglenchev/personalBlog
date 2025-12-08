@@ -256,8 +256,14 @@ header .wrap .content {
     justify-content: space-between;
 }
 
+header .wrap .subline {
+    height: 40px;
+    background-color: #C1AD9D;
+}
+
 header nav ul,
-header .auth-nav {
+header .auth-nav,
+header .wrap .subline ul {
     display: flex;
 }
 
@@ -295,6 +301,23 @@ header .auth-nav li a.active::after {
     width: 100%;
     height: 4px;
     background-color: #a7846e;
+}
+
+header .wrap .subline ul li a {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: 100%;
+    text-decoration: none;
+    text-transform: none;
+    color: #ebebeb;
+    line-height: 1;
+    padding: 0 0.7em;
+}
+
+header .wrap .subline ul li a.active {
+    color: #745D4E;
+    background-color: #ddd2c5;
 }
 
 header .logo {
@@ -715,6 +738,12 @@ footer .footer-bottom a {
         margin: 0 auto;
     }
 
+    header .wrap .subline ul {
+        width: 1280px;
+        height: 100%;
+        margin: 0 auto;
+    }
+
     header nav ul {
         height: 100%;
         padding: 0;
@@ -735,6 +764,11 @@ footer .footer-bottom a {
 
     header .auth-nav li a:hover {
         text-decoration: none;
+        color: #745D4E;
+        background-color: #ddd2c5;
+    }
+
+    header .wrap .subline ul li a:hover {
         color: #745D4E;
         background-color: #ddd2c5;
     }
