@@ -3,13 +3,13 @@ import { useFetch } from "../hooks/useFetch.js"
 import { Post } from "./Post.jsx";
 
 export function Blogs() {
-    const { data, isPanding } = useFetch(endPoints.allBlogs, []);
+    const { data, isPending } = useFetch(endPoints.allBlogs, []);
 
     return (
         <article className="latest-posts">
             <h2>Публикации</h2>
             <div className={data.length === 0 ? 'posts-container center' : 'posts-container'}>
-                {isPanding
+                {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
                     : data.length > 0
                         ? (data.map(blog => <Post

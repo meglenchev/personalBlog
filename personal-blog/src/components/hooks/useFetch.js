@@ -3,7 +3,7 @@ import { BASE_URL } from "../../utils/endpoints.js";
 
 export function useFetch(url, iniinitialValue, postId) {
     const [data, setData] = useState(iniinitialValue);
-    const [isPanding, setIsPanding] = useState(true);
+    const [isPending, setIsPending] = useState(true);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -23,7 +23,7 @@ export function useFetch(url, iniinitialValue, postId) {
                 throw new Error(err);
             })
             .finally(() => {
-                setIsPanding(false)
+                setIsPending(false)
             })
 
             return () => {
@@ -34,6 +34,6 @@ export function useFetch(url, iniinitialValue, postId) {
 
     return {
         data,
-        isPanding
+        isPending
     }
 }

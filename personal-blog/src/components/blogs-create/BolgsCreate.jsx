@@ -30,7 +30,7 @@ function validate(values) {
 export function BlogsCreate() {
     const { request } = useRequest();
     const navigate = useNavigate();
-    const [isPanding, setIsPanding] = useState(false);
+    const [isPending, setIsPending] = useState(false);
 
     const submitBlogPostHandler = async (e) => {
         e.preventDefault();
@@ -47,7 +47,7 @@ export function BlogsCreate() {
 
         const { imageUrl, ...blogData } = formDataEntries;
 
-        setIsPanding(true);
+        setIsPending(true);
 
         try {
             const imageRef = ref(storage, `images/${imageUrl.name}`);
@@ -61,15 +61,14 @@ export function BlogsCreate() {
         try {
             await request(endPoints.postBlog, 'POST', blogData);
 
-            setIsPanding(false);
+            setIsPending(false);
 
             navigate('/blogs');
         } catch (err) {
-            setIsPanding(false);
+            setIsPending(false);
 
             alert(`Неуспешно създаване на публикация: ${err.message}`);
         }
-
     }
 
     return (
@@ -113,7 +112,7 @@ export function BlogsCreate() {
                         rows="8"
                     ></textarea>
                 </div>
-                {isPanding
+                {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
                     : <button type="submit" className="btn btn-register">Създай</button>
                 }

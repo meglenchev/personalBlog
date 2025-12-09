@@ -61,3 +61,4 @@
 - [x] Create blog page
 - [x] Create blog post edit
 - [x] Add blog post edit functionality
+- [x] Delete blog post functionality

@@ -37,7 +37,7 @@ export function BlogsEdit() {
     const { blogId } = useParams();
     const { request } = useRequest();
     const navigate = useNavigate();
-    const [isPanding, setIsPanding] = useState(false);
+    const [isPending, setIsPending] = useState(false);
 
     const submitEditHandler = async (formValues) => {
         const errors = validate(formValues);
@@ -46,16 +46,16 @@ export function BlogsEdit() {
             return alert(Object.values(errors).at(0));;
         }
 
-        setIsPanding(true);
+        setIsPending(true);
 
         try {
             await request(endPoints.postDetails(blogId), 'PUT', formValues);
 
-            setIsPanding(false);
+            setIsPending(false);
 
             navigate(`/blogs/${blogId}/details`);
         } catch (err) {
-            setIsPanding(false);
+            setIsPending(false);
 
             alert(`Неуспешно редактиране на публикация: ${err.message}`);
         }
@@ -127,7 +127,7 @@ export function BlogsEdit() {
                         rows="8"
                     ></textarea>
                 </div>
-                {isPanding
+                {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
                     : <button type="submit" className="btn btn-register">Редактирай</button>
                 }
