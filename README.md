@@ -60,4 +60,4 @@
 - [x] Only authenticated users can edit posts
 - [x] Create blog page
 - [x] Create blog post edit
-- [] Add blog post edit functionality
+- [x] Add blog post edit functionality

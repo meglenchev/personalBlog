@@ -26,6 +26,7 @@ export function useForm(callback, initialValues) {
         formValues,
         changeHandler,
         formAction,
+        setFormValues,
         inputPropertiesRegister
     }
 }

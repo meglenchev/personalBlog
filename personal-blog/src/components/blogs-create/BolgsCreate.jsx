@@ -8,8 +8,8 @@ import { useState } from "react";
 function validate(values) {
     let errors = {};
 
-    if (!values.blogTitle) {
-        errors['blogTitle'] = 'Заглавието е задължително!';
+    if (!values.title) {
+        errors['title'] = 'Заглавието е задължително!';
     }
 
     if (!(values.imageUrl instanceof File) || values.imageUrl.size === 0) {
@@ -78,11 +78,11 @@ export function BlogsCreate() {
             <form onSubmit={submitBlogPostHandler}>
                 <h2>Създай публикация в блога</h2>
                 <div className="form-group">
-                    <label htmlFor="blogTitle">Заглавие:</label>
+                    <label htmlFor="title">Заглавие:</label>
                     <input
                         type="text"
-                        id="blogTitle"
-                        name="blogTitle"
+                        id="title"
+                        name="title"
                     />
                 </div>
 
@@ -101,7 +101,7 @@ export function BlogsCreate() {
                     <textarea
                         id="presentation"
                         name="presentation"
-                        rows="5"
+                        rows="3"
                     ></textarea>
                 </div>
 
@@ -110,7 +110,7 @@ export function BlogsCreate() {
                     <textarea
                         id="content"
                         name="content"
-                        rows="10"
+                        rows="8"
                     ></textarea>
                 </div>
                 {isPanding
