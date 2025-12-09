@@ -59,4 +59,5 @@
 - [x] Create Route Guard
 - [x] Only authenticated users can edit posts
 - [x] Create blog page
-- [] Fetching dynamic practices data
+- [x] Create blog post edit
+- [] Add blog post edit functionality
