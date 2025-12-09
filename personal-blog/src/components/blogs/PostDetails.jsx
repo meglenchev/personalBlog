@@ -36,6 +36,10 @@ export function PostDetails() {
         }
     }
 
+    const goBackHandler = () => {
+        navigate(-1);
+    };
+
     return (
         <section className="post-details">
             {isPending
@@ -48,7 +52,7 @@ export function PostDetails() {
                         <p>{data.presentation}</p>
                         <p>{data.content}</p>
                         <div className="post-footer">
-                            <Link to={`/blogs`} className="btn btn-back" title="Назад">Назад</Link>
+                            <span onClick={goBackHandler} className="btn btn-back" title="Назад">Назад</span>
                             {isAuthenticated && data._ownerId === user._id
                                 ? <div className="buttons">
                                     <Link to={`/blogs/${blogId}/edit`} className="btn btn-edit" title="Редактирай публикацията">Редактирай</Link>
