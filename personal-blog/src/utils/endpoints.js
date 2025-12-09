@@ -7,7 +7,8 @@ export const endPoints = {
     allBlogs: '/data/blogs?sortBy=_createdOn%20desc', 
     latestBlogs: '/data/blogs?sortBy=_createdOn%20desc&pageSize=3',
     postBlog: '/data/blogs',
+    postDetails: (blogId) => `/data/blogs/${blogId}`,
     allPractices: '/data/practices?sortBy=_createdOn%20desc',
     latestPractices: '/data/practices?sortBy=_createdOn%20desc&pageSize=3',
-    postDetails: (blogId) => `/data/blogs/${blogId}`,
+    practiceDetails: (practicesId) => `/data/practices/${practicesId}`,
 }

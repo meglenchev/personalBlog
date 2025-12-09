@@ -64,4 +64,4 @@
 - [x] Delete blog post functionality
 - [x] Create practices page
 - [x] Fetching dynamic practices data
-- [] Fetching practice details data
+- [x] Fetching practice details data

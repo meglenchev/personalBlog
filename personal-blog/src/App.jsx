@@ -15,6 +15,7 @@ import { useContext } from 'react'
 import UserContext from './context/UserContext.jsx'
 import { BlogsEdit } from './components/blogs-edit/BlogsEdit.jsx'
 import { Practices } from './components/practices/Practices.jsx'
+import { PracticeDetails } from './components/practices/PracticeDetails.jsx'
 
 function App() {
     const { isAuthenticated } = useContext(UserContext);
@@ -33,6 +34,7 @@ function App() {
                     <Route path="/blogs/:blogId/details" element={<PostDetails />} />
 
                     <Route path='/practices' element={<Practices />} />
+                    <Route path='/practices/:practiceId/details' element={<PracticeDetails />} />
 
                     <Route element={<RouteGuard isAuthenticated={isAuthenticated} />}>
                         <Route path='/about/edit' element={<EditAuthorInfo />} />
