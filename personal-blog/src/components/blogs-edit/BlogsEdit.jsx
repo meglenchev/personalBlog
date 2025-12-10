@@ -65,31 +65,24 @@ export function BlogsEdit() {
 
     useEffect(() => {
         const abortController = new AbortController();
-
-        (async () => {
-            try {
-                const res = await fetch(`${BASE_URL}${endPoints.blogDetails(blogId)}`, { signal: abortController.signal });
-
-                if (!res.ok) {
-                    throw new Error(`Техническа грешка! статус: ${res.status}`);
+        request(endPoints.blogDetails(blogId), 'GET', null, abortController.signal)
+            .then(result => {
+                setFormValues(result);
+            })
+            .catch(err => {
+                if (err.name !== 'AbortError') {
+                    alert(`Неуспешно зареждане на информацията: ${err.message}`);
                 }
-
-                const blogData = await res.json();
-
-                setFormValues(blogData);
-            } catch (err) {
-                throw new Error(err.message);
-            }
-        })();
+            })
 
         return () => {
             abortController.abort();
         }
-    }, [blogId, setFormValues])
+    }, [request, blogId, setFormValues]);
 
     return (
-        <article className="create-blog-postntainer">
-            <img src="/images/create-blog-post-img.jpg" alt="" />
+        <article className="create-blog-post-container">
+            <img src="/images/create-blog-post-img.jpg" />
             <form action={formAction}>
                 <h2>Редактирай публикацията</h2>
                 <div className="form-group">
@@ -102,7 +95,7 @@ export function BlogsEdit() {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="image">Снимка:</label>
+                    <label htmlFor="imageUrl">Снимка:</label>
                     <input
                         type="text"
                         id="imageUrl"
@@ -128,7 +121,7 @@ export function BlogsEdit() {
                     ></textarea>
                 </div>
                 {isPending
-                    ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
+                    ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : <button type="submit" className="btn btn-register">Редактирай</button>
                 }
             </form>
