@@ -47,7 +47,7 @@
 - [x] Fetching dynamic practices data on the homepage
 - [x] Adding initial values ​​to the server
 
-## 6. Dynamic App Functionality ( Authorization, Authentication, Login, Register, Logout, Add, Edit, Delete )
+## 6. Dynamic App Functionality ( Authorization, Authentication, About, Login, Register, Logout, Add, Edit, Delete )
 - [x] Create blogs page
 - [x] Fetching dynamic blogs data
 - [x] Fetching blog details data
@@ -68,3 +68,4 @@
 - [x] Add post practice details data functionality
 - [x] Delete practice functionality
 - [x] Back button functionality
+- [x] About author get dynamic data

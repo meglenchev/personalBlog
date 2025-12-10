@@ -1,21 +1,23 @@
+import { endPoints } from "../../utils/endpoints.js";
+import { useFetch } from "../hooks/useFetch.js";
+
 export function AboutAuthor() {
+    const { data, isPending } = useFetch(endPoints.authorInfo, []);
+    const authorData = data.at(0);
+
     return (
         <article className="about-author">
-            <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/about.jpg?alt=media&token=63293c91-f390-47a1-99e0-baa9a3ffc05f" alt="" />
-            <h2>За автора</h2>
-            <blockquote>Казвам се Гергана Стратева – писател, водещ на индивидуални и групови практики, търсач по
-                пътя на мистичното!</blockquote>
-            <p>Когато бях едва двадесет и една годиншна в живота ми се случи катарзис, който ме изправи лице в лице
-                с най-големите ми (и неподозирани допреди това) страхове. Тялото ми алармира, че макар навид да
-                водех нормален студентски живот – под повърхността се случваха процеси, които плачеха да бъдат чути
-                и видени. Не знаех как да се справя със случващото се, а конвенционалната медицина не даваше
-                решение, различно от една шепа химия.</p>
-            <p>Израснах в полите на Родопа планина и още от дете освен любовта ми към гората и книгите – в мен се
-                пробуди и нуждата да пиша. Съвсем спонтанно започнах да изливам мислите и емоциите си на листа пред
-                мен. Тогава още не осъзнавах, че всъщност думите бяха лек за случващото се във вътрешния ми свят.
-                Щяха да минат години преди да разбера колко сила и потенциал се крие в творческото писане – както за
-                четящия, така и за пишещия. Всичко това ме отведе до създаването на пространството Soul Stories, в
-                което споделям с вас творчеството си.</p>
+            {isPending
+                ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
+                : data.length > 0
+                    ? <>
+                        <img src={authorData.imageUrl} alt={authorData.name} />
+                        <h2>За автора</h2>
+                        <blockquote>{authorData.slogan}</blockquote>
+                        <p>{authorData.info}</p>
+                    </> 
+                    : <p className="no-articles">Няма добавена информация!</p>
+            }
         </article>
     )
 }
