@@ -69,3 +69,4 @@
 - [x] Delete practice functionality
 - [x] Back button functionality
 - [x] About author get dynamic data
+- [x] Edit author info functionality
