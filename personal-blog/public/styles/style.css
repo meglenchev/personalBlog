@@ -242,6 +242,10 @@ textarea:focus {
     transform: rotate(-180deg);
 }
 
+.btn.right {
+    margin-left: auto;
+}
+
 body {
     background-color: #fff;
     color: #000;
@@ -375,7 +379,7 @@ main {
 }
 
 .register-container,
-.create-blog-postntainer,
+.create-blog-post-container,
 .edit-blog-postntainer,
 .create-about-author {
     display: flex;
@@ -385,7 +389,7 @@ main {
 }
 
 .register-container h2,
-.create-blog-postntainer h2,
+.create-blog-post-container h2,
 .edit-blog-postntainer h2,
 .create-about-author h2 {
     margin-bottom: 30px;
@@ -393,14 +397,14 @@ main {
 }
 
 .register-container img,
-.create-blog-postntainer img,
+.create-blog-post-container img,
 .edit-blog-postntainer img,
 .create-about-author img {
     max-width: 60%;
 }
 
 .register-container form,
-.create-blog-postntainer form,
+.create-blog-post-container form,
 .edit-blog-postntainer form,
 .create-about-author form {
     width: 100%;
@@ -408,13 +412,13 @@ main {
     padding: 30px;
 }
 
-.create-blog-postntainer img,
+.create-blog-post-container img,
 .edit-blog-postntainer img,
 .create-about-author img {
     max-width: 40%;
 }
 
-.create-blog-postntainer form,
+.create-blog-post-container form,
 .edit-blog-postntainer form,
 .create-about-author form {
     max-width: 60%;

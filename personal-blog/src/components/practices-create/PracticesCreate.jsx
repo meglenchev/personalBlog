@@ -78,7 +78,7 @@ export function PracticesCreate() {
     }
 
     return (
-        <article className="create-blog-postntainer">
+        <article className="create-blog-post-container">
             <img src="/images/create-blog-post-img.jpg" alt="" />
             <form onSubmit={submitPracticetHandler}>
                 <h2>Добави практика</h2>
@@ -129,7 +129,7 @@ export function PracticesCreate() {
                 </div>
 
                 {isPending
-                    ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
+                    ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : <button type="submit" className="btn btn-register">Създай</button>
                 }
             </form>

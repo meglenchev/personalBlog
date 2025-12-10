@@ -10,7 +10,7 @@ export function LatestPosts() {
             <h2>Последни публикации</h2>
             <div className={data.length === 0 ? 'posts-container center' : 'posts-container'}>
                 {isPending
-                    ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
+                    ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : data.length > 0
                         ? (data.map(blog => <Blog
                             key={blog._id}

@@ -72,7 +72,7 @@ export function BlogsCreate() {
     }
 
     return (
-        <article className="create-blog-postntainer">
+        <article className="create-blog-post-container">
             <img src="/images/create-blog-post-img.jpg" alt="" />
             <form onSubmit={submitBlogPostHandler}>
                 <h2>Създай публикация в блога</h2>
@@ -113,7 +113,7 @@ export function BlogsCreate() {
                     ></textarea>
                 </div>
                 {isPending
-                    ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
+                    ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : <button type="submit" className="btn btn-register">Създай</button>
                 }
             </form>

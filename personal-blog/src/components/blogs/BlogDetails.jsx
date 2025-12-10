@@ -43,7 +43,7 @@ export function BlogDetails() {
     return (
         <section className="post-details">
             {isPending
-                ? <div className="loader"><img src="/images/loading.svg" alt="" /></div>
+                ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                 : Object.keys(data).length > 0
                     ? (<>
                         <img src={data.imageUrl} alt={data.title} />
