@@ -2,8 +2,6 @@ import { useFetch } from "../../hooks/useFetch.js";
 import { endPoints } from "../../../utils/endpoints.js";
 import { Practice } from "../../practices/Practice.jsx";
 
-const padToTwoDigits = (num) => num.toString().padStart(2, '0');
-
 export function LatestPractices() {
     const { data, isPending } = useFetch(endPoints.latestPractices, []);
 

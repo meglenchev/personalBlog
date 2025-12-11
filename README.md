@@ -82,3 +82,4 @@
 - [x] Getting the right information to edit settings
 - [x] Change the useForm hook to work with file type fields
 - [x] Change how form data is submitted using  `onSubmit`
+- [x] Create submit edit settings data functionality

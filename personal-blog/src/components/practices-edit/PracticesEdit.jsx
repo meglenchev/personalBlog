@@ -90,7 +90,7 @@ export function PracticesEdit() {
     return (
         <article className="create-blog-post-container">
             <img src="/images/create-blog-post-img.jpg" alt="" />
-            <form action={formAction}>
+            <form onSubmit={formAction}>
                 <h2>Добави практика</h2>
                 <div className="form-group">
                     <label htmlFor="title">Заглавие:</label>
