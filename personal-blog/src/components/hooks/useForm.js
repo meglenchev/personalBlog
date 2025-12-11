@@ -10,7 +10,17 @@ export function useForm(callback, initialValues) {
         }))
     }
 
-    const formAction = () => {
+    const fileChangeHandler = (e) => {
+        setFormValues(state => ({
+            ...state,
+            [e.target.name]: e.target.files[0] 
+        }))
+    }
+
+    const formAction = (e) => {
+        if (e) {
+            e.preventDefault();
+        }
         callback(formValues);
     }
 
@@ -22,11 +32,20 @@ export function useForm(callback, initialValues) {
         }
     }
 
+    const filePropertiesRegister = (inputName) => {
+        return {
+            name: inputName,
+            onChange: fileChangeHandler,
+        }
+    }
+
     return {
         formValues,
         changeHandler,
+        fileChangeHandler,
         formAction,
         setFormValues,
-        inputPropertiesRegister
+        inputPropertiesRegister, 
+        filePropertiesRegister 
     }
 }
