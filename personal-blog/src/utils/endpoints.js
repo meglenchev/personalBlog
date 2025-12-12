@@ -12,8 +12,8 @@ export const endPoints = {
     latestBlogs: '/data/blogs?sortBy=_createdOn%20desc&pageSize=3',
     postBlog: '/data/blogs',
     blogDetails: (blogId) => `/data/blogs/${blogId}`,
-    allPractices: '/data/practices?sortBy=_createdOn%20desc',
-    latestPractices: '/data/practices?sortBy=_createdOn%20desc&pageSize=3',
+    allPractices: '/data/practices?sortBy=date%20desc',
+    latestPractices: '/data/practices?sortBy=date%20desc&pageSize=3',
     postPractices: '/data/practices',
     practiceDetails: (practiceId) => `/data/practices/${practiceId}`,
 }
