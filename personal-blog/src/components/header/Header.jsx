@@ -29,7 +29,6 @@ export function Header() {
                         <ul>
                             <li><NavLink to="/blogs/create">Добави блог</NavLink></li>
                             <li><NavLink to="/practices/create">Добави практика</NavLink></li>
-                            <li><NavLink to="/about/edit">Редактирай автора</NavLink></li>
                             <li><NavLink to="/user/edit/settings">Промяна в настройки</NavLink></li>
                         </ul>
                     </div>

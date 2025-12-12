@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router";
 import { useRequest } from "../hooks/useRequest.js";
 import { useState } from "react";
-import { storage } from "../../firebase.js";
-import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { endPoints } from "../../utils/endpoints.js";
 import { useForm } from "../hooks/useForm.js";
 import { uploadImage } from "../hooks/uploadImage.js";

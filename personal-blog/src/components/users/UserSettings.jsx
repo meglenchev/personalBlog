@@ -4,6 +4,21 @@ import { useRequest } from "../hooks/useRequest.js";
 import { endPoints } from "../../utils/endpoints.js";
 import UserContext from "../../context/UserContext.jsx";
 import { uploadImage } from "../hooks/uploadImage.js";
+import { useForm } from "../hooks/useForm.js";
+
+const initialSettingsValues = {
+    name: '',
+    email: '',
+    facebook: '',
+    instagram: '',
+    shortInfo: '',
+    headerImage: '',
+    authorImage: '',
+    slogan: '',
+    aboutImage: '',
+    summary: '',
+    info: ''
+}
 
 function validate(values) {
     let errors = {};
@@ -16,10 +31,6 @@ function validate(values) {
         errors['email'] = 'Имейла е задължителен!';
     }
 
-    if (!values.shortInfo) {
-        errors['shortInfo'] = 'Кратката презентация е задължителна!';
-    }
-
     if (!values.facebook) {
         errors['facebook'] = 'Връзката за Facebook е задължителна!';
     }
@@ -28,12 +39,32 @@ function validate(values) {
         errors['instagram'] = 'Връзката за Instagram е задължителна!';
     }
 
+    if (!values.shortInfo) {
+        errors['shortInfo'] = 'Кратка презентация е задължителна!';
+    }
+
     if (!(values.headerImage instanceof File) || values.headerImage.size === 0) {
         errors['headerImage'] = 'Снимка за "хедъра" на начална страница е задължителна!';
     }
 
     if (!(values.authorImage instanceof File) || values.authorImage.size === 0) {
         errors['authorImage'] = 'Снимка на автора за начална страница е задължителна!';
+    }
+
+    if (!values.slogan) {
+        errors['slogan'] = 'Слоган е задължителен!';
+    }
+
+    if (!(values.aboutImage instanceof File) || values.aboutImage.size === 0) {
+        errors['aboutImage'] = 'Снимка за "хедъра" е задължителна!';
+    }
+
+    if (!values.summary) {
+        errors['summary'] = 'Резюмето е задължително!';
+    }
+
+    if (!values.info) {
+        errors['info'] = 'Подробната информация е задължителна!';
     }
 
     return errors;
@@ -46,27 +77,22 @@ export function UserSettings() {
 
     const { setSettingsIdHandler } = useContext(UserContext);
 
-    const submitSettingsHandler = async (e) => {
-        e.preventDefault();
-
-        const formData = new FormData(e.target);
-
-        const formDataEntries = Object.fromEntries(formData);
-
-        const errors = validate(formDataEntries);
+    const submitSettingsHandler = async (formValues) => {
+        const errors = validate(formValues);
 
         if (Object.keys(errors).length > 0) {
             return alert(Object.values(errors).at(0));;
         }
 
-        const { headerImage, authorImage, ...settingsData } = formDataEntries;
+        const { headerImage, authorImage, aboutImage, ...settingsData } = formValues;
 
         setIsPending(true);
 
         try {
-            const [headerImageUrl, authorImageUrl] = await Promise.all([
+            const [headerImageUrl, authorImageUrl, aboutImageUrl] = await Promise.all([
                 uploadImage(headerImage),
-                uploadImage(authorImage)
+                uploadImage(authorImage),
+                uploadImage(aboutImage)
             ]);
 
             if (headerImageUrl) {
@@ -75,6 +101,10 @@ export function UserSettings() {
 
             if (authorImageUrl) {
                 settingsData.authorImage = authorImageUrl
+            };
+
+            if (aboutImageUrl) {
+                settingsData.aboutImage = aboutImageUrl
             };
 
             const res = await request(endPoints.settings, 'POST', settingsData);
@@ -93,10 +123,11 @@ export function UserSettings() {
         }
     }
 
+    const { inputPropertiesRegister, filePropertiesRegister, formAction } = useForm(submitSettingsHandler, initialSettingsValues);
+
     return (
         <article className="register-container">
-            <img src="/images/register-img.jpg" alt="Регистрация" />
-            <form onSubmit={submitSettingsHandler}>
+            <form onSubmit={formAction}>
                 <h2>Настройки на страницата</h2>
                 <div className="form-group-wrap">
                     <div className="form-group">
@@ -104,7 +135,7 @@ export function UserSettings() {
                         <input
                             type="text"
                             id="name"
-                            name="name"
+                            {...inputPropertiesRegister('name')}
                         />
                     </div>
                     <div className="form-group">
@@ -112,27 +143,15 @@ export function UserSettings() {
                         <input
                             type="text"
                             id="email"
-                            name="email"
+                            {...inputPropertiesRegister('email')}
                         />
                     </div>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="shortInfo">Кратка презентация:</label>
-                    <textarea
-                        id="shortInfo"
-                        name="shortInfo"
-                        rows="5"
-                    ></textarea>
-                </div>
-
-                <div className="form-group-wrap">
                     <div className="form-group">
                         <label htmlFor="facebook">Facebook връзка:</label>
                         <input
                             type="text"
                             id="facebook"
-                            name="facebook"
+                            {...inputPropertiesRegister('facebook')}
                         />
                     </div>
 
@@ -141,34 +160,86 @@ export function UserSettings() {
                         <input
                             type="text"
                             id="instagram"
-                            name="instagram"
+                            {...inputPropertiesRegister('instagram')}
                         />
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="headerImage">Снимка за "хедъра" на начална страница:</label>
+                    <label htmlFor="shortInfo">Кратка презентация за началната страница:</label>
+                    <textarea
+                        id="shortInfo"
+                        {...inputPropertiesRegister('shortInfo')}
+                        rows="3"
+                    ></textarea>
+                </div>
+
+                <div className="form-group-wrap two">
+                    <div className="form-group">
+                        <label htmlFor="headerImage">Снимка за "хедъра" на начална страница:</label>
+                        <input
+                            type="file"
+                            id="headerImage"
+                            {...filePropertiesRegister('headerImage')}
+                            accept="image/*"
+                        />
+                    </div>
+
+                    <div className="form-group">
+                        <label htmlFor="authorImage">Снимка на автора за начална страница:</label>
+                        <input
+                            type="file"
+                            id="authorImage"
+                            {...filePropertiesRegister('authorImage')}
+                            accept="image/*"
+                        />
+                    </div>
+                </div>
+
+                <h2 className="middle">Информация за автора</h2>
+
+                <div className="form-group">
+                    <label htmlFor="slogan">Слоган</label>
                     <input
-                        type="file"
-                        id="headerImage"
-                        name="headerImage"
-                        accept="image/*"
+                        type="text"
+                        id="slogan"
+                        {...inputPropertiesRegister('slogan')}
                     />
                 </div>
 
-                <div className="form-group">
-                    <label htmlFor="authorImage">Снимка на автора за начална страница:</label>
-                    <input
-                        type="file"
-                        id="authorImage"
-                        name="authorImage"
-                        accept="image/*"
-                    />
+                <div className="form-group-wrap two">
+                    <div className="form-group">
+                        <label htmlFor="aboutImage">Снимка за "хедъра":</label>
+                        <input
+                            type="file"
+                            id="aboutImage"
+                            {...filePropertiesRegister('aboutImage')}
+                            accept="image/*"
+                        />
+                    </div>
                 </div>
-                
+
+                <div className="form-group">
+                    <label htmlFor="summary">Резюме:</label>
+                    <textarea
+                        id="summary"
+                        {...inputPropertiesRegister('summary')}
+                        rows="3"
+                    ></textarea>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="info">Подробна информация:</label>
+                    <textarea
+                        id="info"
+                        {...inputPropertiesRegister('info')}
+                        rows="8"
+                    ></textarea>
+                </div>
+
                 {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
-                    : <button type="submit" className="btn btn-register">Запази промените</button>
+                    : <button type="submit" className="btn btn-settings">Запази настройките</button>
                 }
             </form>
         </article>

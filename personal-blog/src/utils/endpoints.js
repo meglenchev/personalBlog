@@ -9,7 +9,6 @@ export const endPoints = {
     homeSettings: (settingsId) => `/data/settings/${settingsId}`,
     social: '/data/settings?select=facebook,instagram,email',
     homeAbout: '/data/settings',
-    authorInfo: '/data/author/1f7j8p0e-3a9b-4e2v-9k1g-6a5b1v8p2e6f',
     allBlogs: '/data/blogs?sortBy=_createdOn%20desc', 
     latestBlogs: '/data/blogs?sortBy=_createdOn%20desc&pageSize=3',
     postBlog: '/data/blogs',

@@ -54,6 +54,10 @@ textarea {
 }
 
 .form-group-wrap .form-group {
+    width: calc(25% - 10px);
+}
+
+.form-group-wrap.two .form-group {
     width: calc(50% - 10px);
 }
 
@@ -209,18 +213,20 @@ textarea:focus {
 }
 
 .btn.btn-login,
-.btn.btn-register {
-    width: 100%;
+.btn.btn-register, 
+.btn.btn-settings {
     height: 50px;
     background-color: #C1AD9D;
     color: #fff;
 }
 
 .btn.btn-login::after,
-.btn.btn-register::after {
+.btn.btn-register::after, 
+.btn.btn-settings::after {
     background-color: #fff;
 }
 
+.btn.btn-login, 
 .btn.btn-register {
     width: 100%;
 }
@@ -404,6 +410,10 @@ main {
 .create-about-author h2 {
     margin-bottom: 30px;
     color: #745D4E;
+}
+
+.register-container h2.middle {
+    margin-top: 30px;
 }
 
 .register-container img,

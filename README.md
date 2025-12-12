@@ -91,3 +91,4 @@
 - [x] Refactoring the practice edit form. Expanding the functionality to be able to upload images
 - [x] Refactoring the blog creation form to use a `useForm hook`
 - [x] Refactoring the practice creation form to use a `useForm hook`
+- [x] Expand settings and remove the author editing component
