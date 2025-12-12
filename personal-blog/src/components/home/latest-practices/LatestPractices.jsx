@@ -27,7 +27,7 @@ export function LatestPractices() {
         <article className="latest-posts upcoming-practices">
             <h2>Предстоящи практики</h2>
 
-            <div className={data.length === 0 ? 'posts-container center' : 'posts-container'}>
+            <div className="posts-container">
                 {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : currentPractice.length > 0
@@ -38,7 +38,7 @@ export function LatestPractices() {
                             imageUrl={practice.imageUrl}
                             presentation={practice.presentation}
                         />))
-                        : <p className="no-articles">Няма добавени практики!</p>
+                        : <p className="no-articles mb-40">Няма добавени практики!</p>
                 }
             </div>
         </article>

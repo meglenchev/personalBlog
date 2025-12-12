@@ -8,7 +8,7 @@ export function LatestPosts() {
     return (
         <article className="latest-posts">
             <h2>Последни публикации</h2>
-            <div className={data.length === 0 ? 'posts-container center' : 'posts-container'}>
+            <div className="posts-container">
                 {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : data.length > 0
@@ -21,7 +21,7 @@ export function LatestPosts() {
                             date={blog._createdOn}
                         />))
 
-                        : <p className="no-articles">Няма добавени блог публикации!</p>
+                        : <p className="no-articles mb-40">Няма добавени блог публикации!</p>
                 }
             </div>
         </article>
