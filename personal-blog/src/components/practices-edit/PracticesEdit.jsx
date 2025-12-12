@@ -4,6 +4,7 @@ import { useState } from "react";
 import { endPoints } from "../../utils/endpoints.js";
 import { useForm } from "../hooks/useForm.js";
 import { useEffect } from "react";
+import { uploadImage } from "../hooks/uploadImage.js";
 
 const initialPracticeValues = {
     title: '',
@@ -18,10 +19,6 @@ function validate(values) {
 
     if (!values.title) {
         errors['title'] = 'Заглавието е задължително!';
-    }
-
-    if (!values.imageUrl) {
-        errors['imageUrl'] = 'Снимката е задължителна!';
     }
 
     if (!values.presentation) {
@@ -52,10 +49,16 @@ export function PracticesEdit() {
             return alert(Object.values(errors).at(0));;
         }
 
+        const practiceData = { ...formValues };
+
         setIsPending(true);
 
         try {
-            await request(endPoints.practiceDetails(practiceId), 'PUT', formValues);
+            if (practiceData.imageUrl instanceof File) {
+                practiceData.imageUrl = await uploadImage(practiceData.imageUrl);
+            }
+
+            await request(endPoints.practiceDetails(practiceId), 'PUT', practiceData);
 
             setIsPending(false);
 
@@ -67,7 +70,7 @@ export function PracticesEdit() {
         }
     }
 
-    const { inputPropertiesRegister, formAction, setFormValues } = useForm(submitEditHandler, initialPracticeValues);
+    const { inputPropertiesRegister, filePropertiesRegister, setFormValues, formAction } = useForm(submitEditHandler, initialPracticeValues);
 
     useEffect(() => {
         const abortController = new AbortController();
@@ -104,9 +107,10 @@ export function PracticesEdit() {
                 <div className="form-group">
                     <label htmlFor="imageUrl">Снимка:</label>
                     <input
-                        type="text"
+                        type="file"
                         id="imageUrl"
-                        {...inputPropertiesRegister('imageUrl')}
+                        {...filePropertiesRegister('imageUrl')}
+                        accept="image/*"
                     />
                 </div>
 

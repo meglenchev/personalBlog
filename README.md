@@ -88,3 +88,4 @@
 - [x] Create upload image hook
 - [x] Using the uploadImage hook in (UserSettings, UserSettingsEdit)
 - [x] Refactoring the blog edit form. Expanding the functionality to be able to upload images
+- [x] Refactoring the practice edit form. Expanding the functionality to be able to upload images
