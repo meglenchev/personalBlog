@@ -94,3 +94,4 @@
 - [x] Expand settings and remove the author editing component
 - [x] Install Optimizer - React Compiler
 - [x] Add protection if you are logged in so you cannot access the login and registration
+- [x] When changing the path, returns the scroll to the starting position

@@ -1,3 +1,4 @@
+import { useScrollToTop } from './components/hooks/useScrollToTop.jsx'
 import { Routes, Route } from 'react-router'
 import { Footer } from './components/footer/Footer.jsx'
 import { Header } from './components/header/Header.jsx'
@@ -24,6 +25,8 @@ import '../public/styles/style.css'
 
 function App() {
     const { isAuthenticated } = useContext(UserContext);
+
+    useScrollToTop();
 
     return (
         <>
