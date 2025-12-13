@@ -95,3 +95,4 @@
 - [x] Install Optimizer - React Compiler
 - [x] Add protection if you are logged in so you cannot access the login and registration
 - [x] When changing the path, returns the scroll to the starting position
+- [x] Home: Add a dynamic title and change a `link` to `a`

@@ -12,9 +12,16 @@ export function Home() {
     const { data, isPending } = useFetch(endPoints.homeAbout, []);
 
     useEffect(() => {
-        if (!isPending && data.length > 0) {
-            const settingsId = data[0]._id;
-            setSettingsIdHandler(settingsId);
+        document.title = "Начална страница | Моят Блог";
+    }, []);
+
+    useEffect(() => {
+        if (!isPending) {
+            const settingsId = data[0]?._id;
+
+            if (settingsId) {
+                setSettingsIdHandler(settingsId);
+            }
         }
     }, [data, isPending, setSettingsIdHandler]);
 
@@ -83,19 +90,19 @@ export function Home() {
                         <li>
                             {!data.length
                                 ? <span ><img src="/images/facebook.svg" alt="Facebook" /></span>
-                                : <Link to={data[0].facebook} title="Facebook"><img src="/images/facebook.svg" alt="Facebook" /></Link>
+                                : <a href={data[0].facebook} title="Facebook"><img src="/images/facebook.svg" alt="Facebook" /></a>
                             }
                         </li>
                         <li>
                             {!data.length
                                 ? <span><img src="/images/instagram.svg" alt="Instagram" /></span>
-                                : <Link to={data[0].instagram} title="Instagram"><img src="/images/instagram.svg" alt="Instagram" /></Link>
+                                : <a href={data[0].instagram} title="Instagram"><img src="/images/instagram.svg" alt="Instagram" /></a>
                             }
                         </li>
                         <li>
                             {!data.length
                                 ? <span><img src="/images/email.svg" alt="email" /></span>
-                                : <Link to={`email: ${data[0].email}`}><img src="/images/email.svg" alt="email" /></Link>
+                                : <a href={`email: ${data[0].email}`}><img src="/images/email.svg" alt="email" /></a>
                             }
                         </li>
                     </ul>
