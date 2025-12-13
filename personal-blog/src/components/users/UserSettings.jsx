@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { useRequest } from "../hooks/useRequest.js";
 import { endPoints } from "../../utils/endpoints.js";
@@ -76,6 +76,10 @@ export function UserSettings() {
     const [isPending, setIsPending] = useState(false);
 
     const { setSettingsIdHandler } = useContext(UserContext);
+
+    useEffect(() => {
+        document.title = 'Настройки на страницата';
+    }, []);
 
     const submitSettingsHandler = async (formValues) => {
         const errors = validate(formValues);

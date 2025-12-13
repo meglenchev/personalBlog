@@ -1,13 +1,17 @@
 import { endPoints } from "../../utils/endpoints.js";
 import { useFetch } from "../hooks/useFetch.js";
 import UserContext from "../../context/UserContext.jsx";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router";
 
 export function AboutAuthor() {
     const { isAuthenticated, settingsId } = useContext(UserContext);
 
     const { data, isPending } = useFetch(endPoints.homeSettings(settingsId), []);
+
+    useEffect(() => {
+        document.title = 'За мен';
+    }, []);
 
     return (
         <article className="about-author">

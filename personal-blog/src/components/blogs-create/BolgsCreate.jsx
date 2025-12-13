@@ -1,7 +1,7 @@
 import { useRequest } from "../hooks/useRequest.js";
 import { endPoints } from "../../utils/endpoints.js";
 import { useNavigate } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { uploadImage } from "../hooks/uploadImage.js";
 import { useForm } from "../hooks/useForm.js";
 
@@ -38,6 +38,10 @@ export function BlogsCreate() {
     const { request } = useRequest();
     const navigate = useNavigate();
     const [isPending, setIsPending] = useState(false);
+
+    useEffect(() => {
+        document.title = 'Добави блог';
+    }, []);
 
     const submitBlogPostHandler = async (formValues) => {
 

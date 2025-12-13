@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { endPoints } from "../../utils/endpoints.js"
 import { useFetch } from "../hooks/useFetch.js"
 import { Blog } from "./Blog.jsx";
 
 export function Blogs() {
     const { data, isPending } = useFetch(endPoints.allBlogs, []);
+
+    useEffect(() => {
+        document.title = 'Блог';
+    }, []);
 
     return (
         <article className="latest-posts">

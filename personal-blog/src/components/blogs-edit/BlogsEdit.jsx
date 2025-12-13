@@ -36,6 +36,10 @@ export function BlogsEdit() {
     const navigate = useNavigate();
     const [isPending, setIsPending] = useState(false);
 
+    useEffect(() => {
+        document.title = 'Редакция на блога';
+    }, []);
+
     const submitEditHandler = async (formValues) => {
         const errors = validate(formValues);
 

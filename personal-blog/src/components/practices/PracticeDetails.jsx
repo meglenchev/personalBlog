@@ -1,7 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router";
 import { useFetch } from "../hooks/useFetch.js";
 import { endPoints } from "../../utils/endpoints.js";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext.jsx";
 import { useRequest } from "../hooks/useRequest.js";
 
@@ -11,7 +11,14 @@ export function PracticeDetails() {
 
     const { data, isPending } = useFetch(endPoints.practiceDetails(practiceId), {}, practiceId);
 
+    const pageTitle = data?.title
+
+    useEffect(() => {
+        document.title = pageTitle;
+    }, [pageTitle]);
+
     const { request } = useRequest();
+
     const navigate = useNavigate();
 
     const deletePracticeHandler = async (e) => {
@@ -52,7 +59,7 @@ export function PracticeDetails() {
                             {isAuthenticated && data._ownerId === user._id
                                 ? <div className="buttons">
                                     <Link to={`/practices/${practiceId}/edit`} className="btn btn-edit" title="Редактирай практика">Редактирай</Link>
-                                    <Link to={`/practices/${practiceId}/delete`} onClick={deletePracticeHandler} className="btn btn-delete" title="Изтрий практика">Изтрий</Link>
+                                    <button onClick={deletePracticeHandler} className="btn btn-delete" title="Изтрий практика">Изтрий</button>
                                 </div>
                                 : ''
                             }

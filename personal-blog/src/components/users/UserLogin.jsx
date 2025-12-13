@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "../hooks/useForm.js";
 import UserContext from "../../context/UserContext.jsx";
 import { useNavigate } from "react-router";
@@ -27,6 +27,10 @@ function validate(values) {
 export function UserLogin() {
     const { onLogin } = useContext(UserContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = 'Вход';
+    }, []);
 
     const submitLoginHandler = (formValues) => {
         const errors = validate(formValues);

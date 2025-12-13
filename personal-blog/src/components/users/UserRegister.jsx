@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { useForm } from "../hooks/useForm.js"
 import UserContext from "../../context/UserContext.jsx";
 import { useNavigate } from "react-router";
@@ -37,6 +37,10 @@ function validate(values) {
 export function UserRegister() {
     const { onRegister } = useContext(UserContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        document.title = 'Регистрация';
+    }, []);
 
     const submitUserRegisterData = async (formValues) => {
 

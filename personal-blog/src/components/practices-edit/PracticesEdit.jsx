@@ -42,6 +42,10 @@ export function PracticesEdit() {
     const navigate = useNavigate();
     const [isPending, setIsPending] = useState(false);
 
+    useEffect(() => {
+        document.title = 'Редакция на практика';
+    }, []);
+
     const submitEditHandler = async (formValues) => {
         const errors = validate(formValues);
 

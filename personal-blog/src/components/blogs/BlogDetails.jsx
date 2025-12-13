@@ -2,7 +2,7 @@ import { Link, useNavigate, useParams } from "react-router";
 import { useFetch } from "../hooks/useFetch.js";
 import { endPoints } from "../../utils/endpoints.js";
 import { useDate } from "../hooks/useDate.js";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext.jsx";
 import { useRequest } from "../hooks/useRequest.js";
 
@@ -13,7 +13,13 @@ export function BlogDetails() {
 
     const { data, isPending } = useFetch(endPoints.blogDetails(blogId), {}, blogId);
 
-    const date = useDate(data._createdOn);
+    const date = useDate(data?._createdOn);
+
+    const pageTitle = data?.title
+
+    useEffect(() => {
+        document.title = pageTitle;
+    }, [pageTitle]);
 
     const { request } = useRequest();
     const navigate = useNavigate();
@@ -56,7 +62,7 @@ export function BlogDetails() {
                             {isAuthenticated && data._ownerId === user._id
                                 ? <div className="buttons">
                                     <Link to={`/blogs/${blogId}/edit`} className="btn btn-edit" title="Редактирай публикацията">Редактирай</Link>
-                                    <Link to={`/blogs/${blogId}/delete`} onClick={deleteBlogHandler} className="btn btn-delete" title="Изтрий публикацията">Изтрий</Link>
+                                    <button onClick={deleteBlogHandler} className="btn btn-delete" title="Изтрий публикацията">Изтрий</button>
                                 </div>
                                 : ''
                             }

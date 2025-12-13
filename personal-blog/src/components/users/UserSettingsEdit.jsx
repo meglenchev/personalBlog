@@ -67,6 +67,10 @@ export function UserSettingsEdit() {
 
     const [isPending, setIsPending] = useState(false);
 
+    useEffect(() => {
+        document.title = 'Редакция на настройките на страницата';
+    }, []);
+
     const submitEditHandler = async (formValues) => {
 
         const errors = validate(formValues);
