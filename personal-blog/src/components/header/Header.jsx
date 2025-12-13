@@ -19,9 +19,7 @@ export function Header() {
                     </nav>
 
                     <ul className="auth-nav">
-                        {!isAuthenticated && <li><NavLink to="/user/login">Вход</NavLink></li>}
-                        {!isAuthenticated && <li><NavLink to="/user/register">Регистрация</NavLink></li>}
-                        {isAuthenticated && <li><NavLink to="/user/logout">Изход</NavLink></li>}
+                        {isAuthenticated && <li><NavLink to="/pb-admin/logout">Изход</NavLink></li>}
                     </ul>
                 </div>
                 {isAuthenticated && (

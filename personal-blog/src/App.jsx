@@ -19,6 +19,7 @@ import { PracticesEdit } from './components/practices-edit/PracticesEdit.jsx'
 import UserLogout from './components/users/UserLogout.jsx'
 import { UserSettings } from './components/users/UserSettings.jsx'
 import { UserSettingsEdit } from './components/users/UserSettingsEdit.jsx'
+import '../public/styles/style.css'
 
 function App() {
     const { isAuthenticated } = useContext(UserContext);
@@ -28,9 +29,6 @@ function App() {
             <Header />
             <main>
                 <Routes>
-                    <Route path='/user/register' element={<UserRegister />} />
-                    <Route path='/user/login' element={<UserLogin />} />
-
                     <Route path='/' element={<Home />} />
                     <Route path='/about' element={<AboutAuthor />} />
                     <Route path='/blogs' element={<Blogs />} />
@@ -39,12 +37,15 @@ function App() {
                     <Route path='/practices' element={<Practices />} />
                     <Route path='/practices/:practiceId/details' element={<PracticeDetails />} />
 
+                    <Route path='/pb-admin/register' element={<UserRegister />} />
+                    <Route path='/pb-admin/login' element={<UserLogin />} />
+
                     <Route element={<RouteGuard isAuthenticated={isAuthenticated} />}>
                         <Route path='/blogs/create' element={<BlogsCreate />} />
                         <Route path='/blogs/:blogId/edit' element={<BlogsEdit />} />
                         <Route path='/practices/create' element={<PracticesCreate />} />
                         <Route path='/practices/:practiceId/edit' element={<PracticesEdit />} />
-                        <Route path='/user/logout' element={<UserLogout />} />
+                        <Route path='/pb-admin/logout' element={<UserLogout />} />
                         <Route path='/user/settings' element={<UserSettings />} />
                         <Route path='/user/edit/settings' element={<UserSettingsEdit />} />
                     </Route>
