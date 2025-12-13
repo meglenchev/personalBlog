@@ -28,7 +28,7 @@ export function UserLogin() {
     const { onLogin } = useContext(UserContext);
     const navigate = useNavigate();
 
-    const submitLoginHandler = async (formValues) => {
+    const submitLoginHandler = (formValues) => {
         const errors = validate(formValues);
 
         if (Object.keys(errors).length > 0) {
@@ -36,7 +36,7 @@ export function UserLogin() {
         }
 
         try {
-            await onLogin(formValues);
+            onLogin(formValues);
             navigate('/');
         } catch (err) {
             alert(`Технически затруднения: ${err.message}`);
