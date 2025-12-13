@@ -41,8 +41,9 @@ function App() {
                     <Route path='/practices' element={<Practices />} />
                     <Route path='/practices/:practiceId/details' element={<PracticeDetails />} />
 
+                    <Route path='/pb-admin/register' element={<UserRegister />} />
+
                     <Route element={<PublicOnlyRoute isAuthenticated={isAuthenticated} />}>
-                        <Route path='/pb-admin/register' element={<UserRegister />} />
                         <Route path='/pb-admin/login' element={<UserLogin />} />
                     </Route>
 
