@@ -1,6 +1,6 @@
+import UserContext from "../context/UserContext.jsx";
+import { BASE_URL } from "../utils/endpoints.js";
 import { useContext } from "react";
-import { BASE_URL } from "../../utils/endpoints.js";
-import UserContext from "../../context/UserContext.jsx";
 
 export function useRequest() {
     const { user, isAuthenticated } = useContext(UserContext);

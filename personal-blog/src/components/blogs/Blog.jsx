@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { useDate } from "../hooks/useDate.js";
+import { useDate } from "../../hooks/useDate.js";
 
 export function Blog({
     id,

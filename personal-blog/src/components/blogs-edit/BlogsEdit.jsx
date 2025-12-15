@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from "react-router"
 import { endPoints } from "../../utils/endpoints.js";
-import { useForm } from "../hooks/useForm.js";
+import { useForm } from "../../hooks/useForm.js";
 import { useEffect, useState } from "react";
-import { useRequest } from "../hooks/useRequest.js";
-import { uploadImage } from "../hooks/uploadImage.js";
+import { useRequest } from "../../hooks/useRequest.js";
+import { uploadImage } from "../../hooks/uploadImage.js";
+
 
 const initialBlogValues = {
     title: '',

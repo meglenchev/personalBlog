@@ -1,10 +1,10 @@
 import { useContext, useEffect, useState } from "react";
-import { useForm } from "../hooks/useForm.js";
-import { useRequest } from "../hooks/useRequest.js";
+import { useForm } from "../../hooks/useForm.js";
+import { useRequest } from "../../hooks/useRequest.js";
 import { endPoints } from "../../utils/endpoints.js";
 import UserContext from "../../context/UserContext.jsx";
 import { useNavigate } from "react-router";
-import { uploadImage } from "../hooks/uploadImage.js";
+import { uploadImage } from "../../hooks/uploadImage.js";
 
 const initialSettingsValues = {
     name: '',

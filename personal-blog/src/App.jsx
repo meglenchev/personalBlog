@@ -1,4 +1,4 @@
-import { useScrollToTop } from './components/hooks/useScrollToTop.jsx'
+import { useScrollToTop } from './hooks/useScrollToTop.jsx'
 import { Routes, Route } from 'react-router'
 import { Footer } from './components/footer/Footer.jsx'
 import { Header } from './components/header/Header.jsx'
@@ -21,7 +21,7 @@ import { PracticesEdit } from './components/practices-edit/PracticesEdit.jsx'
 import UserLogout from './components/users/UserLogout.jsx'
 import { UserSettings } from './components/users/UserSettings.jsx'
 import { UserSettingsEdit } from './components/users/UserSettingsEdit.jsx'
-import '/public/styles/style.css'
+import './styles/style.css'
 
 function App() {
     const { isAuthenticated } = useContext(UserContext);

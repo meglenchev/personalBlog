@@ -1,5 +1,5 @@
+import { BASE_URL } from "../utils/endpoints.js";
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../utils/endpoints.js";
 
 export function useFetch(url, iniinitialValue, postId) {
     const [data, setData] = useState(iniinitialValue);

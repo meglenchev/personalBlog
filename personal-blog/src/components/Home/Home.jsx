@@ -1,9 +1,9 @@
 import { Link } from "react-router";
 import { LatestPosts } from "./latest-posts/LatestPosts.jsx";
 import { LatestPractices } from "./latest-practices/LatestPractices.jsx";
-import { useFetch } from "../hooks/useFetch.js";
 import { endPoints } from "../../utils/endpoints.js";
 import { useContext, useEffect } from "react";
+import { useFetch } from "../../hooks/useFetch.js";
 import UserContext from "../../context/UserContext.jsx";
 
 export function Home() {

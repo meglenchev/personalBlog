@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { endPoints } from "../../utils/endpoints.js";
-import { useFetch } from "../hooks/useFetch.js";
+import { useFetch } from "../../hooks/useFetch.js";
 import { Practice } from "./Practice.jsx";
 
 export function Practices() {

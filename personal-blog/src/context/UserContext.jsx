@@ -1,7 +1,7 @@
 import { createContext } from "react";
-import { useRequest } from "../components/hooks/useRequest.js";
 import { endPoints } from "../utils/endpoints.js";
-import { useLocalStorage } from "../components/hooks/useLocalStorage.js";
+import { useLocalStorage } from "../hooks/useLocalStorage.js";
+import { useRequest } from "../hooks/useRequest.js";
 
 const UserContext = createContext({
     isAuthenticated: false,

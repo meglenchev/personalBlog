@@ -1,8 +1,8 @@
 import { endPoints } from "../../utils/endpoints.js";
-import { useFetch } from "../hooks/useFetch.js";
 import UserContext from "../../context/UserContext.jsx";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router";
+import { useFetch } from "../../hooks/useFetch.js";
 
 export function AboutAuthor() {
     const { isAuthenticated, settingsId } = useContext(UserContext);

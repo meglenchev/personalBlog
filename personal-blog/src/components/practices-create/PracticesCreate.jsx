@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router";
-import { useRequest } from "../hooks/useRequest.js";
+import { useRequest } from "../../hooks/useRequest.js";
 import { useEffect, useState } from "react";
 import { endPoints } from "../../utils/endpoints.js";
-import { useForm } from "../hooks/useForm.js";
-import { uploadImage } from "../hooks/uploadImage.js";
+import { useForm } from "../../hooks/useForm.js";
+import { uploadImage } from "../../hooks/uploadImage.js";
 
 const initialPracticeValues = {
     title: '',

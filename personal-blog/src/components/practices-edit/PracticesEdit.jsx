@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from "react-router";
-import { useRequest } from "../hooks/useRequest.js";
+import { useRequest } from "../../hooks/useRequest.js";
 import { useState } from "react";
 import { endPoints } from "../../utils/endpoints.js";
-import { useForm } from "../hooks/useForm.js";
+import { useForm } from "../../hooks/useForm.js";
 import { useEffect } from "react";
-import { uploadImage } from "../hooks/uploadImage.js";
+import { uploadImage } from "../../hooks/uploadImage.js";
+
 
 const initialPracticeValues = {
     title: '',

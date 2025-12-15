@@ -1,5 +1,5 @@
+import { useFetch } from "../../../hooks/useFetch.js";
 import { endPoints } from "../../../utils/endpoints.js";
-import { useFetch } from "../../hooks/useFetch.js"
 import { Blog } from "../../blogs/Blog.jsx";
 
 export function LatestPosts() {

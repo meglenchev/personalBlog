@@ -1,9 +1,9 @@
 import { Link, useNavigate, useParams } from "react-router";
-import { useFetch } from "../hooks/useFetch.js";
+import { useFetch } from "../../hooks/useFetch.js";
 import { endPoints } from "../../utils/endpoints.js";
 import { useContext, useEffect } from "react";
 import UserContext from "../../context/UserContext.jsx";
-import { useRequest } from "../hooks/useRequest.js";
+import { useRequest } from "../../hooks/useRequest.js";
 
 export function PracticeDetails() {
     const { user, isAuthenticated } = useContext(UserContext);
