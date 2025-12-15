@@ -1,9 +1,10 @@
-import { useNavigate, useParams } from "react-router"
+import { Navigate, useNavigate, useParams } from "react-router"
 import { endPoints } from "../../utils/endpoints.js";
 import { useForm } from "../../hooks/useForm.js";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useRequest } from "../../hooks/useRequest.js";
 import { uploadImage } from "../../hooks/uploadImage.js";
+import UserContext from "../../context/UserContext.jsx";
 
 
 const initialBlogValues = {
@@ -37,9 +38,14 @@ function validate(values) {
 
 export function BlogsEdit() {
     const { blogId } = useParams();
+
     const { request } = useRequest();
+
     const navigate = useNavigate();
+
     const [isPending, setIsPending] = useState(false);
+
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         document.title = 'Редакция на блога';
@@ -80,6 +86,10 @@ export function BlogsEdit() {
 
         request(endPoints.blogDetails(blogId), 'GET', null, abortController.signal)
             .then(result => {
+                if(user._id !== result._ownerId) {
+                    return navigate('/');
+                }
+
                 setFormValues(result);
             })
             .catch(err => {
@@ -91,7 +101,7 @@ export function BlogsEdit() {
         return () => {
             abortController.abort();
         }
-    }, [request, blogId, setFormValues]);
+    }, [request, blogId, setFormValues, user._id, navigate]);
 
     return (
         <article className="create-blog-post-container">

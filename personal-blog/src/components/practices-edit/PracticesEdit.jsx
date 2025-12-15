@@ -1,10 +1,11 @@
 import { useNavigate, useParams } from "react-router";
 import { useRequest } from "../../hooks/useRequest.js";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { endPoints } from "../../utils/endpoints.js";
 import { useForm } from "../../hooks/useForm.js";
 import { useEffect } from "react";
 import { uploadImage } from "../../hooks/uploadImage.js";
+import UserContext from "../../context/UserContext.jsx";
 
 
 const initialPracticeValues = {
@@ -43,9 +44,14 @@ function validate(values) {
 
 export function PracticesEdit() {
     const { practiceId } = useParams();
+
     const { request } = useRequest();
+
     const navigate = useNavigate();
+
     const [isPending, setIsPending] = useState(false);
+
+    const { user } = useContext(UserContext);
 
     useEffect(() => {
         document.title = 'Редакция на практика';
@@ -86,6 +92,10 @@ export function PracticesEdit() {
 
         request(endPoints.practiceDetails(practiceId), 'GET', null, abortController.signal)
             .then(result => {
+                if(user._id !== result._ownerId) {
+                    return navigate('/');
+                }
+
                 setFormValues(result);
             })
             .catch(err => {
@@ -97,7 +107,7 @@ export function PracticesEdit() {
         return () => {
             abortController.abort();
         }
-    }, [request, practiceId, setFormValues]);
+    }, [request, practiceId, setFormValues, navigate, user._id]);
 
     return (
         <article className="create-blog-post-container">

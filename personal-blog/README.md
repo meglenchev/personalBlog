@@ -102,3 +102,4 @@
 - [x] When the project is initially loaded, the author page shows that there is no content
 - [x] Checking during registration whether there are any settings added. If there are, it takes you to the home page
 - [x] Add NotFound page
+- [x] If you are not the owner of the post or practice, you cannot edit them, delete them
