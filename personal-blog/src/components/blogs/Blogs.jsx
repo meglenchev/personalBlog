@@ -13,7 +13,7 @@ export function Blogs() {
     return (
         <article className="latest-posts">
             <h2>Публикации</h2>
-            <div className="posts-container">
+            <div className={data.length > 0 ? "posts-container" : "posts-container center"}>
                 {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : data.length > 0

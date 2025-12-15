@@ -9,6 +9,8 @@ export function AboutAuthor() {
 
     const { data, isPending } = useFetch(endPoints.homeSettings(settingsId), []);
 
+    console.log(data)
+
     useEffect(() => {
         document.title = 'За мен';
     }, []);
@@ -17,7 +19,7 @@ export function AboutAuthor() {
         <article className="about-author">
             {isPending
                 ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
-                : data
+                : data.length
                     ? <>
                         <img src={data.aboutImage} alt={data.name} />
                         <h2>За автора</h2>
