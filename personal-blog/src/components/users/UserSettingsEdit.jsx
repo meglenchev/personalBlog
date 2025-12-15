@@ -149,7 +149,7 @@ export function UserSettingsEdit() {
                     <div className="form-group">
                         <label htmlFor="email">Имейл:</label>
                         <input
-                            type="text"
+                            type="email"
                             id="email"
                             {...inputPropertiesRegister('email')}
                         />

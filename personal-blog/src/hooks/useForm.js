@@ -4,16 +4,26 @@ export function useForm(callback, initialValues) {
     const [formValues, setFormValues] = useState(initialValues);
 
     const changeHandler = (e) => {
+        const { name, value } = e.target;
+
+        const fieldToTrim = ['email', 'password', 'confirmPassword', 'facebook', 'instagram'];
+
+        let newValue = value.trimStart();
+
+        if(fieldToTrim.includes(name)) {
+            newValue = value.trimStart();
+        }
+
         setFormValues(state => ({
             ...state,
-            [e.target.name]: e.target.value
+            [name]: newValue
         }))
     }
 
     const fileChangeHandler = (e) => {
         setFormValues(state => ({
             ...state,
-            [e.target.name]: e.target.files[0] 
+            [e.target.name]: e.target.files[0]
         }))
     }
 
@@ -45,7 +55,7 @@ export function useForm(callback, initialValues) {
         fileChangeHandler,
         formAction,
         setFormValues,
-        inputPropertiesRegister, 
-        filePropertiesRegister 
+        inputPropertiesRegister,
+        filePropertiesRegister
     }
 }
