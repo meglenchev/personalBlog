@@ -5,6 +5,7 @@ import { endPoints } from "../../utils/endpoints.js";
 import UserContext from "../../context/UserContext.jsx";
 import { uploadImage } from "../../hooks/uploadImage.js";
 import { useForm } from "../../hooks/useForm.js";
+import { useFetch } from "../../hooks/useFetch.js";
 
 const initialSettingsValues = {
     name: '',
@@ -73,13 +74,23 @@ function validate(values) {
 export function UserSettings() {
     const { request } = useRequest();
     const navigate = useNavigate();
-    const [isPending, setIsPending] = useState(false);
+    const [isPendingUpload, setIsPendingUpload] = useState(false);
 
     const { setSettingsIdHandler } = useContext(UserContext);
 
     useEffect(() => {
         document.title = 'Настройки на страницата';
     }, []);
+
+    const { data, isPending } = useFetch(endPoints.settings, []);
+
+    useEffect(() => {
+        if (!isPending) {
+            if (data.length > 0) {
+                navigate('/');
+            }
+        }
+    }, [data, isPending, navigate]);
 
     const submitSettingsHandler = async (formValues) => {
         const errors = validate(formValues);
@@ -90,7 +101,7 @@ export function UserSettings() {
 
         const { headerImage, authorImage, aboutImage, ...settingsData } = formValues;
 
-        setIsPending(true);
+        setIsPendingUpload(true);
 
         try {
             const [headerImageUrl, authorImageUrl, aboutImageUrl] = await Promise.all([
@@ -117,11 +128,11 @@ export function UserSettings() {
 
             setSettingsIdHandler(newId);
 
-            setIsPending(false);
+            setIsPendingUpload(false);
 
             navigate('/');
         } catch (err) {
-            setIsPending(false);
+            setIsPendingUpload(false);
 
             alert(`Възникна грешка: ${err.message}`);
         }
@@ -241,7 +252,7 @@ export function UserSettings() {
                     ></textarea>
                 </div>
 
-                {isPending
+                {isPendingUpload
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : <button type="submit" className="btn btn-settings">Запази настройките</button>
                 }
