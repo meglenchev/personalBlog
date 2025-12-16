@@ -272,6 +272,10 @@ textarea:focus {
     margin-left: auto;
 }
 
+.btn-auto {
+    width: auto;
+}
+
 body {
     background-color: #fff;
     color: #000;
@@ -458,6 +462,8 @@ main {
 
 .about-author, 
 .not-found {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 40px;
 }
 
