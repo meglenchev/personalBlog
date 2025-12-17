@@ -35,12 +35,21 @@ function validate(values) {
 }
 
 export function UserRegister() {
-    const { onRegister } = useContext(UserContext);
+    const { isAuthenticated, onRegister } = useContext(UserContext);
+
     const navigate = useNavigate();
 
     useEffect(() => {
         document.title = 'Регистрация';
     }, []);
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            if (window.location.pathname.includes('register')) {
+                navigate('/', { replace: true });
+            }
+        }
+    }, [isAuthenticated, navigate])
 
     const submitUserRegisterData = async (formValues) => {
 
