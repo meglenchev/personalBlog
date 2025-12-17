@@ -12,7 +12,7 @@ export function Practices() {
 
     return (
         <article className="latest-posts upcoming-practices">
-            <h2>Предстоящи практики</h2>
+            <h2>Практики</h2>
 
             <div className={data.length > 0 ? "posts-container" : "posts-container center"}>
                 {isPending
