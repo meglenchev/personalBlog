@@ -11,7 +11,7 @@ export function useForm(callback, initialValues) {
         let newValue = value.trimStart();
 
         if(fieldToTrim.includes(name)) {
-            newValue = value.trimStart();
+            newValue = value.trim();
         }
 
         setFormValues(state => ({
