@@ -8,13 +8,12 @@ import { PracticesCreate } from './components/practices-create/PracticesCreate.j
 import { UserRegister } from './components/users/UserRegister.jsx'
 import { UserLogin } from './components/users/UserLogin.jsx'
 import { Blogs } from './components/blogs/Blogs.jsx'
-import { BlogsCreate } from './components/blogs-create/BolgsCreate.jsx'
 import { BlogDetails } from './components/blogs/BlogDetails.jsx'
 import { RegisteredOnlyRoute } from './components/routeGuard/RegisteredOnlyRoute.jsx'
 import { PublicOnlyRoute } from './components/routeGuard/PublicOnlyRoute.jsx'
 import { useContext } from 'react'
 import UserContext from './context/UserContext.jsx'
-import { BlogsEdit } from './components/blogs-edit/BlogsEdit.jsx'
+import { BlogsCreate } from './components/blogs-create/BlogsCreate.jsx'
 import { Practices } from './components/practices/Practices.jsx'
 import { PracticeDetails } from './components/practices/PracticeDetails.jsx'
 import { PracticesEdit } from './components/practices-edit/PracticesEdit.jsx'
@@ -52,7 +51,7 @@ function App() {
 
                     <Route element={<RegisteredOnlyRoute isAuthenticated={isAuthenticated} />}>
                         <Route path='/blogs/create' element={<BlogsCreate mode="create" />} />
-                        <Route path='/blogs/:blogId/edit' element={<BlogsEdit mode="edit" />} />
+                        <Route path='/blogs/:blogId/edit' element={<BlogsCreate mode="edit" />} />
                         <Route path='/practices/create' element={<PracticesCreate mode="create" />} />
                         <Route path='/practices/:practiceId/edit' element={<PracticesEdit mode="edit" />} />
                         <Route path='/pb-admin/logout' element={<UserLogout />} />

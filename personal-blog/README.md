@@ -105,3 +105,4 @@
 - [x] If you are not the owner of the post or practice, you cannot edit them, delete them
 - [x] Home: Optimizing logic to avoid complex checks in many places in the code
 - [x] Preparing to use a single component for creation and editing
+- [x] Unifying blog post creation and editing components for project optimization

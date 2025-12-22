@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router"
+import { useNavigate, useParams } from "react-router"
 import { endPoints } from "../../utils/endpoints.js";
 import { useForm } from "../../hooks/useForm.js";
 import { useContext, useEffect, useState } from "react";
@@ -14,29 +14,7 @@ const initialBlogValues = {
     content: ''
 }
 
-function validate(values) {
-    let errors = {};
-
-    if (!values.title) {
-        errors['title'] = 'Заглавието е задължително!';
-    }
-
-    if (!values.imageUrl) {
-        errors['imageUrl'] = 'Снимката е задължителна!';
-    }
-
-    if (!values.presentation) {
-        errors['presentation'] = 'Кратката презентация е задължителна!';
-    }
-
-    if (!values.content) {
-        errors['content'] = 'Съдържанието е задължително!';
-    }
-
-    return errors;
-}
-
-export function BlogsEdit() {
+export function BlogsCreate({ mode }) {
     const { blogId } = useParams();
 
     const { request } = useRequest();
@@ -47,46 +25,81 @@ export function BlogsEdit() {
 
     const { user } = useContext(UserContext);
 
-    useEffect(() => {
-        document.title = 'Редакция на блога';
-    }, []);
+    const isEditMode = mode === 'edit';
+
+    const config = {
+        method: isEditMode ? 'PUT' : 'POST',
+        url: isEditMode ? endPoints.blogDetails(blogId) : endPoints.postBlog, 
+        navigateTo: isEditMode ? `/blogs/${blogId}/details` : '/blogs',
+        errMsg: isEditMode ? 'Неуспешно редактиране на публикация' : 'Неуспешно създаване на публикация'
+    };
+
+    function validate(values) {
+        if (!values.title) {
+            return 'Заглавието е задължително!';
+        }
+
+        const noImage = isEditMode 
+            ? !values.imageUrl 
+            : ( !(values.imageUrl instanceof File) || values.imageUrl.size === 0 );
+
+        if (noImage) return 'Снимката е задължителна!';
+
+        if (!values.presentation) {
+            return 'Кратката презентация е задължителна!';
+        }
+
+        if (!values.content) {
+            return 'Съдържанието е задължително!';
+        }
+
+        return null;
+    }
 
     const submitEditHandler = async (formValues) => {
         const errors = validate(formValues);
 
-        if (Object.keys(errors).length > 0) {
-            return alert(Object.values(errors).at(0));
+        if (errors) {
+            alert(errors);
+            return;
         }
-
-        const blogData = { ...formValues };
 
         setIsPending(true);
 
         try {
+            const blogData = { ...formValues };
+
             if (blogData.imageUrl instanceof File) {
                 blogData.imageUrl = await uploadImage(blogData.imageUrl);
             }
 
-            await request(endPoints.blogDetails(blogId), 'PUT', blogData);
+            await request(config.url, config.method, blogData);
 
             setIsPending(false);
 
-            navigate(`/blogs/${blogId}/details`);
+            navigate(config.navigateTo);
         } catch (err) {
+            alert(`${config.errMsg}: ${err.message}`);
+        } finally {
             setIsPending(false);
-
-            alert(`Неуспешно редактиране на публикация: ${err.message}`);
         }
     }
 
     const { inputPropertiesRegister, filePropertiesRegister, setFormValues, formAction } = useForm(submitEditHandler, initialBlogValues);
 
     useEffect(() => {
+        document.title = isEditMode ? 'Редактирай блог' : 'Добави блог';
+
+        if (!isEditMode) {
+            setFormValues(initialBlogValues);
+            return;
+        }
+
         const abortController = new AbortController();
 
         request(endPoints.blogDetails(blogId), 'GET', null, abortController.signal)
             .then(result => {
-                if(user._id !== result._ownerId) {
+                if (user._id !== result._ownerId) {
                     return navigate('/');
                 }
 
@@ -101,13 +114,13 @@ export function BlogsEdit() {
         return () => {
             abortController.abort();
         }
-    }, [request, blogId, setFormValues, user._id, navigate]);
+    }, [blogId, isEditMode, navigate, request, setFormValues, user._id]);
 
     return (
         <article className="create-blog-post-container">
             <img src="/images/create-blog-post-img.jpg" />
             <form onSubmit={formAction}>
-                <h2>Редактирай публикацията</h2>
+                <h2>{mode === 'edit' ? 'Редактирай публикацията' : 'Създай нова публикация'}</h2>
                 <div className="form-group">
                     <label htmlFor="title">Заглавие:</label>
                     <input
@@ -146,7 +159,7 @@ export function BlogsEdit() {
                 </div>
                 {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
-                    : <button type="submit" className="btn btn-register">Редактирай</button>
+                    : <button type="submit" className="btn btn-register">{mode === 'edit' ? 'Редактирай' : 'Създай публикация'}</button>
                 }
             </form>
         </article>
