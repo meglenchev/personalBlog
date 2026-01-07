@@ -109,3 +109,4 @@
 - [x] Unifying practice creation and editing components for project optimization
 - [x] Replacing the Softuni server with an Express/MongoDB - based server
 - [] Setting up the client and server to work together
+    - [x] Optimizing server response during registration

@@ -24,12 +24,10 @@ userController.post('/users/login', async (req, res) => {
 userController.post('/users/register', async (req, res) => {
     const { username, email, password, confirmPassword } = req.body;
 
-    console.log(username, email, password, confirmPassword);
-
     try {
         const token = await userService.register(username, email, password, confirmPassword);
 
-        res.send(JSON.stringify(token));
+        res.status(200).json(token);
     } catch (err) {
         const errorMessage = getErrorMessage(err);
 
