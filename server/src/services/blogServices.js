@@ -14,7 +14,7 @@ export default {
         //     category: true
         // });
 
-        let query = Blog.find();
+        let query = Blog.find().sort({ createdAt: -1 });
         return query;
     },
     getCategories() {

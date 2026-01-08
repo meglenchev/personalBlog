@@ -46,7 +46,8 @@
 
  ## 6. Changes on the server to save and return the correct data needed for the client to work
  - [x] Add the 'presentation' to the Blog model
- - [x] Add 'Auth Middleware' 
+ - [x] Add 'Auth Middleware'
+ - [x] Sort blogs - show most recently added first
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
