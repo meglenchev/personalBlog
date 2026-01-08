@@ -110,3 +110,5 @@
 - [x] Replacing the Softuni server with an Express/MongoDB - based server
 - [] Setting up the client and server to work together
     - [x] Optimizing server response during registration
+    - [x] Change endpoints
+    - [x] Adding categories to the controller

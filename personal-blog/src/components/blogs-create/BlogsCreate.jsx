@@ -10,6 +10,7 @@ import UserContext from "../../context/UserContext.jsx";
 const initialBlogValues = {
     title: '',
     imageUrl: '',
+    category: '',
     presentation: '',
     content: ''
 }
@@ -44,6 +45,10 @@ export function BlogsCreate({ mode }) {
             : ( !(values.imageUrl instanceof File) || values.imageUrl.size === 0 );
 
         if (noImage) return 'Снимката е задължителна!';
+
+        if (!values.category) {
+            return 'Категорията е задължителна!';
+        }
 
         if (!values.presentation) {
             return 'Кратката презентация е задължителна!';
@@ -137,6 +142,15 @@ export function BlogsCreate({ mode }) {
                         id="imageUrl"
                         {...filePropertiesRegister('imageUrl')}
                         accept="image/*"
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="category">Категория:</label>
+                    <input
+                        type="text"
+                        id="category"
+                        {...inputPropertiesRegister('category')}
                     />
                 </div>
 
