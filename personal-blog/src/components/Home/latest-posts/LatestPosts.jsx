@@ -18,7 +18,7 @@ export function LatestPosts() {
                             imageUrl={blog.imageUrl}
                             title={blog.title}
                             presentation={blog.presentation}
-                            date={blog._createdOn}
+                            date={blog.createdAt}
                         />))
 
                         : <p className="no-articles mb-40">Няма добавени блог публикации!</p>

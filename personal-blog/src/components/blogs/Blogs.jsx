@@ -23,7 +23,7 @@ export function Blogs() {
                             imageUrl={blog.imageUrl}
                             title={blog.title}
                             presentation={blog.presentation}
-                            date={blog._createdOn}
+                            date={blog.createdAt}
                         />))
 
                         : <p className="no-articles">Няма добавени блог публикации!</p>
