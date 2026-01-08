@@ -13,12 +13,18 @@ export function BlogDetails() {
 
     const { data, isPending } = useFetch(endPoints.blogDetails(blogId), {}, blogId);
 
-    const date = useDate(data?._createdOn);
+    const date = useDate(data?.createdAt);
 
     const pageTitle = data?.title
 
     useEffect(() => {
         document.title = pageTitle;
+
+        if (pageTitle) {
+            document.title = `${pageTitle}`;
+        }
+
+        return () => { document.title = "Моят блог"; };
     }, [pageTitle]);
 
     const { request } = useRequest();
@@ -50,7 +56,7 @@ export function BlogDetails() {
         <section className="post-details">
             {isPending
                 ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
-                : Object.keys(data).length > 0
+                : data && Object.keys(data).length > 0
                     ? (<>
                         <img src={data.imageUrl} alt={data.title} />
                         <h2>{data.title}</h2>
@@ -59,12 +65,12 @@ export function BlogDetails() {
                         <p>{data.content}</p>
                         <div className="post-footer">
                             <span onClick={goBackHandler} className="btn btn-back" title="Назад">Назад</span>
-                            {isAuthenticated && data._ownerId === user._id
-                                ? <div className="buttons">
-                                    <Link to={`/blogs/${blogId}/edit`} className="btn btn-edit" title="Редактирай публикацията">Редактирай</Link>
-                                    <button onClick={deleteBlogHandler} className="btn btn-delete" title="Изтрий публикацията">Изтрий</button>
+                            {isAuthenticated && String(data.owner) === String(user?._id) && (
+                                <div className="buttons">
+                                    <Link to={`/blogs/${blogId}/edit`} className="btn btn-edit">Редактирай</Link>
+                                    <button onClick={deleteBlogHandler} className="btn btn-delete">Изтрий</button>
                                 </div>
-                                : ''
+                            )
                             }
                         </div>
                     </>)
