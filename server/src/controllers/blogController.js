@@ -203,7 +203,7 @@ blogController.delete('/blogs/:blogId/delete', async (req, res) => {
             return res.status(404).json({ error: 'Blog not found' });
         }
 
-        if (blog.owner.toString() !== userId) {
+        if (String(blog.owner) !== String(userId)) {
             return res.status(403).json({ error: 'Unauthorized to delete this blog!' });
         }
 
