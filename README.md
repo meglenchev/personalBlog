@@ -1,40 +1,52 @@
-## Usage
+# 📝 Personal Blog Project (Under development)
 
-## A project for a personal blog based on React
-For the purposes of the project, I am using the Practice server of SoftUni Practice Server.
+Проект за персонален блог, изграден с **React** и **Node.js Express**, използващ **Firebase Storage** за управление на изображения.
 
-There are two folders in the repository. `personal-blog` and `server` folders
+---
 
-### To start the project, you need to follow the following steps.
+## 🚀 Начални стъпки (Setup Guide)
 
-**To start the server**, run the following commands in the terminal: 
-```
-node .\server.js
-```
+Проектът е разделен на две основни части: `server` и `personal-blog` (клиент). За да стартирате приложението локално, следвайте стъпките по-долу:
 
-**To run the blog**, run the following commands in the terminal: 
-```
-npm install
-npm run dev
-```
+### 1. Стартиране на сървъра (Backend)
+Сървърът управлява базата данни и автентикацията.
+1. Отворете нов терминал в папката `/server`.
+2. Инсталирайте зависимостите (ако не сте го направили):
+   ```bash
+   npm install
+3. Стартирайте сървъра в режим на разработка:
+   ```bash
+   npm run dev
+4. Сървърът ще работи на:
+   ```bash
+   http://localhost:5000
 
-### Services
-**Please note that changes to the data will not be saved!**
-All operations are performed in memory and will be deleted when the server is restarted.
+### 2. Стартиране на блога (Frontend)
+Клиентската част е изградена с React и Vite.
+1. Отворете нов терминал в папката `/personal-blog`.
+2. Инсталирайте зависимостите (ако не сте го направили):
+   ```bash
+   npm install
+3. Стартирайте приложението:
+   ```bash
+   npm run dev
 
-### Registration
-To reach the registration page, enter http://localhost:5173/pb-admin/register in the address bar.
+4. Блога ще работи на:
+   ```bash
+   http://localhost:5173
 
-**After registration, fill out the settings form. After that, you can use the Blog!**
+🛠 Технологичен стек
+Frontend: React 19+, React Router 7, Context API.
+Backend: Node.js, Express.js, Mongoose.
+Storage: Firebase Storage (за качване на изображения).
+Security: JWT (JSON Web Tokens) чрез x-authorization хедъри.
 
-### Login
-To reach the login page, enter http://localhost:5173/pb-admin/login in the address bar.
+🔑 Достъп и Управление
+Регистрация на администратор
+За да създадете нов профил, посетете:
+👉 http://localhost:5173/pb-admin/register
+Вход в системата
+За достъп до съществуващ профил, посетете:
+👉 http://localhost:5173/pb-admin/login
 
-### Online
-The project is also available at https://personal-blog-fadcb.web.app/
-
-To reach the registration page, enter https://personal-blog-fadcb.web.app/pb-admin/register in the address bar.
-
-**After registration, fill out the settings form. After that, you can use the Blog!**
-
-To reach the login page, enter https://personal-blog-fadcb.web.app/pb-admin/login  in the address bar.
+Изображения: Проектът използва Firebase. Уверете се, че имате активна връзка с интернет за правилно визуализиране и качване на снимки.
