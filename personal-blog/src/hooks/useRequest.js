@@ -1,9 +1,9 @@
 import UserContext from "../context/UserContext.jsx";
 import { BASE_URL } from "../utils/endpoints.js";
-import { useContext } from "react";
+//import { useContext } from "react";
 
 export function useRequest() {
-    const { user, isAuthenticated } = useContext(UserContext);
+    //const { user, isAuthenticated } = useContext(UserContext);
 
     const request = async (url, method = 'GET', data) => {
         let options = {
