@@ -54,7 +54,7 @@
     - [x] Installing cookie-parser `npm install cookie-parser`
     - [x] Login Controller (Cookie Creation)
     - [x] LogOut Controller 
-    - [] CORS settings fro use (credentials: 'include')
+    - [x] CORS settings for use (credentials: 'include')
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`

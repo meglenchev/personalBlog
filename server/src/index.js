@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 import { authMiddleware } from './middlewares/authMiddleware.js';
 import { routes } from './routes.js';
 import 'dotenv/config';
@@ -21,11 +22,16 @@ try {
 }
 
 // Add Cors
-app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true, // Позволява приемането на бисквитки
+}));
 
 // Add body parser if we need to
 //app.use(express.urlencoded({ extended: false}));
 
+//cookie parser
+app.use(cookieParser());
 // Add JSON parser
 app.use(express.json());
 
