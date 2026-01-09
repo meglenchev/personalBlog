@@ -116,3 +116,5 @@
     - [x] Optimizing and modifying the blog detail page
     - [x] Modifying the request hook
     - [x] Modify the creation and editing component
+
+- [x] Adding credentials: 'include' to the request hook due to the switch to HttpOnly cookies

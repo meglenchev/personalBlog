@@ -8,7 +8,8 @@ export function useRequest() {
     const request = async (url, method = 'GET', data) => {
         let options = {
             method,
-            headers: {}
+            headers: {}, 
+            credentials: 'include'
         };
 
         if (data) {
@@ -16,9 +17,10 @@ export function useRequest() {
             options.body = JSON.stringify(data);
         }
 
-        if (isAuthenticated && user?.accessToken) {
-            options.headers['x-authorization'] = user.accessToken;
-        }
+        // този хедър вече не е необходим за автентикация с JWT в cookie
+        // if (isAuthenticated && user?.accessToken) {
+        //     options.headers['x-authorization'] = user.accessToken;
+        // }
 
         const res = await fetch(`${BASE_URL}${url}`, options);
 
