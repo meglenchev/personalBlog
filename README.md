@@ -1,4 +1,4 @@
-# 📝 Personal Blog Project
+# 📝 Personal Blog Project (Under development)
 
 Проект за персонален блог, изграден с **React** и **Node.js Express**, използващ **Firebase Storage** за управление на изображения.
 
