@@ -52,7 +52,9 @@
 ## 7. Creating strong user authentication - HttpOnly Cookie
   - [] Store the token in an HttpOnly Cookie (not accessible to JavaScript)
     - [x] Installing cookie-parser `npm install cookie-parser`
-    - [] Login Controller (Cookie Creation)
+    - [x] Login Controller (Cookie Creation)
+    - [x] LogOut Controller 
+    - [] CORS settings fro use (credentials: 'include')
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
