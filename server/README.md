@@ -59,6 +59,7 @@
 
 ## 8. Practice
   - [x] Define Practice model with validation and timestamps
+  - [x] Implement CRUD services for Practice model
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
