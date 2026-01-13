@@ -13,7 +13,7 @@ export function LatestPractices() {
 
     if (!isPending && data?.length > 0) {
         currentPractice = data.filter(practice => {
-            const practiceDateObj = new Date(practice.date);
+            const practiceDateObj = new Date(practice.practiceDate);
 
             practiceDateObj.setHours(0, 0, 0, 0);
 
