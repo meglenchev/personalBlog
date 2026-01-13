@@ -11,7 +11,7 @@ const initialPracticeValues = {
     imageUrl: '',
     presentation: '',
     content: '',
-    date: ''
+    practiceDate: ''
 };
 
 export function PracticesCreate({ mode }) {
@@ -55,7 +55,7 @@ export function PracticesCreate({ mode }) {
             return 'Съдържанието е задължително!'
         };
 
-        if (!values.date) {
+        if (!values.practiceDate) {
             return 'Датата е задължителна!'
         };
 
@@ -172,11 +172,11 @@ export function PracticesCreate({ mode }) {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="date">Кога ще се проведе практиката:</label>
+                    <label htmlFor="practiceDate">Кога ще се проведе практиката:</label>
                     <input
                         type="date"
-                        id="date"
-                        {...inputPropertiesRegister('date')}
+                        id="practiceDate"
+                        {...inputPropertiesRegister('practiceDate')}
                     />
                 </div>
 
