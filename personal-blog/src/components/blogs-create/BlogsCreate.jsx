@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router"
 import { endPoints } from "../../utils/endpoints.js";
 import { useForm } from "../../hooks/useForm.js";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { useRequest } from "../../hooks/useRequest.js";
 import { uploadImage } from "../../hooks/uploadImage.js";
 import UserContext from "../../context/UserContext.jsx";
@@ -28,42 +28,44 @@ export function BlogsCreate({ mode }) {
 
     const isEditMode = mode === 'edit';
 
-    const config = {
+    const config = useMemo(() => ({
         method: isEditMode ? 'PUT' : 'POST',
-        url: isEditMode ? endPoints.blogEdit(blogId) : endPoints.postBlog, 
+        url: isEditMode ? endPoints.blogEdit(blogId) : endPoints.postBlog,
         navigateTo: isEditMode ? `/blogs/${blogId}/details` : '/blogs',
-        errMsg: isEditMode ? 'Неуспешно редактиране на публикация' : 'Неуспешно създаване на публикация'
-    };
+        errMsg: isEditMode ? 'Неуспешно редактиране на блог' : 'Неуспешно създаване на блог'
+    }), [isEditMode, blogId]);
 
     function validate(values) {
         if (!values.title) {
-            return 'Заглавието е задължително!';
+            return 'Заглавието е задължително!'
         }
 
-        const noImage = isEditMode 
-            ? !values.imageUrl 
-            : ( !(values.imageUrl instanceof File) || values.imageUrl.size === 0 );
+        const noImage = isEditMode
+            ? !values.imageUrl
+            : (!(values.imageUrl instanceof FileList) && !(values.imageUrl instanceof File));
 
-        if (noImage) return 'Снимката е задължителна!';
+        if (noImage) { 
+            return 'Снимката е задължителна!' 
+        };
 
         if (!values.category) {
-            return 'Категорията е задължителна!';
+            return 'Категорията е задължителна!'
         }
 
         if (!values.presentation) {
-            return 'Кратката презентация е задължителна!';
+            return 'Кратката презентация е задължителна!'
         }
 
         if (!values.content) {
-            return 'Съдържанието е задължително!';
+            return 'Съдържанието е задължително!'
         }
 
         return null;
     }
 
-    const submitEditHandler = async (formValues) => {
+    const submitHandler = async (formValues) => {
         const errors = validate(formValues);
-        
+
         if (errors) {
             alert(errors);
             return;
@@ -74,13 +76,14 @@ export function BlogsCreate({ mode }) {
         try {
             const blogData = { ...formValues };
 
-            if (blogData.imageUrl instanceof File) {
-                blogData.imageUrl = await uploadImage(blogData.imageUrl);
+            if (blogData.imageUrl instanceof FileList || blogData.imageUrl instanceof File) {
+                const fileToUpload = blogData.imageUrl instanceof FileList
+                    ? blogData.imageUrl[0]
+                    : blogData.imageUrl;
+                blogData.imageUrl = await uploadImage(fileToUpload);
             }
 
             await request(config.url, config.method, blogData);
-
-            setIsPending(false);
 
             navigate(config.navigateTo);
         } catch (err) {
@@ -90,13 +93,16 @@ export function BlogsCreate({ mode }) {
         }
     }
 
-    const { inputPropertiesRegister, filePropertiesRegister, setFormValues, formAction } = useForm(submitEditHandler, initialBlogValues);
+    const { 
+        inputPropertiesRegister, 
+        filePropertiesRegister, 
+        setFormValues, 
+        formAction } = useForm(submitHandler, initialBlogValues);
 
     useEffect(() => {
         document.title = isEditMode ? 'Редактирай блог' : 'Добави блог';
 
         if (!isEditMode) {
-            setFormValues(initialBlogValues);
             return;
         }
 
@@ -104,9 +110,7 @@ export function BlogsCreate({ mode }) {
 
         request(endPoints.blogDetails(blogId), 'GET', null, abortController.signal)
             .then(result => {
-                const ownerId = result.owner?._id || result.owner; 
-
-                if (String(user?._id) !== String(ownerId)) {
+                if (user?._id && result._ownerId && user._id !== result._ownerId) {
                     return navigate('/');
                 }
 
@@ -114,18 +118,18 @@ export function BlogsCreate({ mode }) {
             })
             .catch(err => {
                 if (err.name !== 'AbortError') {
-                    alert(`Неуспешно зареждане на информацията: ${err.message}`);
+                    alert(`Неуспешно зареждане: ${err.message}`);
                 }
             })
 
         return () => {
             abortController.abort();
         }
-    }, [blogId, isEditMode, navigate, request, setFormValues, user._id]);
+    }, [blogId, isEditMode, navigate, user._id]);
 
     return (
         <article className="create-blog-post-container">
-            <img src="/images/create-blog-post-img.jpg" />
+            <img src="/images/create-blog-post-img.jpg" alt="Background" />
             <form onSubmit={formAction}>
                 <h2>{mode === 'edit' ? 'Редактирай публикацията' : 'Създай нова публикация'}</h2>
                 <div className="form-group">

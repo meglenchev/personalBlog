@@ -1,12 +1,10 @@
 import { useNavigate, useParams } from "react-router";
 import { useRequest } from "../../hooks/useRequest.js";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect, useMemo } from "react";
 import { endPoints } from "../../utils/endpoints.js";
 import { useForm } from "../../hooks/useForm.js";
-import { useEffect } from "react";
 import { uploadImage } from "../../hooks/uploadImage.js";
 import UserContext from "../../context/UserContext.jsx";
-
 
 const initialPracticeValues = {
     title: '',
@@ -14,7 +12,7 @@ const initialPracticeValues = {
     presentation: '',
     content: '',
     date: ''
-}
+};
 
 export function PracticesCreate({ mode }) {
     const { practiceId } = useParams();
@@ -29,41 +27,42 @@ export function PracticesCreate({ mode }) {
 
     const isEditMode = mode === 'edit';
 
-    const config = {
+    const config = useMemo(() => ({
         method: isEditMode ? 'PUT' : 'POST',
         url: isEditMode ? endPoints.practiceDetails(practiceId) : endPoints.postPractices,
         navigateTo: isEditMode ? `/practices/${practiceId}/details` : '/practices',
         errMsg: isEditMode ? 'Неуспешно редактиране на практика' : 'Неуспешно създаване на практика'
-    };
+    }), [isEditMode, practiceId]);
 
     function validate(values) {
+        if (!values.title) { 
+            return 'Заглавието е задължително!' 
+        };
 
-        if (!values.title) {
-            return 'Заглавието е задължително!';
-        }
+        const noImage = isEditMode
+            ? !values.imageUrl
+            : (!(values.imageUrl instanceof FileList) && !(values.imageUrl instanceof File));
 
-        const noImage = isEditMode 
-            ? !values.imageUrl 
-            : ( !(values.imageUrl instanceof File) || values.imageUrl.size === 0 );
-
-        if (noImage) return 'Снимката е задължителна!';
+        if (noImage) {
+            return 'Снимката е задължителна!'
+        };
 
         if (!values.presentation) {
-            return 'Кратката презентация е задължителна!';
-        }
+            return 'Кратката презентация е задължителна!'
+        };
 
         if (!values.content) {
-            return 'Съдържанието е задължително!';
-        }
+            return 'Съдържанието е задължително!'
+        };
 
         if (!values.date) {
-            return 'Датата е задължителна!';
-        }
+            return 'Датата е задължителна!'
+        };
 
         return null;
     }
 
-    const submitEditHandler = async (formValues) => {
+    const submitHandler = async (formValues) => {
         const errors = validate(formValues);
 
         if (errors) {
@@ -76,13 +75,14 @@ export function PracticesCreate({ mode }) {
         try {
             const practiceData = { ...formValues };
 
-            if (practiceData.imageUrl instanceof File) {
-                practiceData.imageUrl = await uploadImage(practiceData.imageUrl);
+            if (practiceData.imageUrl instanceof FileList || practiceData.imageUrl instanceof File) {
+                const fileToUpload = practiceData.imageUrl instanceof FileList
+                    ? practiceData.imageUrl[0]
+                    : practiceData.imageUrl;
+                practiceData.imageUrl = await uploadImage(fileToUpload);
             }
 
             await request(config.url, config.method, practiceData);
-
-            setIsPending(false);
 
             navigate(config.navigateTo);
         } catch (err) {
@@ -90,43 +90,46 @@ export function PracticesCreate({ mode }) {
         } finally {
             setIsPending(false);
         }
-    }
+    };
 
-    const { inputPropertiesRegister, filePropertiesRegister, setFormValues, formAction } = useForm(submitEditHandler, initialPracticeValues);
+    const {
+        inputPropertiesRegister,
+        filePropertiesRegister,
+        setFormValues,
+        formAction
+    } = useForm(submitHandler, initialPracticeValues);
 
     useEffect(() => {
         document.title = isEditMode ? 'Редактирай практика' : 'Добави практика';
 
-        if (!isEditMode) {
-            setFormValues(initialPracticeValues);
-            return;
-        }
+        if (!isEditMode) { 
+            return 
+        };
+
         const abortController = new AbortController();
 
         request(endPoints.practiceDetails(practiceId), 'GET', null, abortController.signal)
             .then(result => {
-                if (user._id !== result._ownerId) {
+                if (user?._id && result._ownerId && user._id !== result._ownerId) {
                     return navigate('/');
                 }
-
                 setFormValues(result);
             })
             .catch(err => {
                 if (err.name !== 'AbortError') {
-                    alert(`Неуспешно зареждане на информацията: ${err.message}`);
+                    alert(`Неуспешно зареждане: ${err.message}`);
                 }
-            })
+            });
 
-        return () => {
-            abortController.abort();
-        }
-    }, [request, practiceId, setFormValues, navigate, user._id, isEditMode]);
+        return () => abortController.abort();
+    }, [isEditMode, practiceId, navigate, user?._id]);
 
     return (
         <article className="create-blog-post-container">
-            <img src="/images/create-blog-post-img.jpg" alt="" />
+            <img src="/images/create-blog-post-img.jpg" alt="Background" />
             <form onSubmit={formAction}>
-                <h2>Добави практика</h2>
+                <h2>{isEditMode ? 'Редактирай практика' : 'Добави практика'}</h2>
+
                 <div className="form-group">
                     <label htmlFor="title">Заглавие:</label>
                     <input
@@ -165,7 +168,7 @@ export function PracticesCreate({ mode }) {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="content">Кога ще се проведе практиката:</label>
+                    <label htmlFor="date">Кога ще се проведе практиката:</label>
                     <input
                         type="date"
                         id="date"
@@ -173,11 +176,16 @@ export function PracticesCreate({ mode }) {
                     />
                 </div>
 
-                {isPending
-                    ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
-                    : <button type="submit" className="btn btn-register">Редактирай</button>
-                }
+                {isPending ? (
+                    <div className="loader">
+                        <img src="/images/loading.svg" alt="Зареждане" />
+                    </div>
+                ) : (
+                    <button type="submit" className="btn btn-register">
+                        {isEditMode ? 'Запази промените' : 'Добави практика'}
+                    </button>
+                )}
             </form>
         </article>
-    )
+    );
 }
