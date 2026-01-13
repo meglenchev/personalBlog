@@ -9,7 +9,7 @@ practiceController.get('/practices', async (req, res) => {
     try {
         const practices = await practiceServices.getAll();
 
-        res.jeson(practices);
+        res.json(practices);
     } catch (err) {
         console.error("Error fetching practices:", err);
 
