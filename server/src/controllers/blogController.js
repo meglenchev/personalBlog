@@ -1,7 +1,6 @@
 import { Router } from "express";
 import { getErrorMessage } from "../utils/errorUtils.js";
 import blogServices from "../services/blogServices.js";
-import { authMiddleware } from "../middlewares/authMiddleware.js";
 
 export const blogController = Router();
 
