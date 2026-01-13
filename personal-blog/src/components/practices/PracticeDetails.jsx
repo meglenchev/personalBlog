@@ -15,6 +15,12 @@ export function PracticeDetails() {
 
     useEffect(() => {
         document.title = pageTitle;
+
+        if (pageTitle) {
+            document.title = `${pageTitle}`;
+        }
+
+        return () => { document.title = "Моят блог"; };
     }, [pageTitle]);
 
     const { request } = useRequest();
