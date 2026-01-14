@@ -20,6 +20,12 @@ const userSchema = new Schema({
         type: String,
         required: [true, 'Password is required!'],
         minLength: [10, 'Password should be at least 10 characters long!'],
+    }, 
+    role: {
+        type: String,
+        enum: ['user', 'admin', 'moderator'],
+        default: 'user',
+        required: true,
     }
 }, { timestamps: true });
 

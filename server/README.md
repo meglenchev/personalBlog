@@ -63,5 +63,8 @@
   - [x] Implement Practice controller with full CRUD and authorization
   - [x] Register practice routes
 
+## 8. Settings and About info
+  - [x] Add role-based access control (RBAC)
+
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
