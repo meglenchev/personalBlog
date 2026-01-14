@@ -67,7 +67,7 @@
   - [x] Add role-based access control (RBAC)
   - [x] Define About info model with validation and timestamps
   - [x] Implement CRUD services for About info model
-  - [] Implement About info controller with full CRUD and authorization
+  - [x] Implement About info controller with full CRUD and authorization
   - [] Register About info routes
 
 
