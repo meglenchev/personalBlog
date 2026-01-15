@@ -18,7 +18,7 @@ export default {
         return Practice.findById(practiceId);
     },
     update(practiceDate, practiceId) {
-        return Practice.findOneAndUpdate(practiceId, practiceDate, {
+        return Practice.findByIdAndUpdate(practiceId, practiceDate, {
             runValidators: true,
             new: true
         });
