@@ -50,12 +50,12 @@
  - [x] Sort blogs - show most recently added first
 
 ## 7. Creating strong user authentication - HttpOnly Cookie
-  - [] Store the token in an HttpOnly Cookie (not accessible to JavaScript)
-    - [x] Installing cookie-parser `npm install cookie-parser`
-    - [x] Login Controller (Cookie Creation)
-    - [x] LogOut Controller 
-    - [x] CORS settings for use (credentials: 'include')
-    - [x] Change token retrieval in Auth Middleware
+  - [x] Store the token in an HttpOnly Cookie (not accessible to JavaScript)
+  - [x] Installing cookie-parser `npm install cookie-parser`
+  - [x] Login Controller (Cookie Creation)
+  - [x] LogOut Controller 
+  - [x] CORS settings for use (credentials: 'include')
+  - [x] Change token retrieval in Auth Middleware
 
 ## 8. Practice
   - [x] Define Practice model with validation and timestamps
@@ -74,7 +74,11 @@
  - [x] Remove global authMiddleware in favor of route-specific verifyToken
  - [x] Add role and access token to JWT payload in UserController
  - [x] Use findByIdAndUpdate in practiceServices for better consistency
-
+ - [x] Implement RBAC and admin overrides for controllers
+    - [x] Integrated verifyToken(['admin', 'moderator']) across about, blog, and practice controllers.
+    - [x] Updated user ID reference from req.user._id to req.user.id to match the new JWT payload.
+    - [x] Added admin override logic: administrators can now manage content regardless of ownership.
+    - [x] Standardized ownership checks using string comparison.
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`

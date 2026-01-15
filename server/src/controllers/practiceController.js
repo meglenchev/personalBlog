@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getErrorMessage } from "../utils/errorUtils.js";
 import practiceServices from "../services/practiceServices.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 export const practiceController = Router();
 
@@ -61,9 +62,9 @@ practiceController.get('/practices/:practiceId/details', async (req, res) => {
 });
 
 // Returns details for edit of a specific practice
-practiceController.get('/practices/:practiceId/edit', async (req, res) => {
+practiceController.get('/practices/:practiceId/edit', verifyToken(['admin', 'moderator']), async (req, res) => {
     const practiceId = req.params.practiceId;
-    const userId = req.user?._id;
+    const userId = req.user?.id;
 
     try {
         const practice = await practiceServices.getOne(practiceId);
@@ -74,7 +75,7 @@ practiceController.get('/practices/:practiceId/edit', async (req, res) => {
             });
         }
 
-        if (practice.owner.toString() !== userId) {
+        if (String(practice.owner) !== String(userId) && req.user.role !== 'admin') {
             return res.status(403).json({
                 message: 'You are not authorized to edit this practice!'
             });
@@ -92,10 +93,10 @@ practiceController.get('/practices/:practiceId/edit', async (req, res) => {
 })
 
 // Edit a specific practice
-practiceController.put('/practices/:practiceId/edit', async (req, res) => {
+practiceController.put('/practices/:practiceId/edit', verifyToken(['admin', 'moderator']), async (req, res) => {
     const practiceId = req.params.practiceId;
     const practiceData = req.body;
-    const userId = req.user?._id;
+    const userId = req.user?.id;
 
     try {
         const practice = await practiceServices.getOne(practiceId);
@@ -106,7 +107,7 @@ practiceController.put('/practices/:practiceId/edit', async (req, res) => {
             });
         }
 
-        if (String(practice.owner) !== String(userId)) {
+        if (String(practice.owner) !== String(userId) && req.user.role !== 'admin') {
             return res.status(403).json({
                 message: 'You are not authorized to edit this practice!'
             });
@@ -126,8 +127,8 @@ practiceController.put('/practices/:practiceId/edit', async (req, res) => {
 });
 
 // Create a new practice
-practiceController.post('/practices/create', async (req, res) => {
-    const ownerId = req.user?._id;
+practiceController.post('/practices/create', verifyToken(['admin', 'moderator']), async (req, res) => {
+    const ownerId = req.user?.id;
 
     if (!ownerId) {
         return res.status(401).json({
@@ -161,9 +162,9 @@ practiceController.post('/practices/create', async (req, res) => {
 });
 
 // Delete a specific practice
-practiceController.delete('/practices/:practiceId/delete', async (req, res) => {
+practiceController.delete('/practices/:practiceId/delete', verifyToken(['admin', 'moderator']), async (req, res) => {
     const practiceId = req.params.practiceId;
-    const userId = req.user?._id;
+    const userId = req.user?.id;
 
     try {
         const practice = await practiceServices.getOne(practiceId);
@@ -174,7 +175,7 @@ practiceController.delete('/practices/:practiceId/delete', async (req, res) => {
             });
         }
 
-        if (String(practice.owner) !== String(userId)) {
+        if (String(practice.owner) !== String(userId) && req.user.role !== 'admin') {
             return res.status(403).json({
                 message: 'Unauthorized to delete this practice!'
             });

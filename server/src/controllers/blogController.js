@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { getErrorMessage } from "../utils/errorUtils.js";
 import blogServices from "../services/blogServices.js";
+import { verifyToken } from "../middlewares/verifyToken.js";
 
 export const blogController = Router();
 
@@ -94,9 +95,9 @@ blogController.get('/blogs/:blogId/details', async (req, res) => {
 });
 
 // Returns an object with the details for a blog
-blogController.get('/blogs/:blogId/edit', async (req, res) => {
+blogController.get('/blogs/:blogId/edit', verifyToken(['admin', 'moderator']), async (req, res) => {
     const blogId = req.params.blogId;
-    const userId = req.user?._id;
+    const userId = req.user?.id;
 
     try {
         const blog = await blogServices.getOne(blogId);
@@ -107,7 +108,7 @@ blogController.get('/blogs/:blogId/edit', async (req, res) => {
             });
         }
 
-        if (blog.owner.toString() !== userId) {
+        if (String(blog.owner) !== String(userId) && req.user.role !== 'admin') {
             return res.status(403).json({
                 message: 'You are not authorized to edit this blog!'
             });
@@ -124,10 +125,10 @@ blogController.get('/blogs/:blogId/edit', async (req, res) => {
 });
 
 // Blog edit request
-blogController.put('/blogs/:blogId/edit', async (req, res) => {
+blogController.put('/blogs/:blogId/edit', verifyToken(['admin', 'moderator']), async (req, res) => {
     const blogId = req.params.blogId;
     const blogData = req.body;
-    const userId = req.user?._id;
+    const userId = req.user?.id;
 
     try {
         const blog = await blogServices.getOne(blogId);
@@ -138,7 +139,7 @@ blogController.put('/blogs/:blogId/edit', async (req, res) => {
             });
         }
 
-        if (String(blog.owner) !== String(userId)) {
+        if (String(blog.owner) !== String(userId) && req.user.role !== 'admin') {
             return res.status(403).json({
                 message: 'You are not authorized to edit this blog!'
             });
@@ -158,8 +159,8 @@ blogController.put('/blogs/:blogId/edit', async (req, res) => {
 });
 
 // Request to create a blog
-blogController.post('/blogs/create', async (req, res) => {
-    const ownerId = req.user?._id;
+blogController.post('/blogs/create', verifyToken(['admin', 'moderator']), async (req, res) => {
+    const ownerId = req.user?.id;
 
     if (!ownerId) {
         return res.status(401).json({ error: "You must be logged in to create a blog!" });
@@ -191,9 +192,9 @@ blogController.post('/blogs/create', async (req, res) => {
 });
 
 // Blog deletion request
-blogController.delete('/blogs/:blogId/delete', async (req, res) => {
+blogController.delete('/blogs/:blogId/delete', verifyToken(['admin', 'moderator']), async (req, res) => {
     const blogId = req.params.blogId;
-    const userId = req.user?._id;
+    const userId = req.user?.id;
 
     try {
         const blog = await blogServices.getOne(blogId);
@@ -202,7 +203,7 @@ blogController.delete('/blogs/:blogId/delete', async (req, res) => {
             return res.status(404).json({ error: 'Blog not found' });
         }
 
-        if (String(blog.owner) !== String(userId)) {
+        if (String(blog.owner) !== String(userId) && req.user.role !== 'admin') {
             return res.status(403).json({ error: 'Unauthorized to delete this blog!' });
         }
 
