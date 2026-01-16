@@ -80,6 +80,7 @@
     - [x] Added admin override logic: administrators can now manage content regardless of ownership.
     - [x] Standardized ownership checks using string comparison.
  - [x] Add session verification and optimize security settings
+ - [x] Explicit CORS configuration for REST methods
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
