@@ -75,12 +75,16 @@
  - [x] Add role and access token to JWT payload in UserController
  - [x] Use findByIdAndUpdate in practiceServices for better consistency
  - [x] Implement RBAC and admin overrides for controllers
-    - [x] Integrated verifyToken(['admin', 'moderator']) across about, blog, and practice controllers.
-    - [x] Updated user ID reference from req.user._id to req.user.id to match the new JWT payload.
-    - [x] Added admin override logic: administrators can now manage content regardless of ownership.
-    - [x] Standardized ownership checks using string comparison.
+    - [x] Integrated verifyToken(['admin', 'moderator']) across about, blog, and practice controllers
+    - [x] Updated user ID reference from req.user._id to req.user.id to match the new JWT payload
+    - [x] Added admin override logic: administrators can now manage content regardless of ownership
+    - [x] Standardized ownership checks using string comparison
  - [x] Add session verification and optimize security settings
  - [x] Explicit CORS configuration for REST methods
+ - [x] Implement automatic login with httpOnly cookies upon registration
+    - [x] Updated registration logic to return the full user object instead of just a token string
+    - [x] Integrated JWT generation within the register controller
+    - [x] Set secure 'httpOnly' cookie with 'Lax' policy immediately after successful registration
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
