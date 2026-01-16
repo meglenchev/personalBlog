@@ -79,6 +79,7 @@
     - [x] Updated user ID reference from req.user._id to req.user.id to match the new JWT payload.
     - [x] Added admin override logic: administrators can now manage content regardless of ownership.
     - [x] Standardized ownership checks using string comparison.
+ - [x] Add session verification and optimize security settings
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
