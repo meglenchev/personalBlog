@@ -24,7 +24,7 @@ import { NotFound } from './components/not-found/NotFound.jsx'
 import { AboutCreate } from './components/about-create/AboutCreate.jsx'
 
 function App() {
-    const { isAuthenticated } = useContext(UserContext);
+    const { isAuthenticated, userRoles } = useContext(UserContext);
 
     useScrollToTop();
 
@@ -49,7 +49,7 @@ function App() {
                         <Route path='/pb-admin/login' element={<UserLogin />} />
                     </Route>
 
-                    <Route element={<RegisteredOnlyRoute isAuthenticated={isAuthenticated} />}>
+                    <Route element={<RegisteredOnlyRoute isAuthenticated={isAuthenticated} userRoles={userRoles} />}>
                         <Route path='/blogs/create' element={<BlogsCreate mode="create" />} />
                         <Route path='/blogs/:blogId/edit' element={<BlogsCreate mode="edit" />} />
                         <Route path='/practices/create' element={<PracticesCreate mode="create" />} />

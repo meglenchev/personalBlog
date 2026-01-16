@@ -140,3 +140,4 @@
     - [x] Added routes for creating and editing 'About' information in App.jsx.
     - [x] Refactored AboutCreate.jsx to support dual modes ("create" and "edit") using a 'mode' prop.
     - [x] Integrated form logic to handle both initial data submission and updates for the about section.
+- [x] Upgrade RegisteredOnlyRoute with role-based validation
