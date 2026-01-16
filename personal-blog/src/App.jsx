@@ -57,7 +57,8 @@ function App() {
                         <Route path='/pb-admin/logout' element={<UserLogout />} />
                         <Route path='/user/settings' element={<UserSettings mode="create" />} />
                         <Route path='/user/edit/settings' element={<UserSettingsEdit mode="edit" />} />
-                        <Route path='/about/create' element={<AboutCreate />} />   
+                        <Route path='/about/create' element={<AboutCreate mode="create" />} />  
+                        <Route path='/about/edit' element={<AboutCreate mode="edit" />} />   
                     </Route>
                 </Routes>
             </main>

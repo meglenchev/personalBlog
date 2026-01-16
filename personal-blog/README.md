@@ -136,3 +136,7 @@
     - [x] Added 'isLoading' state to manage initial session verification and prevent UI flickering
     
 - [x] Grant administrative access to edit and delete actions
+- [x] Implement AboutCreate and AboutEdit functionality
+    - [x] Added routes for creating and editing 'About' information in App.jsx.
+    - [x] Refactored AboutCreate.jsx to support dual modes ("create" and "edit") using a 'mode' prop.
+    - [x] Integrated form logic to handle both initial data submission and updates for the about section.

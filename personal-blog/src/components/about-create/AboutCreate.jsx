@@ -13,33 +13,9 @@ const initialSettingsValues = {
     info: ''
 }
 
-function validate(values) {
-    let errors = {};
+export function AboutCreate({ mode }) {
 
-    if (!values.slogan) {
-        errors['slogan'] = 'Слоган е задължителен!';
-    }
-
-    if (!(values.aboutImage instanceof File) || values.aboutImage.size === 0) {
-        errors['aboutImage'] = 'Снимка за "хедъра" е задължителна!';
-    }
-
-    if (!values.summary) {
-        errors['summary'] = 'Резюмето е задължително!';
-    }
-
-    if (!values.info) {
-        errors['info'] = 'Подробната информация е задължителна!';
-    }
-
-    return errors;
-}
-
-export function AboutCreate() {
-
-    const { user, isAdmin } = useContext(UserContext);
-
-    console.log(isAdmin, user)
+    const { isAdmin } = useContext(UserContext);
 
     const { request } = useRequest();
 
@@ -47,48 +23,111 @@ export function AboutCreate() {
 
     const [isPendingUpload, setIsPendingUpload] = useState(false);
 
+    const isEditMode = mode === 'edit';
+
     useEffect(() => {
-        document.title = 'Добавяне на информация за автора';
-    }, []);
+        if (!isAdmin) {
+            navigate('/');
+        }
+    }, [isAdmin, navigate]);
+
+    function validate(values) {
+        if (!values.slogan) {
+            return 'Слоган е задължителен!';
+        }
+
+        const noImage = isEditMode
+            ? !values.aboutImage
+            : (!(values.aboutImage instanceof FileList) && !(values.aboutImage instanceof File));
+
+        if (noImage) {
+            return 'Снимка за "хедъра" е задължителна!'
+        };
+
+        if (!values.summary) {
+            return 'Резюмето е задължително!';
+        }
+
+        if (!values.info) {
+            return 'Подробната информация е задължителна!';
+        }
+
+        return null;
+    }
 
     const submitAboutHandler = async (formValues) => {
         const errors = validate(formValues);
 
-        if (Object.keys(errors).length > 0) {
-            return alert(Object.values(errors).at(0));;
+        if (errors) {
+            alert(errors);
+            return;
         }
-
-        const { aboutImage, ...aboutData } = formValues;
 
         setIsPendingUpload(true);
 
         try {
-            const [aboutImageUrl] = await Promise.all([
-                uploadImage(aboutImage)
-            ]);
+            const aboutData = formValues;
 
-            if (aboutImageUrl) {
-                aboutData.aboutImage = aboutImageUrl
-            };
+            if (aboutData.aboutImage instanceof FileList || aboutData.aboutImage instanceof File) {
+                const fileToUpload = aboutData.aboutImage instanceof FileList
+                    ? aboutData.aboutImage[0]
+                    : aboutData.aboutImage;
+                aboutData.aboutImage = await uploadImage(fileToUpload);
+            }
 
             await request(endPoints.aboutEdit, 'PUT', aboutData);
 
-            setIsPendingUpload(false);
-
             navigate('/about');
         } catch (err) {
-            setIsPendingUpload(false);
 
             alert(`Възникна грешка: ${err.message}`);
+        } finally {
+            setIsPendingUpload(false);
         }
     }
 
-    const { inputPropertiesRegister, filePropertiesRegister, formAction } = useForm(submitAboutHandler, initialSettingsValues);
+    const { 
+        inputPropertiesRegister, 
+        filePropertiesRegister, 
+        setFormValues,
+        formAction } = useForm(submitAboutHandler, initialSettingsValues);
+
+    useEffect(() => {
+        document.title = isEditMode ? 'Редактиране на информация за автора' : 'Създаване на информация за автора';
+        
+        if (!isEditMode) {
+            return;
+        }
+
+        const abortController = new AbortController();
+
+        request(endPoints.about, 'GET', null, abortController.signal)
+            .then(result => {
+                if (!result || Object.keys(result).length === 0) {
+                    return;
+                }
+
+                if (!isAdmin) {
+                    return navigate('/');
+                }
+
+                setFormValues(result);
+            })
+            .catch(err => {
+                if (err.name === 'AbortError') {
+                    alert(`Неуспешно зареждане: ${err.message}`);
+                }
+            });
+        
+        return () => {
+            abortController.abort();
+        }
+    }, [isEditMode, navigate, isAdmin]);
 
     return (
         <article className="register-container">
             <form onSubmit={formAction}>
-                <h2>Информация за автора</h2>
+                <h2>{isEditMode ? 'Редактиране на информация за автора' : 'Създаване на информация за автора'}</h2>
                 <div className="form-group">
                     <label htmlFor="slogan">Слоган</label>
                     <input
@@ -130,7 +169,7 @@ export function AboutCreate() {
 
                 {isPendingUpload
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
-                    : <button type="submit" className="btn btn-settings">Запази настройките</button>
+                    : <button type="submit" className="btn btn-settings">{mode === 'edit' ? 'Редактирай' : 'Запази'}</button>
                 }
             </form>
         </article>

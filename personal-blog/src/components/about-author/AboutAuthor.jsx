@@ -9,13 +9,11 @@ export function AboutAuthor() {
         document.title = 'За мен';
     }, []);
 
-    const { user } = useContext(UserContext);
+    const { isAdmin } = useContext(UserContext);
 
     const { data, isPending } = useFetch(endPoints.about, {});
 
     const hasData = data && Object.keys(data).length > 0;
-
-    const hasUser = user && Object.keys(user).length > 0;
 
     return (
         <article className="about-author">
@@ -28,16 +26,16 @@ export function AboutAuthor() {
                         <blockquote>{data.slogan}</blockquote>
                         <p>{data.summary}</p>
                         <p>{data.info}</p>
-                        {user?._id === data._ownerId && (
+                        {isAdmin && (
                             <div className="post-footer">
-                                <Link to={'/user/edit/settings'} className="btn btn-edit right" title="Редактирай информацията">Редактирай</Link>
+                                <Link to={'/about/edit'} className="btn btn-edit right" title="Редактирай информацията">Редактирай</Link>
                             </div>
                         )}
                     </>)
                     : (<>
                         <p className="no-articles">Няма добавена информация!</p>
 
-                        {hasUser && <Link to="/about/create" className="btn right btn-settings">Добавете информация</Link>}
+                        {isAdmin && <Link to="/about/create" className="btn right btn-settings">Добавете информация</Link>}
                     </>)
             }
         </article>
