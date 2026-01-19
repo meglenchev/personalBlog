@@ -77,7 +77,7 @@ export function AboutCreate({ mode }) {
 
             await request(endPoints.aboutEdit, 'PUT', aboutData);
 
-            navigate('/about');
+            navigate('/about', { replace: true });
         } catch (err) {
 
             alert(`Възникна грешка: ${err.message}`);

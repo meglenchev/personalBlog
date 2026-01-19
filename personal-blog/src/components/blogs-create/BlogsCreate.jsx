@@ -85,7 +85,7 @@ export function BlogsCreate({ mode }) {
 
             await request(config.url, config.method, blogData);
 
-            navigate(config.navigateTo);
+            navigate(config.navigateTo, { replace: true });
         } catch (err) {
             alert(`${config.errMsg}: ${err.message}`);
         } finally {

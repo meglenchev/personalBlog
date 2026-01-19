@@ -64,7 +64,7 @@ export function UserRegister() {
         try {
             await onRegister(username, email, password, confirmPassword);
 
-            navigate('/user/settings');
+            navigate('/', { replace: true });
         } catch (err) {
             alert(`Регистрацията беше неуспешна: ${err.message}`);
         }

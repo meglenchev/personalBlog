@@ -84,7 +84,7 @@ export function PracticesCreate({ mode }) {
 
             await request(config.url, config.method, practiceData);
 
-            navigate(config.navigateTo);
+            navigate(config.navigateTo, { replace: true });
         } catch (err) {
             alert(`${config.errMsg}: ${err.message}`);
         } finally {
