@@ -13,15 +13,10 @@ const UserContext = createContext({
     onRegister: () => { },
     onLogin: () => { },
     onLogout: () => { },
-    settingsId: '',
-    setSettingsIdHandler: () => { }
 });
 
 export function UserProvider({ children }) {
     const [user, setUser] = useLocalStorage(null, 'auth');
-    // Това ще отпадне, когато добавим администратор. За сега го ползваме за съхранение на ID-то на настройките на потребителя.
-    const [settingsId, setSettingsId] = useLocalStorage(null, 'userSettingsId');
-
     const [userRoles, setUserRoles] = useState(null);
     const [isLoading, setIsLoading] = useState(!!user?._id);
 
@@ -31,8 +26,7 @@ export function UserProvider({ children }) {
     const clearUserData = useCallback(() => {
         setUser(null);
         setUserRoles(null);
-        setSettingsId(null);
-    }, [setUser, setSettingsId]);
+    }, [setUser]);
 
     // Функция за синхронизация със сървъра (взема ролята от httpOnly бисквитката)
     const verifySession = useCallback(async () => {
@@ -74,11 +68,6 @@ export function UserProvider({ children }) {
             window.removeEventListener('auth-session-expired', handleSessionExpired);
         };
     }, [clearUserData]);
-
-    // Функция за задаване на ID-то на настройките
-    const setSettingsIdHandler = (id) => {
-        setSettingsId(id);
-    };
 
     // Регистрационна функция
     const onRegister = async (username, email, password, confirmPassword) => {
@@ -132,8 +121,6 @@ export function UserProvider({ children }) {
         onRegister,
         onLogin,
         onLogout,
-        setSettingsIdHandler,
-        settingsId
     };
 
     return (

@@ -141,3 +141,4 @@
     - [x] Refactored AboutCreate.jsx to support dual modes ("create" and "edit") using a 'mode' prop.
     - [x] Integrated form logic to handle both initial data submission and updates for the about section.
 - [x] Upgrade RegisteredOnlyRoute with role-based validation
+- [x] Remove settingsId persistence due to server migration
