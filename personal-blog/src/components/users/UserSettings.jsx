@@ -15,63 +15,11 @@ const initialSettingsValues = {
     shortInfo: '',
     headerImage: '',
     authorImage: '',
-    slogan: '',
-    aboutImage: '',
-    summary: '',
-    info: ''
 }
 
-function validate(values) {
-    let errors = {};
+export function UserSettings({ mode }) {
 
-    if (!values.name) {
-        errors['name'] = 'Името е задължително!';
-    }
-
-    if (!values.email) {
-        errors['email'] = 'Имейла е задължителен!';
-    }
-
-    if (!values.facebook) {
-        errors['facebook'] = 'Връзката за Facebook е задължителна!';
-    }
-
-    if (!values.instagram) {
-        errors['instagram'] = 'Връзката за Instagram е задължителна!';
-    }
-
-    if (!values.shortInfo) {
-        errors['shortInfo'] = 'Кратка презентация е задължителна!';
-    }
-
-    if (!(values.headerImage instanceof File) || values.headerImage.size === 0) {
-        errors['headerImage'] = 'Снимка за "хедъра" на начална страница е задължителна!';
-    }
-
-    if (!(values.authorImage instanceof File) || values.authorImage.size === 0) {
-        errors['authorImage'] = 'Снимка на автора за начална страница е задължителна!';
-    }
-
-    if (!values.slogan) {
-        errors['slogan'] = 'Слоган е задължителен!';
-    }
-
-    if (!(values.aboutImage instanceof File) || values.aboutImage.size === 0) {
-        errors['aboutImage'] = 'Снимка за "хедъра" е задължителна!';
-    }
-
-    if (!values.summary) {
-        errors['summary'] = 'Резюмето е задължително!';
-    }
-
-    if (!values.info) {
-        errors['info'] = 'Подробната информация е задължителна!';
-    }
-
-    return errors;
-}
-
-export function UserSettings() {
+    const { isAdmin } = useContext(UserContext)
 
     const { request } = useRequest();
 
@@ -79,69 +27,129 @@ export function UserSettings() {
 
     const [isPendingUpload, setIsPendingUpload] = useState(false);
 
-    const { setSettingsIdHandler } = useContext(UserContext);
+    const isEditMode = mode === 'edit';
 
     useEffect(() => {
-        document.title = 'Настройки на страницата';
-    }, []);
-
-    const { data, isPending } = useFetch(endPoints.settings, []);
-
-    useEffect(() => {
-        if (!isPending) {
-            if (data.length > 0) {
-                navigate('/');
-            }
+        if (!isAdmin) {
+            navigate('/');
         }
-    }, [data, isPending, navigate]);
+    }, [isAdmin, navigate]);
+
+
+    function validate(values) {
+        if (!values.name) {
+            return 'Името е задължително!';
+        }
+
+        if (!values.email) {
+            return 'Имейла е задължителен!';
+        }
+
+        if (!values.facebook) {
+            return 'Връзката за Facebook е задължителна!';
+        }
+
+        if (!values.instagram) {
+            return 'Връзката за Instagram е задължителна!';
+        }
+
+        if (!values.presentation) {
+            return 'Кратка презентация е задължителна!';
+        }
+
+        const noHeaderImage = isEditMode
+            ? !values.headerImg
+            : (!(values.headerImg instanceof FileList) && !(values.headerImg instanceof File));
+
+        if (noHeaderImage) {
+            return 'Снимка за "хедъра" е задължителна!'
+        };
+
+        const noAuthorImage = isEditMode
+            ? !values.authorImg
+            : (!(values.authorImg instanceof FileList) && !(values.authorImg instanceof File));
+
+        if (noAuthorImage) {
+            return 'Снимка на автора е задължителна!'
+        };
+
+        return null;
+    }
 
     const submitSettingsHandler = async (formValues) => {
         const errors = validate(formValues);
 
-        if (Object.keys(errors).length > 0) {
-            return alert(Object.values(errors).at(0));;
+        if (errors) {
+            alert(errors);
+            return;
         }
-
-        const { headerImage, authorImage, aboutImage, ...settingsData } = formValues;
 
         setIsPendingUpload(true);
 
         try {
-            const [headerImageUrl, authorImageUrl, aboutImageUrl] = await Promise.all([
-                uploadImage(headerImage),
-                uploadImage(authorImage),
-                uploadImage(aboutImage)
+            const settingsData = { ...formValues };
+
+            const processImage = async (field) => {
+                const value = settingsData[field];
+                if (value instanceof FileList || value instanceof File) {
+                    const fileToUpload = value instanceof FileList ? value[0] : value;
+                    if (fileToUpload) {
+                        settingsData[field] = await uploadImage(fileToUpload);
+                    }
+                }
+            };
+
+            await Promise.all([
+                processImage('headerImg'),
+                processImage('authorImg')
             ]);
 
-            if (headerImageUrl) {
-                settingsData.headerImage = headerImageUrl
-            };
-
-            if (authorImageUrl) {
-                settingsData.authorImage = authorImageUrl
-            };
-
-            if (aboutImageUrl) {
-                settingsData.aboutImage = aboutImageUrl
-            };
-
-            const res = await request(endPoints.settings, 'POST', settingsData);
-
-            const newId = res._id;
-
-            setSettingsIdHandler(newId);
-
-            setIsPendingUpload(false);
-
-            navigate('/');
+            await request(endPoints.settingsEdit, 'PUT', settingsData);
+            
+            navigate('/', { replace: true });
         } catch (err) {
-            setIsPendingUpload(false);
-
             alert(`Възникна грешка: ${err.message}`);
+        } finally {
+            setIsPendingUpload(false)
         }
     }
 
-    const { inputPropertiesRegister, filePropertiesRegister, formAction } = useForm(submitSettingsHandler, initialSettingsValues);
+    const {
+        inputPropertiesRegister,
+        filePropertiesRegister,
+        setFormValues,
+        formAction } = useForm(submitSettingsHandler, initialSettingsValues);
+
+    useEffect(() => {
+        document.title = isEditMode ? 'Редакция на настройките за проекта' : 'Създай настройки за проекта';
+
+        if (!isEditMode) {
+            return;
+        }
+
+        const abortController = new AbortController();
+
+        request(endPoints.settingsEdit, 'GET', null, abortController.signal)
+            .then(result => {
+                if (!result || Object.keys(result).length === 0) {
+                    return;
+                }
+
+                if (!isAdmin) {
+                    return navigate('/');
+                }
+
+                setFormValues(result);
+            })
+            .catch(err => {
+                if (err.name === 'AbortError') {
+                    alert(`Неуспешно зареждане: ${err.message}`);
+                }
+            });
+        return () => {
+            abortController.abort();
+        }
+    }, [isEditMode, navigate, isAdmin]);
 
     return (
         <article className="register-container">
@@ -184,75 +192,34 @@ export function UserSettings() {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="shortInfo">Кратка презентация за началната страница:</label>
+                    <label htmlFor="presentation">Кратка презентация за началната страница:</label>
                     <textarea
-                        id="shortInfo"
-                        {...inputPropertiesRegister('shortInfo')}
+                        id="presentation"
+                        {...inputPropertiesRegister('presentation')}
                         rows="3"
                     ></textarea>
                 </div>
 
                 <div className="form-group-wrap two">
                     <div className="form-group">
-                        <label htmlFor="headerImage">Снимка за "хедъра" на начална страница:</label>
+                        <label htmlFor="headerImg">Снимка за "хедъра" на начална страница:</label>
                         <input
                             type="file"
-                            id="headerImage"
-                            {...filePropertiesRegister('headerImage')}
+                            id="headerImg"
+                            {...filePropertiesRegister('headerImg')}
                             accept="image/*"
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="authorImage">Снимка на автора за начална страница:</label>
+                        <label htmlFor="authorImg">Снимка на автора за начална страница:</label>
                         <input
                             type="file"
-                            id="authorImage"
-                            {...filePropertiesRegister('authorImage')}
+                            id="authorImg"
+                            {...filePropertiesRegister('authorImg')}
                             accept="image/*"
                         />
                     </div>
-                </div>
-
-                <h2 className="middle">Информация за автора</h2>
-
-                <div className="form-group">
-                    <label htmlFor="slogan">Слоган</label>
-                    <input
-                        type="text"
-                        id="slogan"
-                        {...inputPropertiesRegister('slogan')}
-                    />
-                </div>
-
-                <div className="form-group-wrap two">
-                    <div className="form-group">
-                        <label htmlFor="aboutImage">Снимка за "хедъра":</label>
-                        <input
-                            type="file"
-                            id="aboutImage"
-                            {...filePropertiesRegister('aboutImage')}
-                            accept="image/*"
-                        />
-                    </div>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="summary">Резюме:</label>
-                    <textarea
-                        id="summary"
-                        {...inputPropertiesRegister('summary')}
-                        rows="3"
-                    ></textarea>
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="info">Подробна информация:</label>
-                    <textarea
-                        id="info"
-                        {...inputPropertiesRegister('info')}
-                        rows="8"
-                    ></textarea>
                 </div>
 
                 {isPendingUpload

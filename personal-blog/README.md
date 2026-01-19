@@ -144,3 +144,8 @@
 - [x] Remove settingsId persistence due to server migration
 - [x] Refactor(navigation): use replace instead of push for redirect
 - [x] Restrict settings access to admin users only
+- [x] Overhaul user settings management and clean up endpoints
+    - [x] Replace UserSettingsEdit with a new, more robust UserSettings
+    - [x] Update home page to integrate with the new UserSettings component
+    - [x] Remove obsolete endpoints and add new endpoint for user settings retrieval
+    - [x] Improve overall data flow for site configuration
