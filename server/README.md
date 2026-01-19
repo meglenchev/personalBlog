@@ -85,6 +85,10 @@
     - [x] Updated registration logic to return the full user object instead of just a token string
     - [x] Integrated JWT generation within the register controller
     - [x] Set secure 'httpOnly' cookie with 'Lax' policy immediately after successful registration
+ - [x] Add settings module (model, service, controller)
+    - [x] - Created Settings model with schema definitions
+    - [x] - Implemented settingsService for data access logic
+    - [x] - Added settingsController to handle incoming API requests
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
