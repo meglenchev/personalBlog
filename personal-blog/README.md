@@ -143,3 +143,4 @@
 - [x] Upgrade RegisteredOnlyRoute with role-based validation
 - [x] Remove settingsId persistence due to server migration
 - [x] Refactor(navigation): use replace instead of push for redirect
+- [x] Restrict settings access to admin users only

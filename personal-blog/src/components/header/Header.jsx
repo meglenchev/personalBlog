@@ -3,7 +3,7 @@ import { NavLink } from "react-router";
 import UserContext from "../../context/UserContext.jsx";
 
 export function Header() {
-    const { isAuthenticated } = useContext(UserContext);
+    const { isAuthenticated, isAdmin } = useContext(UserContext);
 
     return (
         <header className={isAuthenticated ? 'header logedin' : 'header'}>
@@ -27,7 +27,7 @@ export function Header() {
                         <ul>
                             <li><NavLink to="/blogs/create">Добави блог</NavLink></li>
                             <li><NavLink to="/practices/create">Добави практика</NavLink></li>
-                            <li><NavLink to="/user/edit/settings">Промяна в настройки</NavLink></li>
+                            {isAdmin && <li><NavLink to="/user/edit/settings">Настройки</NavLink></li>}
                         </ul>
                     </div>
                 )}
