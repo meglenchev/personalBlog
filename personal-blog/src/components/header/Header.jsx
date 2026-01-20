@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import UserContext from "../../context/UserContext.jsx";
 
 export function Header() {
@@ -32,7 +32,7 @@ export function Header() {
                     </div>
                 )}
             </div>
-            <h1><a href="/"><img src="/images/strateva.png" className="logo" alt="Стратева" /></a></h1>
+            <h1><Link to="/"><img src="/images/strateva.png" className="logo" alt="Стратева" /></Link></h1>
         </header>
     )
 }
