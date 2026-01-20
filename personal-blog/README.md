@@ -153,3 +153,4 @@
 - [x] Add responsive styles for mobile and tablet
 - [x] Update viewport meta tag for better mobile experience
 - [x] Format practice date display to show only YYYY-MM-DD
+- [x] Adding a class - content for better visual presentation on mobile devices

@@ -13,9 +13,11 @@ export function Blog({
     return (
         <section className="post">
             <img src={imageUrl} alt={title} />
-            <h3>{title}</h3>
-            <p>{presentation}</p>
-            <span className="post-date">{formattedDate}</span>
+            <div className="content">
+                <h3>{title}</h3>
+                <p>{presentation}</p>
+                <span className="post-date">{formattedDate}</span>
+            </div>
             <Link to={`/blogs/${id}/details`} className="btn" title="Прочети повече">Прочети</Link>
         </section>
     )
