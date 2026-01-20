@@ -151,3 +151,4 @@
     - [x] Improve overall data flow for site configuration
 - [x] Update .gitignore to ignore scss and map files
 - [x] Add responsive styles for mobile and tablet
+- [x] Update viewport meta tag for better mobile experience
