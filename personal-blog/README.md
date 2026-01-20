@@ -149,3 +149,5 @@
     - [x] Update home page to integrate with the new UserSettings component
     - [x] Remove obsolete endpoints and add new endpoint for user settings retrieval
     - [x] Improve overall data flow for site configuration
+- [x] Update .gitignore to ignore scss and map files
+- [x] Add responsive styles for mobile and tablet
