@@ -56,7 +56,7 @@ export function PracticeDetails() {
                 : Object.keys(data).length > 0
                     ? (<>
                         <img src={data.imageUrl} alt={data.title} />
-                        <p className="post-date practice-date">Практиката ще се проведе на {data.date}</p>
+                        <p className="post-date practice-date">Практиката ще се проведе на {data.practiceDate.slice(0, 10)}</p>
                         <h2>{data.title}</h2>
                         <p>{data.presentation}</p>
                         <p>{data.content}</p>
