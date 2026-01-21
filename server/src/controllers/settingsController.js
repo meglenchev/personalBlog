@@ -5,6 +5,7 @@ import { verifyToken } from "../middlewares/verifyToken.js";
 
 export const settingsController = Router()
 
+// Returns an object with all settings
 settingsController.get('/settings', async (req, res) => {
     try {
         const settings = await settingsServices.getOne();
@@ -19,6 +20,22 @@ settingsController.get('/settings', async (req, res) => {
     }
 });
 
+// Returns an object with all contacts
+settingsController.get('/settings/contacts', async (req, res) => {
+    try {
+        const contacts = await settingsServices.getContacts();
+
+        res.json(contacts || {});
+    } catch (err) {
+        console.error("Error fetching Settings:", err);
+
+        res.status(400).json({
+            error: getErrorMessage(err)
+        });
+    }
+});
+
+// Returns an object with all settings
 settingsController.get('/settings/edit', verifyToken(['admin']), async (req, res) => {
     try {
         const settings = await settingsServices.getOne();
@@ -33,6 +50,7 @@ settingsController.get('/settings/edit', verifyToken(['admin']), async (req, res
     }
 });
 
+// Settings edit request
 settingsController.put('/settings/edit', verifyToken(['admin']), async (req, res) => {
     const { name, email, facebook, instagram, presentation, headerImg, authorImg } = req.body;
 

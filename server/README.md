@@ -90,6 +90,7 @@
     - [x] - Implemented settingsService for data access logic
     - [x] - Added settingsController to handle incoming API requests
     - [x] - Add getContacts method to SettingsServices
+    - [x] - Add GET endpoint for contact settings
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`
