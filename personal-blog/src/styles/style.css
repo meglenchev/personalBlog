@@ -175,6 +175,10 @@ a:focus-visible {
   transform: translate(-50%, -50%);
 }
 
+.mobile-menu-btn {
+  display: none;
+}
+
 article,
 header,
 img,
@@ -375,16 +379,6 @@ header .auth-nav li a.active:hover {
   cursor: default;
   background-color: transparent;
   color: #a7846e;
-}
-header nav ul li a.active::after,
-header .auth-nav li a.active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 4px;
-  background-color: #a7846e;
 }
 header .wrap .subline ul li a {
   display: flex;
@@ -829,16 +823,19 @@ footer .footer-bottom span {
     padding: 96px 0 40px;
   }
   header.logedin {
-    padding-top: 146px;
+    padding-top: 140px;
   }
   header .wrap {
-    height: 56px;
+    height: auto;
     margin-bottom: 40px;
+  }
+  header .wrap .menu-wrap {
+    height: 100%;
   }
   header .wrap .content {
     position: relative;
     width: 1280px;
-    height: 100%;
+    height: 50px;
     margin: 0 auto;
   }
   header .wrap .subline ul {
@@ -857,6 +854,16 @@ footer .footer-bottom span {
     text-decoration: none;
     color: #745D4E;
     background-color: #ddd2c5;
+  }
+  header nav ul li a.active::after,
+  header .auth-nav li a.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background-color: #a7846e;
   }
   header .wrap .subline ul li a:hover {
     color: #745D4E;
@@ -924,7 +931,8 @@ footer .footer-bottom span {
   .btn.btn-login, .btn.btn-register, .btn.btn-settings {
     height: 40px;
   }
-  input, textarea {
+  input,
+  textarea {
     padding: 0.55rem 0.75rem;
   }
   header {
@@ -934,11 +942,10 @@ footer .footer-bottom span {
     padding-top: 100px;
   }
   header .wrap {
-    height: 40px;
     margin-bottom: 30px;
   }
   header .wrap .content {
-    height: 100%;
+    height: 40px;
   }
   header .wrap .subline {
     height: 30px;
@@ -1134,6 +1141,107 @@ footer .footer-bottom span {
   }
 }
 /* Small tablets and large phones */
+@media screen and (max-width: 860px) {
+  .mobile-menu-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+  }
+  .mobile-menu-btn .bar {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    transition: all 0.3s ease-in-out;
+    display: block;
+  }
+  .mobile-menu-btn.active .bar:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  .mobile-menu-btn.active .bar:nth-child(2) {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  .mobile-menu-btn.active .bar:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+  header.logedin {
+    padding-top: 60px;
+  }
+  header .wrap {
+    height: 40px;
+    background-color: #eae8e2;
+  }
+  header .wrap .menu-wrap {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    align-items: flex-end;
+    height: calc(100vh - 40px);
+    top: 40px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0);
+    z-index: 1000;
+    visibility: hidden;
+    pointer-events: none;
+    transition: background-color 0.4s ease, visibility 0.4s;
+  }
+  header .wrap .menu-wrap.active {
+    visibility: visible;
+    pointer-events: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  header .wrap .menu-wrap > div {
+    height: 100%;
+    width: 60%;
+    background-color: #eae8e2;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  header .wrap .menu-wrap.active > div {
+    transform: translateX(0);
+  }
+  header .wrap .content {
+    flex-direction: column;
+    height: auto;
+  }
+  header .wrap .subline {
+    height: auto;
+  }
+  header .wrap .subline ul li a {
+    text-transform: uppercase;
+    font-size: inherit;
+  }
+  header nav ul,
+  header .auth-nav,
+  header .wrap .subline ul {
+    flex-direction: column;
+  }
+  header nav ul li a,
+  header .auth-nav li a,
+  header .wrap .subline ul li a {
+    min-height: 40px;
+    padding: 0 1.2em 0 1.5em;
+    justify-content: end;
+  }
+  header nav ul li a.active,
+  header .auth-nav li a.active,
+  header .wrap .subline ul li a.active {
+    background-color: #745D4E;
+    color: #fff;
+  }
+  header .auth-nav li a {
+    background-color: #000;
+    color: #fff;
+  }
+}
 /* Mobile devices (Landscape and Portrait) */
 @media screen and (max-width: 640px) {
   main {
