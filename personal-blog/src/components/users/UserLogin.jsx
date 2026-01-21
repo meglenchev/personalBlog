@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useForm } from "../../hooks/useForm.js";
 import UserContext from "../../context/UserContext.jsx";
 import { useNavigate } from "react-router";
@@ -8,42 +8,51 @@ const initialLoginValues = {
     password: ''
 }
 
-function validate(values) {
-    let errors = {};
-
-    if (!values.email) {
-        errors['email'] = 'Имейла е задължителен!'
-    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-        errors['email'] = 'Имейл формата е неправилен!';
-    }
-
-    if (!values.password) {
-        errors['password'] = 'Паролата е задължителна!'
-    }
-
-    return errors;
-}
-
 export function UserLogin() {
     const { onLogin } = useContext(UserContext);
     const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+    const [serverError, setServerError] = useState('');
 
     useEffect(() => {
         document.title = 'Вход';
     }, []);
 
-    const submitLoginHandler = (formValues) => {
-        const errors = validate(formValues);
+    function validate(values) {
+        const newErrors = {};
 
-        if (Object.keys(errors).length > 0) {
-            return alert(Object.values(errors).at(0));;
+        if (!values.email) {
+            newErrors.email = 'Имейла е задължителен!'
+        } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+            newErrors.email = 'Имейл формата е неправилен!';
+        }
+
+        if (!values.password) {
+            newErrors.password = 'Паролата е задължителна!'
+        }
+
+        return newErrors;
+    }
+
+    const submitLoginHandler = async (formValues) => {
+        const validationErrors = validate(formValues);
+        
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
         }
 
         try {
-            onLogin(formValues);
+            setErrors({});
+
+            setServerError('');
+
+            await onLogin(formValues);
+
             navigate('/');
         } catch (err) {
-            alert(`Технически затруднения: ${err.message}`);
+            //console.error(`Технически затруднения: ${err.message}`);
+            setServerError('Грешен имейл или парола. Опитайте отново!');
         }
     }
 
@@ -53,14 +62,19 @@ export function UserLogin() {
         <>
             <div className="login-container">
                 <h2>Вход</h2>
-                <form onSubmit={formAction}>
+
+                {serverError && <div className="errors">{serverError}</div>}
+
+                <form onSubmit={formAction} noValidate>
                     <div className="form-group">
                         <input
-                            type="text"
+                            type="email"
                             id="useremail"
                             {...inputPropertiesRegister('email')}
                             placeholder="Имейл"
+                            className={errors.email && 'input-error'}
                         />
+                        {errors.email && <span className="error-text">{errors.email}</span>}
                     </div>
                     <div className="form-group">
                         <input
@@ -68,7 +82,9 @@ export function UserLogin() {
                             id="password"
                             {...inputPropertiesRegister('password')}
                             placeholder="Парола"
+                            className={errors.password && 'input-error'}
                         />
+                        {errors.password && <span className="error-text">{errors.password}</span>}
                     </div>
                     <button type="submit" className="btn btn-login">Влез</button>
                 </form>

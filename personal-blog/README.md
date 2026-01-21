@@ -158,3 +158,7 @@
     - [x] Added contacts endpoint constant: `/settings/contacts`
     - [x] Integrated contact data fetching in the Footer component
     - [x] Added CSS styles for the contact section in the footer
+
+## 7. Building a better and more functional representation of errors
+- [x] Upgrade login error handling
+- [] Upgrade registration error handling
