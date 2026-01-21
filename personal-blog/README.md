@@ -154,3 +154,7 @@
 - [x] Update viewport meta tag for better mobile experience
 - [x] Format practice date display to show only YYYY-MM-DD
 - [x] Adding a class - content for better visual presentation on mobile devices
+- [x] Implement contact info in footer and add API endpoint
+    - [x] Added contacts endpoint constant: `/settings/contacts`
+    - [x] Integrated contact data fetching in the Footer component
+    - [x] Added CSS styles for the contact section in the footer

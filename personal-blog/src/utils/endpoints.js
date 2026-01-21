@@ -8,6 +8,7 @@ export const endPoints = {
     me: '/users/me',
     settings: '/settings',
     settingsEdit: '/settings/edit',
+    contacts: '/settings/contacts',
     about: '/about',
     aboutEdit: '/about/edit',
     allBlogs: '/blogs', 

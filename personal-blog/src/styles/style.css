@@ -775,6 +775,9 @@ footer .footer-top ul {
   display: flex;
   gap: 15px;
 }
+footer .footer-top ul li {
+  width: 48px;
+}
 footer .footer-bottom {
   display: flex;
   align-items: center;
@@ -900,6 +903,10 @@ footer .footer-bottom span {
   }
   footer .footer-top .footer-logo {
     width: 510px;
+  }
+  footer .footer-top ul li a:hover img {
+    transform: rotate(720deg);
+    transition: transform 0.7s ease-in-out;
   }
   footer .footer-bottom {
     height: 70px;
