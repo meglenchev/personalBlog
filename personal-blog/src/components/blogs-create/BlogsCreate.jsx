@@ -97,7 +97,7 @@ export function BlogsCreate({ mode }) {
 
             navigate(config.navigateTo, { replace: true });
         } catch (err) {
-            setServerError('Създаването на публикация в блога беше неуспешно. Опитайте отново!');
+            setServerError(config.errMsg);
         } finally {
             setIsPending(false);
         }

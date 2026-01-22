@@ -25,6 +25,10 @@ export function PracticesCreate({ mode }) {
 
     const { user, isAdmin, userRoles } = useContext(UserContext);
 
+    const [errors, setErrors] = useState({});
+
+    const [serverError, setServerError] = useState('');
+
     const isEditMode = mode === 'edit';
 
     const config = useMemo(() => ({
@@ -35,8 +39,10 @@ export function PracticesCreate({ mode }) {
     }), [isEditMode, practiceId]);
 
     function validate(values) {
+        let newErrors = {};
+
         if (!values.title) {
-            return 'Заглавието е задължително!'
+            newErrors.title = 'Заглавието е задължително!'
         };
 
         const noImage = isEditMode
@@ -44,35 +50,39 @@ export function PracticesCreate({ mode }) {
             : (!(values.imageUrl instanceof FileList) && !(values.imageUrl instanceof File));
 
         if (noImage) {
-            return 'Снимката е задължителна!'
+            newErrors.imageUrl = 'Снимката е задължителна!'
         };
 
         if (!values.presentation) {
-            return 'Кратката презентация е задължителна!'
+            newErrors.presentation = 'Кратката презентация е задължителна!'
         };
 
         if (!values.content) {
-            return 'Съдържанието е задължително!'
+            newErrors.content = 'Съдържанието е задължително!'
         };
 
         if (!values.practiceDate) {
-            return 'Датата е задължителна!'
+            newErrors.practiceDate = 'Датата е задължителна!'
         };
 
-        return null;
+        return newErrors;
     }
 
     const submitHandler = async (formValues) => {
-        const errors = validate(formValues);
+        const validationErrors = validate(formValues);
 
-        if (errors) {
-            alert(errors);
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
 
         setIsPending(true);
 
         try {
+            setErrors({});
+
+            setServerError('');
+
             const practiceData = { ...formValues };
 
             if (practiceData.imageUrl instanceof FileList || practiceData.imageUrl instanceof File) {
@@ -86,7 +96,7 @@ export function PracticesCreate({ mode }) {
 
             navigate(config.navigateTo, { replace: true });
         } catch (err) {
-            alert(`${config.errMsg}: ${err.message}`);
+            setServerError(config.errMsg);
         } finally {
             setIsPending(false);
         }
@@ -124,7 +134,7 @@ export function PracticesCreate({ mode }) {
             })
             .catch(err => {
                 if (err.name !== 'AbortError') {
-                    alert(`Неуспешно зареждане: ${err.message}`);
+                    setServerError(`Неуспешно зареждане: ${err.message}`);
                 }
             });
 
@@ -137,49 +147,56 @@ export function PracticesCreate({ mode }) {
             <form onSubmit={formAction}>
                 <h2>{isEditMode ? 'Редактирай практика' : 'Добави практика'}</h2>
 
+                {serverError && <div className="errors">{serverError}</div>}
+
                 <div className="form-group">
-                    <label htmlFor="title">Заглавие:</label>
+                    <label htmlFor="title">Заглавие: {errors.title && <span className="error-text">{errors.title}</span>}</label>
                     <input
                         type="text"
                         id="title"
                         {...inputPropertiesRegister('title')}
+                        className={errors.title && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="imageUrl">Снимка:</label>
+                    <label htmlFor="imageUrl">Снимка: {errors.imageUrl && <span className="error-text">{errors.imageUrl}</span>}</label>
                     <input
                         type="file"
                         id="imageUrl"
                         {...filePropertiesRegister('imageUrl')}
                         accept="image/*"
+                        className={errors.imageUrl && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="presentation">Презентация:</label>
+                    <label htmlFor="presentation">Презентация: {errors.presentation && <span className="error-text">{errors.presentation}</span>}</label>
                     <textarea
                         id="presentation"
                         {...inputPropertiesRegister('presentation')}
                         rows="5"
+                        className={errors.presentation && 'input-error'}
                     ></textarea>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="content">Съдържание:</label>
+                    <label htmlFor="content">Съдържание: {errors.content && <span className="error-text">{errors.content}</span>}</label>
                     <textarea
                         id="content"
                         {...inputPropertiesRegister('content')}
                         rows="10"
+                        className={errors.content && 'input-error'}
                     ></textarea>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="practiceDate">Кога ще се проведе практиката:</label>
+                    <label htmlFor="practiceDate">Кога ще се проведе практиката: {errors.practiceDate  && <span className="error-text">{errors.practiceDate }</span>}</label>
                     <input
                         type="date"
                         id="practiceDate"
                         {...inputPropertiesRegister('practiceDate')}
+                        className={errors.practiceDate  && 'input-error'}
                     />
                 </div>
 

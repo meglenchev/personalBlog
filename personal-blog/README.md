@@ -163,5 +163,5 @@
 - [x] Upgrade login error handling
 - [x] Upgrade registration error handling
 - [x] Upgrade create/edit post error handling
-- [] Upgrade create/edit practice error handling
+- [x] Upgrade create/edit practice error handling
 - [] Upgrade settings error handling
