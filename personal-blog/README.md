@@ -162,6 +162,6 @@
 ## 7. Building a better and more functional representation of errors
 - [x] Upgrade login error handling
 - [x] Upgrade registration error handling
-- [] Upgrade create/edit post error handling
+- [x] Upgrade create/edit post error handling
 - [] Upgrade create/edit practice error handling
 - [] Upgrade settings error handling

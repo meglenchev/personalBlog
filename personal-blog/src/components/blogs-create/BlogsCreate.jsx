@@ -26,6 +26,10 @@ export function BlogsCreate({ mode }) {
 
     const { user, userRoles, isAdmin } = useContext(UserContext);
 
+    const [errors, setErrors] = useState({});
+
+    const [serverError, setServerError] = useState('');
+
     const isEditMode = mode === 'edit';
 
     const config = useMemo(() => ({
@@ -36,8 +40,10 @@ export function BlogsCreate({ mode }) {
     }), [isEditMode, blogId]);
 
     function validate(values) {
-        if (!values.title) {
-            return 'Заглавието е задължително!'
+        let newErrors = {};
+
+        if (!values.title.trim()) {
+            newErrors.title = 'Заглавието е задължително!'
         }
 
         const noImage = isEditMode
@@ -45,35 +51,39 @@ export function BlogsCreate({ mode }) {
             : (!(values.imageUrl instanceof FileList) && !(values.imageUrl instanceof File));
 
         if (noImage) {
-            return 'Снимката е задължителна!'
+            newErrors.imageUrl =  'Снимката е задължителна!'
         };
 
-        if (!values.category) {
-            return 'Категорията е задължителна!'
+        if (!values.category.trim()) {
+            newErrors.category = 'Категорията е задължителна!'
         }
 
-        if (!values.presentation) {
-            return 'Кратката презентация е задължителна!'
+        if (!values.presentation.trim()) {
+            newErrors.presentation = 'Кратката презентация е задължителна!'
         }
 
-        if (!values.content) {
-            return 'Съдържанието е задължително!'
+        if (!values.content.trim()) {
+            newErrors.content = 'Съдържанието е задължително!'
         }
 
-        return null;
+        return newErrors;
     }
 
     const submitHandler = async (formValues) => {
-        const errors = validate(formValues);
-
-        if (errors) {
-            alert(errors);
+        const validationErrors = validate(formValues);
+        
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
 
         setIsPending(true);
 
         try {
+            setErrors({});
+
+            setServerError('');
+
             const blogData = { ...formValues };
 
             if (blogData.imageUrl instanceof FileList || blogData.imageUrl instanceof File) {
@@ -87,7 +97,7 @@ export function BlogsCreate({ mode }) {
 
             navigate(config.navigateTo, { replace: true });
         } catch (err) {
-            alert(`${config.errMsg}: ${err.message}`);
+            setServerError('Създаването на публикация в блога беше неуспешно. Опитайте отново!');
         } finally {
             setIsPending(false);
         }
@@ -125,7 +135,7 @@ export function BlogsCreate({ mode }) {
             })
             .catch(err => {
                 if (err.name !== 'AbortError') {
-                    alert(`Неуспешно зареждане: ${err.message}`);
+                    setServerError(`Неуспешно зареждане: ${err.message}`);
                 }
             })
 
@@ -139,49 +149,57 @@ export function BlogsCreate({ mode }) {
             <img src="/images/create-blog-post-img.jpg" alt="Background" />
             <form onSubmit={formAction}>
                 <h2>{mode === 'edit' ? 'Редактирай публикацията' : 'Създай нова публикация'}</h2>
+
+                {serverError && <div className="errors">{serverError}</div>}
+
                 <div className="form-group">
-                    <label htmlFor="title">Заглавие:</label>
+                    <label htmlFor="title">Заглавие: {errors.title && <span className="error-text">{errors.title}</span>}</label>
                     <input
                         type="text"
                         id="title"
                         {...inputPropertiesRegister('title')}
+                        className={errors.title && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="imageUrl">Снимка:</label>
+                    <label htmlFor="imageUrl">Снимка: {errors.imageUrl && <span className="error-text">{errors.imageUrl}</span>}</label>
                     <input
                         type="file"
                         id="imageUrl"
                         {...filePropertiesRegister('imageUrl')}
                         accept="image/*"
+                        className={errors.imageUrl && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="category">Категория:</label>
+                    <label htmlFor="category">Категория: {errors.category && <span className="error-text">{errors.category}</span>}</label>
                     <input
                         type="text"
                         id="category"
                         {...inputPropertiesRegister('category')}
+                        className={errors.category && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="presentation">Презентация:</label>
+                    <label htmlFor="presentation">Презентация: {errors.presentation && <span className="error-text">{errors.presentation}</span>}</label>
                     <textarea
                         id="presentation"
                         {...inputPropertiesRegister('presentation')}
                         rows="3"
+                        className={errors.presentation && 'input-error'}
                     ></textarea>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="content">Съдържание:</label>
+                    <label htmlFor="content">Съдържание: {errors.content && <span className="error-text">{errors.content}</span>}</label>
                     <textarea
                         id="content"
                         {...inputPropertiesRegister('content')}
                         rows="8"
+                        className={errors.content && 'input-error'}
                     ></textarea>
                 </div>
                 {isPending
