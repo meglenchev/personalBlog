@@ -39,7 +39,7 @@ export function AboutCreate({ mode }) {
         let newErrors = {};
 
         if (!values.slogan) {
-            newErrors.slogan = 'Слоган е задължителен!';
+            newErrors.slogan = 'Полето е задължително!';
         }
 
         const noImage = isEditMode
@@ -47,15 +47,15 @@ export function AboutCreate({ mode }) {
             : (!(values.aboutImage instanceof FileList) && !(values.aboutImage instanceof File));
 
         if (noImage) {
-            newErrors.aboutImage = 'Снимка за "хедъра" е задължителна!'
+            newErrors.aboutImage = 'Снимката е задължителна!'
         };
 
         if (!values.summary) {
-            newErrors.summary = 'Резюмето е задължително!';
+            newErrors.summary = 'Полето е задължително!';
         }
 
         if (!values.info) {
-            newErrors.info = 'Подробната информация е задължителна!';
+            newErrors.info = 'Полето е задължително!';
         }
 
         return newErrors;

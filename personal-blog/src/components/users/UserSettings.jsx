@@ -5,7 +5,6 @@ import { endPoints } from "../../utils/endpoints.js";
 import UserContext from "../../context/UserContext.jsx";
 import { uploadImage } from "../../hooks/uploadImage.js";
 import { useForm } from "../../hooks/useForm.js";
-import { useFetch } from "../../hooks/useFetch.js";
 
 const initialSettingsValues = {
     name: '',
@@ -27,6 +26,10 @@ export function UserSettings({ mode }) {
 
     const [isPendingUpload, setIsPendingUpload] = useState(false);
 
+    const [errors, setErrors] = useState({});
+
+    const [serverError, setServerError] = useState('');
+
     const isEditMode = mode === 'edit';
 
     useEffect(() => {
@@ -37,24 +40,26 @@ export function UserSettings({ mode }) {
 
 
     function validate(values) {
+        let newErrors = {};
+
         if (!values.name) {
-            return 'Името е задължително!';
+            newErrors.name = 'Полето е задължително!';
         }
 
         if (!values.email) {
-            return 'Имейла е задължителен!';
+            newErrors.email = 'Полето е задължително!';
         }
 
         if (!values.facebook) {
-            return 'Връзката за Facebook е задължителна!';
+            newErrors.facebook = 'Полето е задължително!';
         }
 
         if (!values.instagram) {
-            return 'Връзката за Instagram е задължителна!';
+            newErrors.instagram = 'Полето е задължително!';
         }
 
         if (!values.presentation) {
-            return 'Кратка презентация е задължителна!';
+            newErrors.presentation = 'Полето е задължително!';
         }
 
         const noHeaderImage = isEditMode
@@ -62,7 +67,7 @@ export function UserSettings({ mode }) {
             : (!(values.headerImg instanceof FileList) && !(values.headerImg instanceof File));
 
         if (noHeaderImage) {
-            return 'Снимка за "хедъра" е задължителна!'
+            newErrors.headerImg = 'Снимката е задължителна!'
         };
 
         const noAuthorImage = isEditMode
@@ -70,23 +75,27 @@ export function UserSettings({ mode }) {
             : (!(values.authorImg instanceof FileList) && !(values.authorImg instanceof File));
 
         if (noAuthorImage) {
-            return 'Снимка на автора е задължителна!'
+            newErrors.authorImg = 'Снимката е задължителна!'
         };
 
-        return null;
+        return newErrors;
     }
 
     const submitSettingsHandler = async (formValues) => {
-        const errors = validate(formValues);
-
-        if (errors) {
-            alert(errors);
+        const validationErrors = validate(formValues);
+        
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
 
         setIsPendingUpload(true);
 
         try {
+            setErrors({});
+
+            setServerError('');
+
             const settingsData = { ...formValues };
 
             const processImage = async (field) => {
@@ -108,7 +117,7 @@ export function UserSettings({ mode }) {
             
             navigate('/', { replace: true });
         } catch (err) {
-            alert(`Възникна грешка: ${err.message}`);
+            setServerError(`Възникна грешка. Моля опитайте отново!`);
         } finally {
             setIsPendingUpload(false)
         }
@@ -143,7 +152,7 @@ export function UserSettings({ mode }) {
             })
             .catch(err => {
                 if (err.name === 'AbortError') {
-                    alert(`Неуспешно зареждане: ${err.message}`);
+                    setServerError(`Неуспешно зареждане. Моля опитайте отново!`);
                 }
             });
         return () => {
@@ -155,69 +164,79 @@ export function UserSettings({ mode }) {
         <article className="register-container">
             <form onSubmit={formAction}>
                 <h2>Настройки на страницата</h2>
+
+                {serverError && <div className="errors">{serverError}</div>}
+
                 <div className="form-group-wrap">
                     <div className="form-group">
-                        <label htmlFor="name">Име:</label>
+                        <label htmlFor="name">Име: {errors.name && <span className="error-text">{errors.name}</span>}</label>
                         <input
                             type="text"
                             id="name"
                             {...inputPropertiesRegister('name')}
+                            className={errors.name && 'input-error'}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="email">Имейл:</label>
+                        <label htmlFor="email">Имейл: {errors.email && <span className="error-text">{errors.email}</span>}</label>
                         <input
                             type="text"
                             id="email"
                             {...inputPropertiesRegister('email')}
+                            className={errors.email && 'input-error'}
                         />
                     </div>
                     <div className="form-group">
-                        <label htmlFor="facebook">Facebook връзка:</label>
+                        <label htmlFor="facebook">Facebook: {errors.facebook && <span className="error-text">{errors.facebook}</span>}</label>
                         <input
                             type="text"
                             id="facebook"
                             {...inputPropertiesRegister('facebook')}
+                            className={errors.facebook && 'input-error'}
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="instagram">Instagram връзка:</label>
+                        <label htmlFor="instagram">Instagram: {errors.instagram && <span className="error-text">{errors.instagram}</span>}</label>
                         <input
                             type="text"
                             id="instagram"
                             {...inputPropertiesRegister('instagram')}
+                            className={errors.instagram && 'input-error'}
                         />
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="presentation">Кратка презентация за началната страница:</label>
+                    <label htmlFor="presentation">Кратка презентация за началната страница: {errors.presentation && <span className="error-text">{errors.presentation}</span>}</label>
                     <textarea
                         id="presentation"
                         {...inputPropertiesRegister('presentation')}
                         rows="3"
+                        className={errors.presentation && 'input-error'}
                     ></textarea>
                 </div>
 
                 <div className="form-group-wrap two">
                     <div className="form-group">
-                        <label htmlFor="headerImg">Снимка за "хедъра" на начална страница:</label>
+                        <label htmlFor="headerImg">Снимка за "хедъра" на начална страница: {errors.headerImg && <span className="error-text">{errors.headerImg}</span>}</label>
                         <input
                             type="file"
                             id="headerImg"
                             {...filePropertiesRegister('headerImg')}
                             accept="image/*"
+                            className={errors.headerImg && 'input-error'}
                         />
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="authorImg">Снимка на автора за начална страница:</label>
+                        <label htmlFor="authorImg">Снимка на автора за начална страница: {errors.authorImg && <span className="error-text">{errors.authorImg}</span>}</label>
                         <input
                             type="file"
                             id="authorImg"
                             {...filePropertiesRegister('authorImg')}
                             accept="image/*"
+                            className={errors.authorImg && 'input-error'}
                         />
                     </div>
                 </div>

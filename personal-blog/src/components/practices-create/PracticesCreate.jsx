@@ -42,7 +42,7 @@ export function PracticesCreate({ mode }) {
         let newErrors = {};
 
         if (!values.title) {
-            newErrors.title = 'Заглавието е задължително!'
+            newErrors.title = 'Полето е задължително!'
         };
 
         const noImage = isEditMode
@@ -54,11 +54,11 @@ export function PracticesCreate({ mode }) {
         };
 
         if (!values.presentation) {
-            newErrors.presentation = 'Кратката презентация е задължителна!'
+            newErrors.presentation = 'Полето е задължително!'
         };
 
         if (!values.content) {
-            newErrors.content = 'Съдържанието е задължително!'
+            newErrors.content = 'Полето е задължително!'
         };
 
         if (!values.practiceDate) {

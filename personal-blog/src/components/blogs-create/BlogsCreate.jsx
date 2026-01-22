@@ -43,7 +43,7 @@ export function BlogsCreate({ mode }) {
         let newErrors = {};
 
         if (!values.title.trim()) {
-            newErrors.title = 'Заглавието е задължително!'
+            newErrors.title = 'Полето е задължително!'
         }
 
         const noImage = isEditMode
@@ -55,15 +55,15 @@ export function BlogsCreate({ mode }) {
         };
 
         if (!values.category.trim()) {
-            newErrors.category = 'Категорията е задължителна!'
+            newErrors.category = 'Полето е задължително!'
         }
 
         if (!values.presentation.trim()) {
-            newErrors.presentation = 'Кратката презентация е задължителна!'
+            newErrors.presentation = 'Полето е задължително!'
         }
 
         if (!values.content.trim()) {
-            newErrors.content = 'Съдържанието е задължително!'
+            newErrors.content = 'Полето е задължително!'
         }
 
         return newErrors;
