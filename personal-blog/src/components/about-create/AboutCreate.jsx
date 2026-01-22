@@ -23,6 +23,10 @@ export function AboutCreate({ mode }) {
 
     const [isPendingUpload, setIsPendingUpload] = useState(false);
 
+    const [errors, setErrors] = useState({});
+
+    const [serverError, setServerError] = useState('');
+
     const isEditMode = mode === 'edit';
 
     useEffect(() => {
@@ -32,8 +36,10 @@ export function AboutCreate({ mode }) {
     }, [isAdmin, navigate]);
 
     function validate(values) {
+        let newErrors = {};
+
         if (!values.slogan) {
-            return 'Слоган е задължителен!';
+            newErrors.slogan = 'Слоган е задължителен!';
         }
 
         const noImage = isEditMode
@@ -41,31 +47,35 @@ export function AboutCreate({ mode }) {
             : (!(values.aboutImage instanceof FileList) && !(values.aboutImage instanceof File));
 
         if (noImage) {
-            return 'Снимка за "хедъра" е задължителна!'
+            newErrors.aboutImage = 'Снимка за "хедъра" е задължителна!'
         };
 
         if (!values.summary) {
-            return 'Резюмето е задължително!';
+            newErrors.summary = 'Резюмето е задължително!';
         }
 
         if (!values.info) {
-            return 'Подробната информация е задължителна!';
+            newErrors.info = 'Подробната информация е задължителна!';
         }
 
-        return null;
+        return newErrors;
     }
 
     const submitAboutHandler = async (formValues) => {
-        const errors = validate(formValues);
-
-        if (errors) {
-            alert(errors);
+        const validationErrors = validate(formValues);
+        
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
             return;
         }
 
         setIsPendingUpload(true);
 
         try {
+            setErrors({});
+
+            setServerError('');
+
             const aboutData = formValues;
 
             if (aboutData.aboutImage instanceof FileList || aboutData.aboutImage instanceof File) {
@@ -79,8 +89,7 @@ export function AboutCreate({ mode }) {
 
             navigate('/about', { replace: true });
         } catch (err) {
-
-            alert(`Възникна грешка: ${err.message}`);
+            setServerError(`Възникна грешка, моля опитайте отново!`);
         } finally {
             setIsPendingUpload(false);
         }
@@ -115,7 +124,7 @@ export function AboutCreate({ mode }) {
             })
             .catch(err => {
                 if (err.name === 'AbortError') {
-                    alert(`Неуспешно зареждане: ${err.message}`);
+                    setServerError(`Неуспешно зареждане. Моля опитайте отново!`);
                 }
             });
         
@@ -128,42 +137,49 @@ export function AboutCreate({ mode }) {
         <article className="register-container">
             <form onSubmit={formAction}>
                 <h2>{isEditMode ? 'Редактиране на информация за автора' : 'Създаване на информация за автора'}</h2>
+
+                {serverError && <div className="errors">{serverError}</div>}
+
                 <div className="form-group">
-                    <label htmlFor="slogan">Слоган</label>
+                    <label htmlFor="slogan">Слоган: {errors.slogan && <span className="error-text">{errors.slogan}</span>}</label>
                     <input
                         type="text"
                         id="slogan"
                         {...inputPropertiesRegister('slogan')}
+                        className={errors.slogan && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group-wrap two">
                     <div className="form-group">
-                        <label htmlFor="aboutImage">Снимка за "хедъра":</label>
+                        <label htmlFor="aboutImage">Снимка за "хедъра": {errors.aboutImage && <span className="error-text">{errors.aboutImage}</span>}</label>
                         <input
                             type="file"
                             id="aboutImage"
                             {...filePropertiesRegister('aboutImage')}
                             accept="image/*"
+                            className={errors.aboutImage && 'input-error'}
                         />
                     </div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="summary">Резюме:</label>
+                    <label htmlFor="summary">Резюме: {errors.summary && <span className="error-text">{errors.summary}</span>}</label>
                     <textarea
                         id="summary"
                         {...inputPropertiesRegister('summary')}
                         rows="3"
+                        className={errors.summary && 'input-error'}
                     ></textarea>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="info">Подробна информация:</label>
+                    <label htmlFor="info">Подробна информация: {errors.info && <span className="error-text">{errors.info}</span>}</label>
                     <textarea
                         id="info"
                         {...inputPropertiesRegister('info')}
                         rows="8"
+                        className={errors.info && 'input-error'}
                     ></textarea>
                 </div>
 

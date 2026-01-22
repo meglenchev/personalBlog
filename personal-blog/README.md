@@ -165,4 +165,5 @@
 - [x] Upgrade create/edit post error handling
 - [x] Upgrade create/edit practice error handling
 - [x] Implement custom confirmation modal for post/practice delete
+- [x] Upgrade create about info error handling
 - [] Upgrade settings error handling
