@@ -1,13 +1,17 @@
 import { Link, useNavigate, useParams } from "react-router";
 import { useFetch } from "../../hooks/useFetch.js";
 import { endPoints } from "../../utils/endpoints.js";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext.jsx";
 import { useRequest } from "../../hooks/useRequest.js";
 
 export function PracticeDetails() {
     const { user, isAuthenticated, isAdmin } = useContext(UserContext);
     const { practiceId } = useParams();
+
+    const [showConfirm, setShowConfirm] = useState(false);
+
+    const [serverError, setServerError] = useState('');
 
     const { data, isPending } = useFetch(endPoints.practiceDetails(practiceId), {}, practiceId);
 
@@ -27,21 +31,19 @@ export function PracticeDetails() {
 
     const navigate = useNavigate();
 
-    const deletePracticeHandler = async (e) => {
+    const deletePracticeHandler = () => {
+        setShowConfirm(true);
+    }
+
+    const confirmDelete = async (e) => {
         e.preventDefault();
-
-        const isConfirm = confirm(`Сигурни ли сте, че искате да изтриете тази практика ${data.title}?`);
-
-        if (!isConfirm) {
-            return;
-        }
 
         try {
             await request(endPoints.practiceDelete(practiceId), 'DELETE');
 
             navigate('/practices');
         } catch (err) {
-            alert(`Неуспешно изтриване на практика: ${err.message}`);
+            setServerError(`Неуспешно изтриване на практика: ${err.message}`);
         }
     }
 
@@ -60,6 +62,9 @@ export function PracticeDetails() {
                         <h2>{data.title}</h2>
                         <p>{data.presentation}</p>
                         <p>{data.content}</p>
+
+                        {serverError && <div className="errors">{serverError}</div>}
+                        
                         <div className="post-footer">
                             <span onClick={goBackHandler} className="btn btn-back" title="Назад">Назад</span>
                             {isAuthenticated && (String(data.owner) === String(user?._id) || isAdmin)
@@ -73,6 +78,19 @@ export function PracticeDetails() {
                     </>)
                     : <p className="no-articles">Възникна грешка. Моля опитайте по-късно!</p>
             }
+
+            {showConfirm && (
+                <div className="delete-modal-overlay">
+                    <div className="modal">
+                        <h3>Сигурни ли сте?</h3>
+                        <p>Изтриването на "<strong>{data.title}</strong>" не може да бъде отменено.</p>
+                        <div className="buttons">
+                            <button className="btn btn-edit" onClick={() => setShowConfirm(false)}>Отказ</button>
+                            <button className="btn btn-delete" onClick={confirmDelete}>Да, изтрий</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }

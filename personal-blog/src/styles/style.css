@@ -196,6 +196,30 @@ a:focus-visible {
   transform: translate(-50%, -50%);
 }
 
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.delete-modal-overlay .modal {
+  position: absolute;
+  background-color: #fff;
+  padding: 20px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+.delete-modal-overlay .modal h3 {
+  margin-bottom: 20px;
+  text-align: center;
+}
+.delete-modal-overlay .modal .buttons {
+  justify-content: space-between;
+}
+
 .mobile-menu-btn {
   display: none;
 }
