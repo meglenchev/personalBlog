@@ -36,7 +36,7 @@ export function UserLogin() {
 
     const submitLoginHandler = async (formValues) => {
         const validationErrors = validate(formValues);
-        
+
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
@@ -49,9 +49,8 @@ export function UserLogin() {
 
             await onLogin(formValues);
 
-            navigate('/');
+            navigate('/', { replace: true });
         } catch (err) {
-            //console.error(`Технически затруднения: ${err.message}`);
             setServerError('Грешен имейл или парола. Опитайте отново!');
         }
     }
@@ -67,6 +66,7 @@ export function UserLogin() {
 
                 <form onSubmit={formAction} noValidate>
                     <div className="form-group">
+                        {errors.email && <label><span className="error-text">{errors.email}</span></label>}
                         <input
                             type="email"
                             id="useremail"
@@ -74,9 +74,9 @@ export function UserLogin() {
                             placeholder="Имейл"
                             className={errors.email && 'input-error'}
                         />
-                        {errors.email && <span className="error-text">{errors.email}</span>}
                     </div>
                     <div className="form-group">
+                        {errors.password && <label><span className="error-text">{errors.password}</span></label>}
                         <input
                             type="password"
                             id="password"
@@ -84,7 +84,6 @@ export function UserLogin() {
                             placeholder="Парола"
                             className={errors.password && 'input-error'}
                         />
-                        {errors.password && <span className="error-text">{errors.password}</span>}
                     </div>
                     <button type="submit" className="btn btn-login">Влез</button>
                 </form>

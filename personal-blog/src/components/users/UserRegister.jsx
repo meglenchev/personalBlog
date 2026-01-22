@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useForm } from "../../hooks/useForm.js"
 import UserContext from "../../context/UserContext.jsx";
 import { useNavigate } from "react-router";
@@ -10,38 +10,39 @@ let initialRegisterData = {
     confirmPassword: ''
 }
 
-function validate(values) {
-    let errors = {};
-
-    if (!values.username) {
-        errors['username'] = 'Името е задължително!'
-    }
-
-    if (!values.email) {
-        errors['email'] = 'Имейла е задължителен!'
-    } else if (!/\S+@\S+\.\S+/.test(values.email)) {
-        errors['email'] = 'Имейл формата е неправилен!';
-    }
-
-    if (!values.password) {
-        errors['password'] = 'Паролата е задължителена!'
-    }
-
-    if (values.confirmPassword !== values.password) {
-        errors['confirmPassword'] = 'Паролите трябва да са еднакви!'
-    }
-
-    return errors;
-}
-
 export function UserRegister() {
     const { isAuthenticated, onRegister } = useContext(UserContext);
-
+    const [errors, setErrors] = useState({});
+    const [serverError, setServerError] = useState('');
     const navigate = useNavigate();
 
     useEffect(() => {
         document.title = 'Регистрация';
     }, []);
+
+    function validate(values) {
+        let newErrors = {};
+
+        if (!values.username) {
+            newErrors.username = 'Името е задължително!'
+        }
+
+        if (!values.email) {
+            newErrors.email = 'Имейла е задължителен!'
+        } else if (!/\S+@\S+\.\S+/.test(values.email)) {
+            newErrors.email = 'Имейл формата е неправилен!';
+        }
+
+        if (!values.password) {
+            newErrors.password = 'Паролата е задължителена!'
+        }
+
+        if (values.confirmPassword !== values.password) {
+            newErrors.confirmPassword = 'Паролите не съвпадат!'
+        }
+
+        return newErrors;
+    }
 
     useEffect(() => {
         if (isAuthenticated) {
@@ -55,18 +56,23 @@ export function UserRegister() {
 
         const { username, email, password, confirmPassword } = formValues;
 
-        const errors = validate(formValues);
-
-        if (Object.keys(errors).length > 0) {
-            return alert(Object.values(errors).at(0));
+        const validationErrors = validate(formValues);
+        
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
         }
 
         try {
+            setErrors({});
+
+            setServerError('');
+
             await onRegister(username, email, password, confirmPassword);
 
             navigate('/', { replace: true });
         } catch (err) {
-            alert(`Регистрацията беше неуспешна: ${err.message}`);
+            setServerError('Регистрацията беше неуспешна. Опитайте отново!');
         }
     }
 
@@ -75,41 +81,49 @@ export function UserRegister() {
     return (
         <article className="register-container">
             <img src="/images/register-img.jpg" alt="Регистрация" />
+
             <form onSubmit={formAction}>
                 <h2>Регистрация</h2>
+
+                {serverError && <div className="errors">{serverError}</div>}
+
                 <div className="form-group">
-                    <label htmlFor="username">Потребителско име:</label>
+                    <label htmlFor="username">Потребител: {errors.username && <span className="error-text">{errors.username}</span>}</label>
                     <input
                         type="text"
                         id="username"
                         {...inputPropertiesRegister('username')}
+                        className={errors.username && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="email">Имейл:</label>
+                    <label htmlFor="email">Имейл: {errors.email && <span className="error-text">{errors.email}</span>}</label>
                     <input
                         type="email"
                         id="email"
                         {...inputPropertiesRegister('email')}
+                        className={errors.email && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="password">Парола:</label>
+                    <label htmlFor="password">Парола: {errors.password && <span className="error-text">{errors.password}</span>}</label>
                     <input
                         type="password"
                         id="password"
                         {...inputPropertiesRegister('password')}
+                        className={errors.password && 'input-error'}
                     />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="confirmPassword">Потвърдете паролата:</label>
+                    <label htmlFor="confirmPassword">Потвърдете паролата: {errors.confirmPassword && <span className="error-text">{errors.confirmPassword}</span>}</label>
                     <input
                         type="password"
                         id="confirmPassword"
                         {...inputPropertiesRegister('confirmPassword')}
+                        className={errors.confirmPassword && 'input-error'}
                     />
                 </div>
 
