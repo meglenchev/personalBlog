@@ -167,3 +167,4 @@
 - [x] Implement custom confirmation modal for post/practice delete
 - [x] Upgrade create about info error handling
 - [x] Upgrade settings error handling
+- [] Upgrade Logout error handling

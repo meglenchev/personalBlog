@@ -80,7 +80,7 @@ export function PracticeDetails() {
             }
 
             {showConfirm && (
-                <div className="delete-modal-overlay">
+                <div className="modal-overlay">
                     <div className="modal">
                         <h3>Сигурни ли сте?</h3>
                         <p>Изтриването на "<strong>{data.title}</strong>" не може да бъде отменено.</p>
