@@ -5,6 +5,10 @@ import { endPoints } from "../../utils/endpoints.js";
 import { useEffect } from "react";
 import { useFetch } from "../../hooks/useFetch.js";
 
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 export function Home() {
     useEffect(() => {
         document.title = "Начална страница | Моят Блог";
@@ -16,12 +20,36 @@ export function Home() {
 
     const isEmpty = !isPending && (!data || Object.keys(data).length === 0);
 
+    var sliderSettings = {
+        dots: true,
+        infinite: true,
+        speed: 500,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: true,
+    };
+
     return (
         <>
             <article className="header-image">
-                {isPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
+                {/* {isPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
                 {hasData && <img src={data.headerImg} alt={data.name} />}
-                {isEmpty && <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-header-image.png?alt=media&token=c875ef81-eaad-4a56-b63a-3a0bf52c30ae" alt="" />}
+                {isEmpty && <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-header-image.png?alt=media&token=c875ef81-eaad-4a56-b63a-3a0bf52c30ae" alt="" />} */}
+
+                <Slider {...sliderSettings}>
+                    <div className="slider-wrap">
+                        <div className="slider-content">
+                            <h3>Добре дошъл</h3>
+                        </div>
+                        <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/images%2Fheader-image.jpg?alt=media&token=33d7c531-734f-43f6-9c9d-23d9f7811919" alt="" />
+                    </div>
+                    <div className="slider-wrap">
+                        <div className="slider-content">
+                            <h3>Защо холистични практики</h3>
+                        </div>
+                        <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/images%2Fslider-2.jpg?alt=media&token=f32a8a8c-eaae-4f65-ae98-34920a36c6af" alt="" />
+                    </div>
+                </Slider>
             </article>
 
             <article className="quick-links">

@@ -168,3 +168,7 @@
 - [x] Upgrade create about info error handling
 - [x] Upgrade settings error handling
 - [x] Upgrade Logout error handling
+
+## 8. Add a slider for the homepage header image
+- [x] Install `react-slick` slider - `npm install slick-carousel --save`
+- [x] Creating a static slider for starters
