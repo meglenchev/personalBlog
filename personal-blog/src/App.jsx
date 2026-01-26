@@ -21,6 +21,7 @@ import { UserSettings } from './components/users/UserSettings.jsx'
 import './styles/style.css'
 import { NotFound } from './components/not-found/NotFound.jsx'
 import { AboutCreate } from './components/about-create/AboutCreate.jsx'
+import { SliderSettings } from './components/slider-settings/SliderSettings.jsx'
 
 function App() {
     const { isAuthenticated, userRoles } = useContext(UserContext);
@@ -57,7 +58,8 @@ function App() {
                         <Route path='/user/settings' element={<UserSettings mode="create" />} />
                         <Route path='/user/edit/settings' element={<UserSettings mode="edit" />} />
                         <Route path='/about/create' element={<AboutCreate mode="create" />} />  
-                        <Route path='/about/edit' element={<AboutCreate mode="edit" />} />   
+                        <Route path='/about/edit' element={<AboutCreate mode="edit" />} />
+                        <Route path='/slider/settings' element={<SliderSettings />} />
                     </Route>
                 </Routes>
             </main>

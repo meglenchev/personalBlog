@@ -30,8 +30,6 @@ export function Home() {
     
     const slidersIsEmpty = !slidersIsPending && (!slidersData || (Array.isArray(slidersData) && slidersData.length === 0));
 
-    console.log('slidersData', slidersData);
-
     var sliderSettings = {
         dots: true,
         infinite: true,
@@ -49,7 +47,7 @@ export function Home() {
                     <Slider {...sliderSettings}>
                         {slidersData.map(slide => <Slide 
                             key={slide._id} 
-                            imageUrl={slide.imageUrl} 
+                            imageUrl={slide.sliderImage} 
                             sliderContent={slide.sliderContent} 
                         />)}
                     </Slider>

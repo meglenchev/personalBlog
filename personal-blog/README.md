@@ -177,3 +177,4 @@
     - [x] Implemented `react-slick` slider in the Home component with dynamic data
     - [x] Added conditional rendering for slider loading, success, and empty states
     - [x] Refactored `Home` to handle multiple fetch calls simultaneously
+- [x] Add SliderSettings component for image uploads

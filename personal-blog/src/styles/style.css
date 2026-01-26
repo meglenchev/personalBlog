@@ -81,6 +81,7 @@ input,
 textarea {
   width: 100%;
   padding: 0.75rem;
+  height: 48px;
   box-sizing: border-box;
   background-color: transparent;
 }
@@ -451,6 +452,16 @@ main {
   margin: 0 auto;
 }
 
+.header-image {
+  position: relative;
+}
+.header-image .btn-edit {
+  position: absolute;
+  z-index: 10;
+  bottom: 30px;
+  right: 30px;
+}
+
 .slick-slider .slider-wrap {
   position: relative;
 }
@@ -480,7 +491,7 @@ main {
 .slick-prev::before,
 .slick-next::before {
   font-size: 38px;
-  opacity: 0.5;
+  opacity: 0.3;
 }
 
 .slick-prev {
@@ -489,6 +500,11 @@ main {
 
 .slick-next {
   right: 20px;
+}
+
+.slick-dots li.slick-active button:before {
+  opacity: 1;
+  color: #745D4E;
 }
 
 .login-container {
@@ -510,7 +526,8 @@ main {
 .register-container,
 .create-blog-post-container,
 .edit-blog-postntainer,
-.create-about-author {
+.create-about-author,
+.slider-settings {
   display: flex;
   align-items: stretch;
   background-color: #f6f6f6;
@@ -521,7 +538,8 @@ main {
 .create-blog-post-container h2,
 .edit-blog-postntainer h2,
 .create-about-author h2,
-.not-found h2 {
+.not-found h2,
+.slider-settings h2 {
   margin-bottom: 30px;
   color: #745D4E;
 }
@@ -542,7 +560,8 @@ main {
 .register-container form,
 .create-blog-post-container form,
 .edit-blog-postntainer form,
-.create-about-author form {
+.create-about-author form,
+.slider-settings form {
   width: 100%;
   background-color: #f6f6f6;
   padding: 30px;
@@ -1336,6 +1355,17 @@ footer .footer-bottom span {
 }
 /* Mobile devices (Landscape and Portrait) */
 @media screen and (max-width: 640px) {
+  .slick-slider .slider-content {
+    left: 20px;
+    max-width: 90%;
+  }
+  .slick-slider .slider-content h3 {
+    font-size: 1em;
+  }
+  .slick-prev,
+  .slick-next {
+    display: none !important;
+  }
   main {
     padding: 0 20px;
   }
