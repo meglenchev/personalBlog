@@ -2,7 +2,7 @@ import { Slider } from "../models/Slider.js";
 
 export default {
     create(sliderData) {
-        return Slider.create({sliderData});
+        return Slider.create(sliderData);
     }, 
     getAll() {
         return Slider.find()

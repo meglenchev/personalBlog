@@ -40,7 +40,7 @@ sliderController.post('/slider/create', verifyToken(['admin']), async (req, res)
 
         res.status(400).json({
             error: errorMessage,
-            slider: sliderData
+            slider: { sliderContent, sliderImage }
         });
     }
 });
