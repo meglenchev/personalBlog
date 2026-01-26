@@ -91,6 +91,10 @@
     - [x] - Added settingsController to handle incoming API requests
     - [x] - Add getContacts method to SettingsServices
     - [x] - Add GET endpoint for contact settings
+ - [x] Add sliders module (model, service, controller)
+    - [x] - Created Sliders model with schema definitions
+    - [x] - Implemented sliderService for data access logic
+    - [x] - Added sliderController to handle incoming API requests
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`

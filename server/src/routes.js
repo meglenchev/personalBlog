@@ -5,6 +5,7 @@ import { blogController } from "./controllers/blogController.js";
 import { practiceController } from "./controllers/practiceController.js";
 import { aboutController } from "./controllers/aboutController.js";
 import { settingsController } from "./controllers/settingsController.js";
+import { sliderController } from "./controllers/sliderController.js";
 
 export const routes = Router();
 
@@ -14,6 +15,7 @@ routes.use(blogController);
 routes.use(practiceController);
 routes.use(aboutController);
 routes.use(settingsController);
+routes.use(sliderController);
 
 routes.use('/*splat', (req, res) => {
     res.status(404).json({ message: 'Маршрутът не е намерен' });
