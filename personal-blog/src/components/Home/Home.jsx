@@ -2,23 +2,35 @@ import { Link } from "react-router";
 import { LatestPosts } from "./latest-posts/LatestPosts.jsx";
 import { LatestPractices } from "./latest-practices/LatestPractices.jsx";
 import { endPoints } from "../../utils/endpoints.js";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useFetch } from "../../hooks/useFetch.js";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import UserContext from "../../context/UserContext.jsx";
+import { Slide } from "./slide/Slide.jsx";
 
 export function Home() {
     useEffect(() => {
         document.title = "Начална страница | Моят Блог";
     }, []);
 
+    const { isAdmin } = useContext(UserContext);
+
     const { data, isPending } = useFetch(endPoints.settings, {});
 
     const hasData = !isPending && !!data && Object.keys(data).length > 0;
 
     const isEmpty = !isPending && (!data || Object.keys(data).length === 0);
+
+    const { data: slidersData, isPending: slidersIsPending } = useFetch(endPoints.sliders, []);
+
+    const hasSlidersData = !slidersIsPending && Array.isArray(slidersData) && slidersData.length > 0;
+    
+    const slidersIsEmpty = !slidersIsPending && (!slidersData || (Array.isArray(slidersData) && slidersData.length === 0));
+
+    console.log('slidersData', slidersData);
 
     var sliderSettings = {
         dots: true,
@@ -32,24 +44,19 @@ export function Home() {
     return (
         <>
             <article className="header-image">
-                {/* {isPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
-                {hasData && <img src={data.headerImg} alt={data.name} />}
-                {isEmpty && <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-header-image.png?alt=media&token=c875ef81-eaad-4a56-b63a-3a0bf52c30ae" alt="" />} */}
+                {slidersIsPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
+                {hasSlidersData && (
+                    <Slider {...sliderSettings}>
+                        {slidersData.map(slide => <Slide 
+                            key={slide._id} 
+                            imageUrl={slide.imageUrl} 
+                            sliderContent={slide.sliderContent} 
+                        />)}
+                    </Slider>
+                )}
+                {slidersIsEmpty && <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-header-image.png?alt=media&token=c875ef81-eaad-4a56-b63a-3a0bf52c30ae" alt="" />}
 
-                <Slider {...sliderSettings}>
-                    <div className="slider-wrap">
-                        <div className="slider-content">
-                            <h3>Добре дошъл</h3>
-                        </div>
-                        <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/images%2Fheader-image.jpg?alt=media&token=33d7c531-734f-43f6-9c9d-23d9f7811919" alt="" />
-                    </div>
-                    <div className="slider-wrap">
-                        <div className="slider-content">
-                            <h3>Защо холистични практики</h3>
-                        </div>
-                        <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/images%2Fslider-2.jpg?alt=media&token=f32a8a8c-eaae-4f65-ae98-34920a36c6af" alt="" />
-                    </div>
-                </Slider>
+                {isAdmin && <Link to="/slider/settings" className="btn btn-edit" title="Редактирай слайдера">Редактирай слайдера</Link>}
             </article>
 
             <article className="quick-links">

@@ -172,3 +172,8 @@
 ## 8. Add a slider for the homepage header image
 - [x] Install `react-slick` slider - `npm install slick-carousel --save`
 - [x] Creating a static slider for starters
+- [x] Integrate dynamic slider and expand slider endpoints
+    - [x] Added slider-related API endpoints to the utility configuration
+    - [x] Implemented `react-slick` slider in the Home component with dynamic data
+    - [x] Added conditional rendering for slider loading, success, and empty states
+    - [x] Refactored `Home` to handle multiple fetch calls simultaneously
