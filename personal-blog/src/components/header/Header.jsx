@@ -39,7 +39,12 @@ export function Header() {
                                 <ul>
                                     <li><NavLink to="/blogs/create" onClick={closeMenu}>Добави блог</NavLink></li>
                                     <li><NavLink to="/practices/create" onClick={closeMenu}>Добави практика</NavLink></li>
-                                    {isAdmin && <li><NavLink to="/user/edit/settings" onClick={closeMenu}>Настройки</NavLink></li>}
+                                    {isAdmin && (
+                                        <>
+                                            <li><NavLink to="/user/edit/settings" onClick={closeMenu}>Настройки</NavLink></li>
+                                            <li><Link to="/slider/settings" title="Редактирай слайдера">Редактирай слайдера</Link></li>
+                                        </>
+                                    )}
                                 </ul>
                             </div>
                         )}

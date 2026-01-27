@@ -1,7 +1,7 @@
 import { BASE_URL } from "../utils/endpoints.js";
 import { useEffect, useState } from "react";
 
-export function useFetch(url, initialValue, postId) {
+export function useFetch(url, initialValue, postId, refreshTrigger) {
     const [data, setData] = useState(initialValue);
     const [isPending, setIsPending] = useState(true);
 
@@ -12,6 +12,7 @@ export function useFetch(url, initialValue, postId) {
         }
 
         const abortController = new AbortController();
+        setIsPending(true);
 
         fetch(`${BASE_URL}${url}`, { signal: abortController.signal })
             .then(res => {
@@ -37,7 +38,7 @@ export function useFetch(url, initialValue, postId) {
                 abortController.abort();
             }
 
-    }, [url, postId])
+    }, [url, postId, refreshTrigger])
 
     return {
         data,

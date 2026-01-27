@@ -5,6 +5,7 @@ import { useForm } from "../../hooks/useForm.js";
 import { uploadImage } from "../../hooks/uploadImage.js";
 import { useRequest } from "../../hooks/useRequest.js";
 import { endPoints } from "../../utils/endpoints.js";
+import { useFetch } from "../../hooks/useFetch.js";
 
 const initialSliderValues = {
     sliderImage: '',
@@ -25,7 +26,21 @@ export function SliderSettings() {
 
     const [serverError, setServerError] = useState('');
 
+    const [showSuccess, setShowSuccess] = useState(false);
+
     const [showConfirm, setShowConfirm] = useState(false);
+
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
+
+    const { data, isPending } = useFetch(endPoints.sliders, [], refreshTrigger);
+
+    const hasData = !isPending && Array.isArray(data) && data.length > 0;
+
+    const isEmpty = !isPending && (!data || (Array.isArray(data) && data.length === 0));
+
+    const [slideToDeleteId, setSlideToDeleteId] = useState(null);
+
+    const updateUI = () => setRefreshTrigger(prev => prev + 1);
 
     useEffect(() => {
         if (!isAdmin) {
@@ -58,7 +73,7 @@ export function SliderSettings() {
         try {
             setErrors({});
             setServerError('');
-             setShowConfirm(false);
+            setShowSuccess(false);
 
             const fileToUpload = formValues.sliderImage;
 
@@ -71,6 +86,8 @@ export function SliderSettings() {
 
             await request(endPoints.sliderCreate, 'POST', sliderData);
 
+            updateUI();
+
             setFormValues(initialSliderValues);
 
             if (document.getElementById('sliderImage')) {
@@ -80,7 +97,7 @@ export function SliderSettings() {
         } catch (err) {
             setServerError(err.message || 'Възникна грешка при създаването на слайда!');
         } finally {
-            setShowConfirm(true);
+            setShowSuccess(true);
             setIsPendingUpload(false);
         }
     }
@@ -91,6 +108,33 @@ export function SliderSettings() {
         setFormValues,
         formAction } = useForm(submitSliderHandler, initialSliderValues);
 
+
+    const deleteSlideHandler = (e, slideId) => {
+        e.preventDefault();
+        setShowConfirm(true);
+        setSlideToDeleteId(slideId);
+    }
+
+    const confirmDelete = async (e) => {
+        e.preventDefault();
+
+        try {
+            await request(endPoints.sliderDelete(slideToDeleteId), 'DELETE');
+
+            setShowConfirm(false);
+
+            updateUI();
+
+            setSlideToDeleteId(null);
+        } catch (err) {
+            setServerError(`Неуспешно изтриване на слайдер!`);
+
+            setShowConfirm(false);
+
+            setSlideToDeleteId(null);
+        }
+    }
+
     return (
         <article className="slider-settings">
             <form onSubmit={formAction}>
@@ -98,7 +142,7 @@ export function SliderSettings() {
 
                 {serverError && <div className="errors">{serverError}</div>}
 
-                {showConfirm && <div className="success"><span>Слайдът е добавен успешно!</span></div>}
+                {showSuccess && <div className="success"><span>Слайдът е добавен успешно!</span></div>}
 
                 <div className="form-group-wrap two">
                     <div className="form-group">
@@ -124,6 +168,37 @@ export function SliderSettings() {
                     : <button type="submit" className="btn btn-settings">Добави</button>
                 }
             </form>
+
+            {isPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
+
+            {isEmpty && <p className="no-slides">Все още няма добавени слайдове.</p>}
+
+            {hasData && (
+                <div className="current-slides">
+                    <h3>Настоящи слайдове:</h3>
+
+                    <ul className="slidersList">
+                        {data.map(slide => <li key={slide._id}>
+                            <img src={slide.sliderImage} alt="" />
+                            <p>{slide.sliderContent}</p>
+                            <button onClick={(e) => deleteSlideHandler(e, slide._id)} className="btn btn-delete ml-a">Изтрий</button>
+                        </li>)}
+                    </ul>
+                </div>
+            )}
+
+            {showConfirm && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h3>Сигурни ли сте?</h3>
+                        <p>Изтриването на този слайд не може да бъде отменено.</p>
+                        <div className="buttons">
+                            <button className="btn btn-edit" onClick={() => { setShowConfirm(false); setSlideToDeleteId(null) }}>Отказ</button>
+                            <button className="btn btn-delete" onClick={confirmDelete}>Да, изтрий</button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </article>
     )
 }

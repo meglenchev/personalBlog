@@ -178,3 +178,9 @@
     - [x] Added conditional rendering for slider loading, success, and empty states
     - [x] Refactored `Home` to handle multiple fetch calls simultaneously
 - [x] Add SliderSettings component for image uploads
+- [x] Implement CRUD functionality and auto-refresh logic
+    -[x] Added "Edit Slider" link to Header for admin users
+    -[x] Updated useFetch hook to support a refreshTrigger for manual re-fetching
+    -[x] Implemented slide deletion with confirmation modal in SliderSettings
+    -[x] Added automatic UI updates after creating or deleting a slide
+    -[x] Improved UX by resetting states and showing success/error messages

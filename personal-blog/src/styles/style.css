@@ -184,6 +184,10 @@ p {
   margin-bottom: 40px;
 }
 
+.ml-a {
+  margin-left: auto;
+}
+
 a {
   text-decoration: none;
   color: inherit;
@@ -515,6 +519,24 @@ main {
   color: #745D4E;
 }
 
+.current-slides {
+  padding: 0 30px;
+}
+.current-slides h3 {
+  margin-bottom: 20px;
+}
+.current-slides .slidersList li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #fff;
+}
+.current-slides .slidersList li img {
+  width: 150px;
+  height: auto;
+  margin: 0 20px 0 0;
+}
+
 .login-container {
   display: flex;
   flex-direction: column;
@@ -540,6 +562,13 @@ main {
   align-items: stretch;
   background-color: #f6f6f6;
   margin-bottom: 40px;
+}
+
+.slider-settings {
+  flex-direction: column;
+}
+.slider-settings .no-slides {
+  margin: 0 30px 30px;
 }
 
 .register-container h2,
