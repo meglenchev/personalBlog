@@ -16,8 +16,6 @@ export function Home() {
         document.title = "Начална страница | Моят Блог";
     }, []);
 
-    const { isAdmin } = useContext(UserContext);
-
     const { data, isPending } = useFetch(endPoints.settings, {});
 
     const hasData = !isPending && !!data && Object.keys(data).length > 0;
@@ -33,10 +31,11 @@ export function Home() {
     var sliderSettings = {
         dots: true,
         infinite: true,
-        speed: 500,
+        speed: 1000,
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
+        autoplaySpeed: 6000
     };
 
     return (
@@ -53,8 +52,6 @@ export function Home() {
                     </Slider>
                 )}
                 {slidersIsEmpty && <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-header-image.png?alt=media&token=c875ef81-eaad-4a56-b63a-3a0bf52c30ae" alt="" />}
-
-                {isAdmin && <Link to="/slider/settings" className="btn btn-edit" title="Редактирай слайдера">Редактирай слайдера</Link>}
             </article>
 
             <article className="quick-links">

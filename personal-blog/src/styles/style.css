@@ -1180,13 +1180,15 @@ footer .footer-bottom span {
   .register-container,
   .create-blog-post-container,
   .edit-blog-postntainer,
-  .create-about-author {
+  .create-about-author,
+  .slider-settings {
     margin-bottom: 30px;
   }
   .register-container form,
   .create-blog-post-container form,
   .edit-blog-postntainer form,
-  .create-about-author form {
+  .create-about-author form,
+  .slider-settings form {
     padding: 20px;
   }
   .register-container img {
@@ -1242,7 +1244,8 @@ footer .footer-bottom span {
   .register-container,
   .create-blog-post-container,
   .edit-blog-postntainer,
-  .create-about-author {
+  .create-about-author,
+  .slider-settings {
     margin-bottom: 20px;
   }
   .wrap-section .about-author-short {
@@ -1389,9 +1392,28 @@ footer .footer-bottom span {
     background-color: #000;
     color: #fff;
   }
+  .current-slides {
+    padding: 0 20px;
+  }
+  .current-slides .slidersList li {
+    flex-direction: column;
+  }
+  .current-slides .slidersList li img {
+    width: 100%;
+    margin: 0;
+  }
+  .current-slides .slidersList li p {
+    display: none;
+  }
+  .current-slides .slidersList li .btn-delete {
+    width: 100%;
+  }
 }
 /* Mobile devices (Landscape and Portrait) */
 @media screen and (max-width: 640px) {
+  .slick-slider {
+    margin-bottom: 30px;
+  }
   .slick-slider .slider-content {
     left: 20px;
     max-width: 90%;
@@ -1418,7 +1440,8 @@ footer .footer-bottom span {
   }
   .create-blog-post-container form,
   .edit-blog-postntainer form,
-  .create-about-author form {
+  .create-about-author form,
+  .slider-settings form {
     max-width: 100%;
   }
   .form-group-wrap {
