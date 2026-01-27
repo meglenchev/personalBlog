@@ -25,6 +25,8 @@ export function SliderSettings() {
 
     const [serverError, setServerError] = useState('');
 
+    const [showConfirm, setShowConfirm] = useState(false);
+
     useEffect(() => {
         if (!isAdmin) {
             navigate('/')
@@ -56,6 +58,7 @@ export function SliderSettings() {
         try {
             setErrors({});
             setServerError('');
+             setShowConfirm(false);
 
             const fileToUpload = formValues.sliderImage;
 
@@ -73,12 +76,11 @@ export function SliderSettings() {
             if (document.getElementById('sliderImage')) {
                 document.getElementById('sliderImage').value = '';
             }
-            
-            alert('Слайдът е добавен успешно!');
 
         } catch (err) {
-            setServerError(err.message || 'Възникна грешка при създаването на слайда');
+            setServerError(err.message || 'Възникна грешка при създаването на слайда!');
         } finally {
+            setShowConfirm(true);
             setIsPendingUpload(false);
         }
     }
@@ -94,7 +96,9 @@ export function SliderSettings() {
             <form onSubmit={formAction}>
                 <h2>Настройки на слайдера</h2>
 
-                {serverError && <div className="server-error-message">{serverError}</div>}
+                {serverError && <div className="errors">{serverError}</div>}
+
+                {showConfirm && <div className="success"><span>Слайдът е добавен успешно!</span></div>}
 
                 <div className="form-group-wrap two">
                     <div className="form-group">
