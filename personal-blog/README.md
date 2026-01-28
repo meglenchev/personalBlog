@@ -197,3 +197,9 @@
     - [x] Test successful login submission and context integration
     - [x] Test error handling for failed server responses
     - [x] Mock react-router navigation and verify redirection
+- [x] Add unit tests for UserRegister component
+    - [x] Test field validation (username, email, password)
+    - [x] Test password confirmation mismatch logic
+    - [x] Test redirection for already authenticated users
+    - [x] Test successful registration and error handling
+    - [x] Mock navigation and user context actions

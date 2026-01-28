@@ -18,15 +18,16 @@ const renderWithProviders = (ui, { providerValue }) => {
 };
 
 const mockOnLogin = vi.fn();
+
 const mockNavigate = vi.fn();
+
+vi.mock('react-router', async () => {
+    const actual = await vi.importActual('react-router');
+    return { ...actual, useNavigate: () => mockNavigate };
+});
 
 describe('UserLogin Component', () => {
     const providerValue = { onLogin: mockOnLogin };
-
-    vi.mock('react-router', async () => {
-        const actual = await vi.importActual('react-router');
-        return { ...actual, useNavigate: () => mockNavigate };
-    });
 
     beforeEach(() => {
         vi.clearAllMocks();
