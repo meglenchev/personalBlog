@@ -184,3 +184,7 @@
     -[x] Implemented slide deletion with confirmation modal in SliderSettings
     -[x] Added automatic UI updates after creating or deleting a slide
     -[x] Improved UX by resetting states and showing success/error messages
+
+## 9. Unit Testing
+- [x] Installing Vitest `npm install -D vitest`
+- [x] Setup testing environment with Vitest and React Testing Library
