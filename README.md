@@ -42,8 +42,8 @@
    ```bash
    npm test
 2. Генерира доклад за покритието на кода с тестове:
-```bash
-npm run coverage 
+   ```bash
+   npm run coverage
 
 ### 🛠 Технологичен стек
 Frontend: React 19+, React Router 7, Context API.
