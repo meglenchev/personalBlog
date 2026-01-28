@@ -189,3 +189,4 @@
 - [x] Installing Vitest `npm install -D vitest`
 - [x] Setup testing environment with Vitest and React Testing Library
 - [x] Setup vitest and coverage configuration
+- [x] Setup vitest with jsdom and istanbul coverage

@@ -1,5 +1,4 @@
 export const BASE_URL = "http://localhost:5000";
-export const authorId = "1f7j8p0e-3a9b-4e2v-9k1g-6a5b1v8p2e6f";
 
 export const endPoints = {
     login: '/users/login',

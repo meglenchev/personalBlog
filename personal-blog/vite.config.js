@@ -6,6 +6,10 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    setupFiles: './src/setupTests.js',
+  },
+  coverage: { 
+    provider: 'istanbul' 
   },
   plugins: [react({
     babel: {
