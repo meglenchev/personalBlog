@@ -34,6 +34,17 @@
    ```bash
    http://localhost:5173
 
+### 🧪 Тестване (Testing)
+Проектът използва Vitest и React Testing Library за гарантиране на качеството на кода.
+1. Стартиране на тестовете:
+   - Отворете папката /personal-blog.
+   - Изпълнете командата:
+   ```bash
+   npm test
+2. Генерира доклад за покритието на кода с тестове:
+   ```bash
+   npm run coverage
+
 ### 🛠 Технологичен стек
 Frontend: React 19+, React Router 7, Context API.
 Backend: Node.js, Express.js, Mongoose (MongoDB).
@@ -42,6 +53,7 @@ Security:
    - JWT (JSON Web Tokens) за аутентикация.
    - Cookie-based session management.
    - Role-based authorization middleware.
+Testing: Vitest, React Testing Library, JSDOM.
 
 ### 🔑 Достъп и Управление
 Регистрация на администратор
