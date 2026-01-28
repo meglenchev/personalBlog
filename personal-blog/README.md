@@ -188,3 +188,4 @@
 ## 9. Unit Testing
 - [x] Installing Vitest `npm install -D vitest`
 - [x] Setup testing environment with Vitest and React Testing Library
+- [x] Setup vitest and coverage configuration
