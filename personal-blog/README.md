@@ -190,3 +190,10 @@
 - [x] Setup testing environment with Vitest and React Testing Library
 - [x] Setup vitest and coverage configuration
 - [x] Setup vitest with jsdom and istanbul coverage
+
+## 10. Create tests
+- [x] Add unit tests for UserLogin component
+    - [x] Test validation logic for empty fields and invalid email
+    - [x] Test successful login submission and context integration
+    - [x] Test error handling for failed server responses
+    - [x] Mock react-router navigation and verify redirection
