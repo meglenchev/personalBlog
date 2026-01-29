@@ -11,12 +11,11 @@ const initialSettingsValues = {
     email: '',
     facebook: '',
     instagram: '',
-    shortInfo: '',
-    headerImage: '',
+    presentation: '',
     authorImage: '',
 }
 
-export function UserSettings({ mode }) {
+export function UserSettings() {
 
     const { isAdmin } = useContext(UserContext)
 
@@ -30,8 +29,6 @@ export function UserSettings({ mode }) {
 
     const [serverError, setServerError] = useState('');
 
-    const isEditMode = mode === 'edit';
-
     useEffect(() => {
         if (!isAdmin) {
             navigate('/');
@@ -41,49 +38,33 @@ export function UserSettings({ mode }) {
 
     function validate(values) {
         let newErrors = {};
+        const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
-        if (!values.name) {
-            newErrors.name = 'Полето е задължително!';
+        const requiredFields = ['name', 'email', 'facebook', 'instagram', 'presentation'];
+
+        requiredFields.forEach(field => {
+            if (!values[field]?.trim()) {
+                newErrors[field] = 'Полето е задължително!';
+            }
+        });
+
+        const fileToUpload = values.authorImg instanceof FileList ? values.authorImg[0] : values.authorImg;
+
+        const hasImage =
+            fileToUpload instanceof File ||
+            (typeof fileToUpload === 'string' && fileToUpload.length > 0);
+
+        if (!hasImage) {
+            newErrors.authorImg = 'Снимката е задължителна!';
+        } else if (fileToUpload instanceof File && fileToUpload.size > MAX_FILE_SIZE) {
+            newErrors.authorImg = 'Снимката не трябва да надвишава 2MB!';
         }
-
-        if (!values.email) {
-            newErrors.email = 'Полето е задължително!';
-        }
-
-        if (!values.facebook) {
-            newErrors.facebook = 'Полето е задължително!';
-        }
-
-        if (!values.instagram) {
-            newErrors.instagram = 'Полето е задължително!';
-        }
-
-        if (!values.presentation) {
-            newErrors.presentation = 'Полето е задължително!';
-        }
-
-        const noHeaderImage = isEditMode
-            ? !values.headerImg
-            : (!(values.headerImg instanceof FileList) && !(values.headerImg instanceof File));
-
-        if (noHeaderImage) {
-            newErrors.headerImg = 'Снимката е задължителна!'
-        };
-
-        const noAuthorImage = isEditMode
-            ? !values.authorImg
-            : (!(values.authorImg instanceof FileList) && !(values.authorImg instanceof File));
-
-        if (noAuthorImage) {
-            newErrors.authorImg = 'Снимката е задължителна!'
-        };
-
         return newErrors;
     }
 
     const submitSettingsHandler = async (formValues) => {
         const validationErrors = validate(formValues);
-        
+
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
@@ -109,12 +90,11 @@ export function UserSettings({ mode }) {
             };
 
             await Promise.all([
-                processImage('headerImg'),
                 processImage('authorImg')
             ]);
 
             await request(endPoints.settingsEdit, 'PUT', settingsData);
-            
+
             navigate('/', { replace: true });
         } catch (err) {
             setServerError(`Възникна грешка. Моля опитайте отново!`);
@@ -130,11 +110,7 @@ export function UserSettings({ mode }) {
         formAction } = useForm(submitSettingsHandler, initialSettingsValues);
 
     useEffect(() => {
-        document.title = isEditMode ? 'Редакция на настройките за проекта' : 'Създай настройки за проекта';
-
-        if (!isEditMode) {
-            return;
-        }
+        document.title = 'Настройки за проекта';
 
         const abortController = new AbortController();
 
@@ -158,7 +134,7 @@ export function UserSettings({ mode }) {
         return () => {
             abortController.abort();
         }
-    }, [isEditMode, navigate, isAdmin]);
+    }, [navigate, isAdmin]);
 
     return (
         <article className="register-container">
@@ -218,17 +194,6 @@ export function UserSettings({ mode }) {
                 </div>
 
                 <div className="form-group-wrap two">
-                    <div className="form-group">
-                        <label htmlFor="headerImg">Снимка за "хедъра" на начална страница: {errors.headerImg && <span className="error-text">{errors.headerImg}</span>}</label>
-                        <input
-                            type="file"
-                            id="headerImg"
-                            {...filePropertiesRegister('headerImg')}
-                            accept="image/*"
-                            className={errors.headerImg && 'input-error'}
-                        />
-                    </div>
-
                     <div className="form-group">
                         <label htmlFor="authorImg">Снимка на автора за начална страница: {errors.authorImg && <span className="error-text">{errors.authorImg}</span>}</label>
                         <input
