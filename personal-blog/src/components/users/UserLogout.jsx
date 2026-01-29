@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import UserContext from "../../context/UserContext.jsx";
 import { useEffect } from "react";
 
-export default function UserLogout() {
+export function UserLogout() {
     const { onLogout } = useContext(UserContext);
 
     const [showModal, setShowModal] = useState(false);
@@ -18,7 +18,6 @@ export default function UserLogout() {
             .catch((err) => {
                 console.error("Logout error:", err);
                 setShowModal(true);
-                alert('Заявката за излизане не бе успешна!');
             })
 
     }, [onLogout, navigate]);
