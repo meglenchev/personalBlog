@@ -12,13 +12,14 @@ vi.mock('../hooks/useRequest', () => ({
 
 // Тестов компонент за консумация на контекста
 const TestComponent = () => {
-    const { isAuthenticated, isAdmin, onLogin, onLogout } = useContext(UserContext);
+    const { isAuthenticated, isAdmin, onLogin, onLogout, onRegister } = useContext(UserContext);
 
     return (
         <div>
             <div data-testid="auth-status">{isAuthenticated ? 'Logged In' : 'Logged Out'}</div>
             <div data-testid="admin-status">{isAdmin ? 'Is Admin' : 'Not Admin'}</div>
             <button onClick={() => onLogin({ email: 'test@test.com' })}>Влез</button>
+            <button onClick={() => onRegister('user', 'newuser@test.com', '123', '123')}>Регистрирай</button>
             <button onClick={onLogout}>Изход</button>
         </div>
     );
@@ -94,5 +95,38 @@ describe('UserContext', () => {
         });
 
         expect(screen.getByTestId('auth-status').textContent).toBe('Logged Out');
+    });
+
+    test('Регистрира потребител успешно и обновява контекста', async () => {
+        const fakeRegisterResponse = {
+            _id: 'user123',
+            email: 'newuser@test.com',
+            role: 'user'
+        };
+
+        mockRequest.mockImplementation((url) => {
+            if (url === endPoints.me) return Promise.resolve(null);
+            if (url === endPoints.register) return Promise.resolve(fakeRegisterResponse);
+            return Promise.resolve(null);
+        });
+
+        renderWithProviders(<TestComponent />);
+
+        const registerBtn = await screen.findByRole('button', { name: 'Регистрирай' });
+
+        await act(async () => {
+            registerBtn.click();
+        });
+
+        await waitFor(() => {
+            expect(screen.getByTestId('auth-status').textContent).toBe('Logged In');
+            expect(screen.getByTestId('admin-status').textContent).toBe('Not Admin'); // Защото ролята е 'user'
+        });
+
+        const storedData = JSON.parse(window.localStorage.getItem('auth'));
+        expect(storedData).toEqual({
+            email: 'newuser@test.com',
+            _id: 'user123'
+        });
     });
 });

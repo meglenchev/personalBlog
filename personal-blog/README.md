@@ -218,4 +218,5 @@
     - [x] Mock useRequest hook and API endpoints
     - [x] Verify state updates for isAuthenticated and isAdmin
     - [x] Test localStorage persistence and session expiration event handling
+    - [x] Test registers user successfully and updates context
 
