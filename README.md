@@ -1,80 +1,79 @@
 # 📝 Personal Blog Project (Under development)
 
-Проект за персонален блог, изграден с **React** и **Node.js Express**, използващ **Firebase Storage** за управление на изображения.
+A personal blog project built with **React** and **Node.js Express, utilizing Firebase Storage** for image management.
 
 ---
 
-## 🚀 Начални стъпки (Setup Guide)
+## 🚀 Setup Guide
 
-Проектът е разделен на две основни части: `server` и `personal-blog` (клиент). За да стартирате приложението локално, следвайте стъпките по-долу:
+The project is divided into two main parts: **server (backend)** and **personal-blog (frontend/client)**. To run the application locally, follow the steps below:
 
-### ☁️ Стартиране на сървъра (Backend)
-Сървърът управлява базата данни и автентикацията.
-1. Отворете нов терминал в папката `/server`.
-2. Инсталирайте зависимостите (ако не сте го направили):
+### ☁️ Backend Setup (Server)
+The server handles the database and authentication.
+1. Open a new terminal in the `/server` folder.
+2. Install dependencies (if not already done):
    ```bash
    npm install
-3. Стартирайте сървъра в режим на разработка:
+3. Start the server in development mode:
    ```bash
    npm run dev
-4. Сървърът ще работи на:
+4. The server will be running at:
    ```bash
    http://localhost:5000
 
-### 💻 Стартиране на блога (Frontend)
-Клиентската част е изградена с React и Vite.
-1. Отворете нов терминал в папката `/personal-blog`.
-2. Инсталирайте зависимостите (ако не сте го направили):
+### 💻 Frontend Setup (Blog)
+The client-side is built with **React** and **Vite**.
+1. Open a new terminal in the `/personal-blog` folder.
+2. Install dependencies:
    ```bash
    npm install
-3. Стартирайте приложението:
+3. Start the application:
    ```bash
    npm run dev
-4. Блога ще работи на:
+4. The blog will be accessible at:
    ```bash
    http://localhost:5173
 
-### 🧪 Тестване (Testing)
-Проектът използва Vitest и React Testing Library за гарантиране на качеството на кода.
-1. Стартиране на тестовете:
-   - Отворете папката /personal-blog.
-   - Изпълнете командата:
+### 🧪 Testing
+The project uses Vitest and React Testing Library to ensure code quality.
+1. Run tests:
+   - Navigate to the `/personal-blog` folder.
+   - Execute:
    ```bash
    npm test
-2. Генерира доклад за покритието на кода с тестове:
+2. Generate a code coverage report:
    ```bash
    npm run coverage
 
-### 🛠 Технологичен стек
-Frontend: React 19+, React Router 7, Context API.
-Backend: Node.js, Express.js, Mongoose (MongoDB).
-Storage: Firebase Storage (за управление на мултимедия).
-Security:
-   - JWT (JSON Web Tokens) за аутентикация.
+### 🛠 Tech Stack
+**Frontend:** React 19+, React Router 7, Context API.
+**Backend:** Node.js, Express.js, Mongoose (MongoDB).
+**Storage:** Firebase Storage (for multimedia management).
+**Security:**
+   - **JWT** (JSON Web Tokens) for authentication.
    - Cookie-based session management.
    - Role-based authorization middleware.
-Testing: Vitest, React Testing Library, JSDOM.
+**Testing:** Vitest, React Testing Library, JSDOM.
 
-### 🔑 Достъп и Управление
-Регистрация на администратор
-За да създадете нов профил, посетете:
+### 🔑 Access & Administration
+**Admin Registration**
+To create a new profile, visit:
 👉 http://localhost:5173/pb-admin/register
-Вход в системата
-За достъп до съществуващ профил, посетете:
+**Login**
+To access an existing profile, visit:
 👉 http://localhost:5173/pb-admin/login
 
-### 🔐 Роли и Права:
-   - User: Може да разглежда съдържание.
-   - Moderator: Има разширени права за създаване и редакция на свой публикации практики/постове.
-   - Admin: Пълен контрол върху системата, включително изтриване и редактиране на чужди практики/постове.
+### 🔐 Roles and Permissions
+   - **User:** Can browse content.
+   - **Moderator:** Has elevated permissions to create and edit their own posts/practices.
+   - **Admin:** Full system control, including editing and deleting posts created by others.
 
-### 🔐 Управление на роли и права
+### 🔐 Role Management
+Upon registration, new users are assigned the user role by default, which has limited access.
+To grant administrative or moderator privileges:
+1. You must **manually** update the user's role in the database.
+2. Change the role field to either `admin` or `moderator`.
+3. A **re-login** is required for the new permissions to take effect.
 
-При регистрация на нов потребител, системата му присвоява роля `user` по подразбиране. Тази роля има ограничени права в платформата.
-
-За достъп до административните панели и модераторските функции:
-1. Трябва **ръчно** да промените ролята на потребителя в базата данни.
-2. Променете полето за роля на `admin` или `moderator` съответно.
-3. След промяната е необходим нов вход (re-login), за да влязат в сила новите права.
-
-📸 Изображения: Проектът използва Firebase. Уверете се, че имате активна връзка с интернет за правилно визуализиране и качване на снимки.
+### 📸 Images
+This project relies on Firebase. Ensure you have an active internet connection for proper image uploading and rendering.
