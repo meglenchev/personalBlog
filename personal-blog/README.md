@@ -204,8 +204,13 @@
     - [x] Test successful registration and error handling
     - [x] Mock navigation and user context actions
 - [x] Add unit tests for UserSettings component
-    - [x] Added tests for required field validation and error messaging.
-    - [x] Verified file size constraints (2MB limit) for image uploads.
-    - [x] Mocked useRequest, uploadImage, and useNavigate for isolated testing.
-    - [x] Tested successful form submission and data pre-filling from the server.
-    - [x] Added test coverage for server error handling.
+    - [x] Added tests for required field validation and error messaging
+    - [x] Verified file size constraints (2MB limit) for image uploads
+    - [x] Mocked useRequest, uploadImage, and useNavigate for isolated testing
+    - [x] Tested successful form submission and data pre-filling from the server
+    - [x] Added test coverage for server error handling
+- [x] Add unit tests for UserLogout component
+    - [x] Successfully logged out and redirected to the login page
+    - [x] Error logging out and displaying a modal window
+    - [x] Close the modal window and redirect to the home page
+
