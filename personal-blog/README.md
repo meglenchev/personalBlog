@@ -213,4 +213,9 @@
     - [x] Successfully logged out and redirected to the login page
     - [x] Error logging out and displaying a modal window
     - [x] Close the modal window and redirect to the home page
+- [x] Add unit tests for UserContext
+    - [x] Implement tests for login and logout functionality using Vitest and React Testing Library
+    - [x] Mock useRequest hook and API endpoints
+    - [x] Verify state updates for isAuthenticated and isAdmin
+    - [x] Test localStorage persistence and session expiration event handling
 
