@@ -218,7 +218,7 @@
     - [x] Mock useRequest hook and API endpoints
     - [x] Verify state updates for isAuthenticated and isAdmin
     - [x] Test localStorage persistence and session expiration event handling
-    - [x] 
+    - [x] Verify automatic role loading and session cleanup on 'auth-session-expired' event
 - [x] Add unit tests for useRequest hook
     - [x] Verify JSON body and Content-Type headers in POST requests
     - [x] Ensure credentials: 'include' is always sent for session management

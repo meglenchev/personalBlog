@@ -129,4 +129,38 @@ describe('UserContext', () => {
             _id: 'user123'
         });
     });
+
+    test('verifySession зарежда ролята автоматично, ако има потребител в localStorage', async () => {
+        const existingUser = { _id: '123', email: 'old@test.com' };
+        window.localStorage.setItem('auth', JSON.stringify(existingUser));
+
+        mockRequest.mockImplementation((url) => {
+            if (url === endPoints.me) {
+                return Promise.resolve({ _id: '123', email: 'old@test.com', role: 'admin' });
+            }
+            return Promise.resolve(null);
+        });
+
+        renderWithProviders(<TestComponent />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('auth-status').textContent).toBe('Logged In');
+            expect(screen.getByTestId('admin-status').textContent).toBe('Is Admin');
+        });
+    });
+
+    test('EventListener изчиства активна сесия при auth-session-expired', async () => {
+        window.localStorage.setItem('auth', JSON.stringify({ _id: '123', email: 'test@test.com' }));
+
+        renderWithProviders(<TestComponent />);
+
+        await waitFor(() => expect(screen.getByTestId('auth-status').textContent).toBe('Logged In'));
+
+        act(() => {
+            window.dispatchEvent(new Event('auth-session-expired'));
+        });
+
+        expect(screen.getByTestId('auth-status').textContent).toBe('Logged Out');
+        expect(window.localStorage.getItem('auth')).toBeNull();
+    });
 });
