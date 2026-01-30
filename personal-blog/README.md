@@ -218,5 +218,11 @@
     - [x] Mock useRequest hook and API endpoints
     - [x] Verify state updates for isAuthenticated and isAdmin
     - [x] Test localStorage persistence and session expiration event handling
-    - [x] Test registers user successfully and updates context
+    - [x] 
+- [x] Add unit tests for useRequest hook
+    - [x] Verify JSON body and Content-Type headers in POST requests
+    - [x] Ensure credentials: 'include' is always sent for session management
+    - [x] Validate error handling and server message extraction
+    - [x] Test 401 status triggers 'auth-session-expired' event
+    - [x] Handle 204 No Content responses correctly
 
