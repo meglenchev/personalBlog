@@ -82,4 +82,26 @@ describe('useRequest hook', () => {
 
         expect(data).toBeNull();
     });
+
+    test('Трябва да хвърля оригиналната грешка, ако не е AbortError', async () => {
+        const networkError = new Error('Network failure');
+        vi.stubGlobal('fetch', vi.fn().mockRejectedValue(networkError));
+
+        const { result } = renderHook(() => useRequest());
+
+        await expect(result.current.request('/blogs')).rejects.toThrow('Network failure');
+    });
+
+    test('Трябва да НЕ хвърля грешка и да връща undefined при AbortError', async () => {
+        const abortError = new Error('Aborted');
+        abortError.name = 'AbortError';
+
+        vi.stubGlobal('fetch', vi.fn().mockRejectedValue(abortError));
+
+        const { result } = renderHook(() => useRequest());
+
+        const data = await result.current.request('/any-url');
+
+        expect(data).toBeUndefined();
+    });
 });

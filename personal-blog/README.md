@@ -225,6 +225,8 @@
     - [x] Validate error handling and server message extraction
     - [x] Test 401 status triggers 'auth-session-expired' event
     - [x] Handle 204 No Content responses correctly
+    - [x] Add test for generic network errors to cover final throw in catch block
+    - [x] Add test for AbortError handling to ensure silent request cancellation
 - [x] Add unit tests for useForm
     - [x] Verify initial state synchronization with formValues
     - [x] Test input sanitization (full trim for credentials, trimStart for others)
