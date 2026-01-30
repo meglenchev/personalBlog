@@ -233,4 +233,5 @@
     - [x] Validate inputPropertiesRegister and filePropertiesRegister patterns
     - [x] Ensure fileChangeHandler correctly updates state with File objects
     - [x] Confirm formAction triggers callback with current data and prevents default
+- [x] Add tests for useFetch - data fetching, refresh trigger, and cleanup logic
 
