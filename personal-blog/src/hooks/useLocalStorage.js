@@ -4,15 +4,23 @@ export function useLocalStorage(initialState, key) {
     const [state, setState] = useState(() => {
         const storageDta = localStorage.getItem(key);
 
-        if (!storageDta) {
+        if (!storageDta || storageDta === 'null') {
             return initialState;
         }
 
-        return JSON.parse(storageDta);
+        try {
+            return JSON.parse(storageDta);
+        } catch {
+            return initialState;
+        }
     });
 
     const setLocalStorageState = (value) => {
-        localStorage.setItem(key, JSON.stringify(value));
+        if (value === null || value === undefined) {
+            localStorage.removeItem(key);
+        } else {
+            localStorage.setItem(key, JSON.stringify(value));
+        }
 
         setState(value);
     }
