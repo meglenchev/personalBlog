@@ -8,16 +8,17 @@ export function useFetch(url, initialValue, postId, refreshTrigger) {
     useEffect(() => {
         if (!url) {
             setIsPending(false);
-            return; 
+            return;
         }
 
         const abortController = new AbortController();
         setIsPending(true);
 
         fetch(`${BASE_URL}${url}`, { signal: abortController.signal })
-            .then(res => {
+            .then(async res => {
                 if (!res.ok) {
-                    throw new Error(res.text());
+                    const errorText = await res.text();
+                    throw new Error(errorText || `Error ${res.status}`);
                 }
 
                 return res.json();
@@ -27,16 +28,16 @@ export function useFetch(url, initialValue, postId, refreshTrigger) {
             })
             .catch(err => {
                 if (err.name !== 'AbortError') {
-                    throw new Error(err);
+                    console.error(err.message); 
                 }
             })
             .finally(() => {
                 setIsPending(false)
             })
 
-            return () => {
-                abortController.abort();
-            }
+        return () => {
+            abortController.abort();
+        }
 
     }, [url, postId, refreshTrigger])
 
