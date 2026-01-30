@@ -17,7 +17,7 @@ export function useFetch(url, initialValue, postId, refreshTrigger) {
         fetch(`${BASE_URL}${url}`, { signal: abortController.signal })
             .then(res => {
                 if (!res.ok) {
-                    throw new Error(res.text);
+                    throw new Error(res.text());
                 }
 
                 return res.json();
