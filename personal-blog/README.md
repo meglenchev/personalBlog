@@ -234,4 +234,9 @@
     - [x] Ensure fileChangeHandler correctly updates state with File objects
     - [x] Confirm formAction triggers callback with current data and prevents default
 - [x] Add tests for useFetch - data fetching, refresh trigger, and cleanup logic
+- [x] Add unit tests for useLocalStorage with storage optimization
+    - [x] Added tests for initial state loading from localStorage
+    - [x] Verified that setting values to null/undefined removes the key from storage
+    - [x] Added coverage for edge cases: 'null' string recovery and invalid JSON parsing
+    - [x] Guaranteed 100% coverage by testing the internal try-catch block
 
