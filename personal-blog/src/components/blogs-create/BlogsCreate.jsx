@@ -5,6 +5,8 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { useRequest } from "../../hooks/useRequest.js";
 import { uploadImage } from "../../hooks/uploadImage.js";
 import UserContext from "../../context/UserContext.jsx";
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 
 const initialBlogValues = {
@@ -32,6 +34,25 @@ export function BlogsCreate({ mode }) {
 
     const isEditMode = mode === 'edit';
 
+    const [quillContent, setQuillContent] = useState('');
+
+    const quillModules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['link'],
+            ['clean']
+        ]
+    };
+
+    const quillFormats = [
+        'header',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list',
+        'link',
+    ];
+
     const config = useMemo(() => ({
         method: isEditMode ? 'PUT' : 'POST',
         url: isEditMode ? endPoints.blogEdit(blogId) : endPoints.postBlog,
@@ -51,7 +72,7 @@ export function BlogsCreate({ mode }) {
             : (!(values.imageUrl instanceof FileList) && !(values.imageUrl instanceof File));
 
         if (noImage) {
-            newErrors.imageUrl =  'Снимката е задължителна!'
+            newErrors.imageUrl = 'Снимката е задължителна!'
         };
 
         if (!values.category.trim()) {
@@ -69,9 +90,14 @@ export function BlogsCreate({ mode }) {
         return newErrors;
     }
 
+    const handleQuillChange = (value) => {
+        setQuillContent(value);
+        setFormValues(prev => ({ ...prev, content: value }));
+    };
+
     const submitHandler = async (formValues) => {
-        const validationErrors = validate(formValues);
-        
+        const validationErrors = validate({ ...formValues, content: quillContent });
+
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
@@ -84,7 +110,10 @@ export function BlogsCreate({ mode }) {
 
             setServerError('');
 
-            const blogData = { ...formValues };
+            const blogData = {
+                ...formValues,
+                content: quillContent
+            };
 
             if (blogData.imageUrl instanceof FileList || blogData.imageUrl instanceof File) {
                 const fileToUpload = blogData.imageUrl instanceof FileList
@@ -107,7 +136,14 @@ export function BlogsCreate({ mode }) {
         inputPropertiesRegister,
         filePropertiesRegister,
         setFormValues,
+        formValues,
         formAction } = useForm(submitHandler, initialBlogValues);
+
+    useEffect(() => {
+        if (isEditMode && formValues.content) {
+            setQuillContent(formValues.content);
+        }
+    }, [formValues.content, isEditMode]);
 
     useEffect(() => {
         document.title = isEditMode ? 'Редактирай блог' : 'Добави блог';
@@ -194,13 +230,17 @@ export function BlogsCreate({ mode }) {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="content">Съдържание: {errors.content && <span className="error-text">{errors.content}</span>}</label>
-                    <textarea
-                        id="content"
-                        {...inputPropertiesRegister('content')}
-                        rows="8"
-                        className={errors.content && 'input-error'}
-                    ></textarea>
+                    <label>Съдържание: {errors.content && <span className="error-text">{errors.content}</span>}</label>
+
+                    <ReactQuill
+                        theme="snow"
+                        value={quillContent}
+                        onChange={handleQuillChange}
+                        modules={quillModules}
+                        formats={quillFormats}
+                        placeholder="Добави съдържанието тук..."
+                        className={errors.content ? 'input-error' : ''}
+                    />
                 </div>
                 {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>

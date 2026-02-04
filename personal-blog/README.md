@@ -185,13 +185,24 @@
     -[x] Added automatic UI updates after creating or deleting a slide
     -[x] Improved UX by resetting states and showing success/error messages
 
-## 9. Unit Testing
+## 9. integrate react-quill-new and dompurify
+- [x] Install react-quill-new `npm i react-quill-new`
+- [x] Install dompurify `npm i dompurify`
+- [x] Integrate rich text editor for author information, blog details
+    - [x] Add react-quill-new to AboutCreate, BlogsCreate for formatted author info
+    - [x] Implement secure HTML rendering in AboutAuthor, BlogDetails using DOMPurify
+    - [x] Update AboutAuthor, BlogDetails to use dangerouslySetInnerHTML for sanitized content
+    - [x] Configure custom Quill modules and formats (headers, lists, blockquotes)
+    - [x] Add manual state synchronization between Quill and custom useForm hook
+
+
+## 10. Unit Testing
 - [x] Installing Vitest `npm install -D vitest`
 - [x] Setup testing environment with Vitest and React Testing Library
 - [x] Setup vitest and coverage configuration
 - [x] Setup vitest with jsdom and istanbul coverage
 
-## 10. Create tests
+## 11. Create tests
 - [x] Add unit tests for UserLogin component
     - [x] Test validation logic for empty fields and invalid email
     - [x] Test successful login submission and context integration

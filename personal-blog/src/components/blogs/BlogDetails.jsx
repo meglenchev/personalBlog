@@ -5,6 +5,7 @@ import { useDate } from "../../hooks/useDate.js";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext.jsx";
 import { useRequest } from "../../hooks/useRequest.js";
+import DOMPurify from "dompurify";
 
 export function BlogDetails() {
     const { user, isAuthenticated, isAdmin } = useContext(UserContext);
@@ -64,7 +65,12 @@ export function BlogDetails() {
                         <h2>{data.title}</h2>
                         <p className="post-date">Публикувано на {date}</p>
                         <p>{data.presentation}</p>
-                        <p>{data.content}</p>
+                        <div 
+                            className="post-content"
+                            dangerouslySetInnerHTML={{ 
+                                __html: DOMPurify.sanitize(data.content) 
+                            }} 
+                        />
 
                         {serverError && <div className="errors">{serverError}</div>}
                         

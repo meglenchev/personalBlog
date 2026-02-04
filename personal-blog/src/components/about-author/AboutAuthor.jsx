@@ -3,6 +3,7 @@ import UserContext from "../../context/UserContext.jsx";
 import { useContext, useEffect } from "react";
 import { Link } from "react-router";
 import { useFetch } from "../../hooks/useFetch.js";
+import DOMPurify from "dompurify";
 
 export function AboutAuthor() {
     useEffect(() => {
@@ -25,7 +26,12 @@ export function AboutAuthor() {
                         <h2>За автора</h2>
                         <blockquote>{data.slogan}</blockquote>
                         <p>{data.summary}</p>
-                        <p>{data.info}</p>
+                        <div 
+                            className="info-content"
+                            dangerouslySetInnerHTML={{ 
+                                __html: DOMPurify.sanitize(data.info) 
+                            }} 
+                        />
                         {isAdmin && (
                             <div className="post-footer">
                                 <Link to={'/about/edit'} className="btn btn-edit right" title="Редактирай информацията">Редактирай</Link>

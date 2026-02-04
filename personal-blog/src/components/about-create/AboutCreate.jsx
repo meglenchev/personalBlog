@@ -5,6 +5,8 @@ import { endPoints } from "../../utils/endpoints.js";
 import { uploadImage } from "../../hooks/uploadImage.js";
 import { useForm } from "../../hooks/useForm.js";
 import UserContext from "../../context/UserContext.jsx";
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const initialSettingsValues = {
     slogan: '',
@@ -28,6 +30,25 @@ export function AboutCreate({ mode }) {
     const [serverError, setServerError] = useState('');
 
     const isEditMode = mode === 'edit';
+
+    const [quillContent, setQuillContent] = useState('');
+
+    const quillModules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['link'],
+            ['clean']
+        ]
+    };
+
+    const quillFormats = [
+        'header',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list',
+        'link',
+    ];
 
     useEffect(() => {
         if (!isAdmin) {
@@ -61,9 +82,14 @@ export function AboutCreate({ mode }) {
         return newErrors;
     }
 
+    const handleQuillChange = (value) => {
+        setQuillContent(value);
+        setFormValues(prev => ({ ...prev, info: value }));
+    };
+
     const submitAboutHandler = async (formValues) => {
-        const validationErrors = validate(formValues);
-        
+        const validationErrors = validate({ ...formValues, info: quillContent });
+
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
             return;
@@ -76,7 +102,10 @@ export function AboutCreate({ mode }) {
 
             setServerError('');
 
-            const aboutData = formValues;
+            const aboutData = {
+                ...formValues,
+                info: quillContent
+            };
 
             if (aboutData.aboutImage instanceof FileList || aboutData.aboutImage instanceof File) {
                 const fileToUpload = aboutData.aboutImage instanceof FileList
@@ -95,15 +124,22 @@ export function AboutCreate({ mode }) {
         }
     }
 
-    const { 
-        inputPropertiesRegister, 
-        filePropertiesRegister, 
+    const {
+        inputPropertiesRegister,
+        filePropertiesRegister,
         setFormValues,
+        formValues,
         formAction } = useForm(submitAboutHandler, initialSettingsValues);
 
     useEffect(() => {
+        if (isEditMode && formValues.info) {
+            setQuillContent(formValues.info);
+        }
+    }, [formValues.info, isEditMode]);
+
+    useEffect(() => {
         document.title = isEditMode ? 'Редактиране на информация за автора' : 'Създаване на информация за автора';
-        
+
         if (!isEditMode) {
             return;
         }
@@ -127,7 +163,7 @@ export function AboutCreate({ mode }) {
                     setServerError(`Неуспешно зареждане. Моля опитайте отново!`);
                 }
             });
-        
+
         return () => {
             abortController.abort();
         }
@@ -174,13 +210,16 @@ export function AboutCreate({ mode }) {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="info">Подробна информация: {errors.info && <span className="error-text">{errors.info}</span>}</label>
-                    <textarea
-                        id="info"
-                        {...inputPropertiesRegister('info')}
-                        rows="8"
-                        className={errors.info && 'input-error'}
-                    ></textarea>
+                    <label>Подробна информация: {errors.info && <span className="error-text">{errors.info}</span>}</label>
+                    <ReactQuill
+                        theme="snow"
+                        value={quillContent}
+                        onChange={handleQuillChange}
+                        modules={quillModules}
+                        formats={quillFormats}
+                        placeholder="Добави съдържанието тук..."
+                        className={errors.info ? 'input-error' : ''}
+                    />
                 </div>
 
                 {isPendingUpload

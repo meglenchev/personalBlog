@@ -13,10 +13,12 @@
   },
   "dependencies": {
     "@testing-library/user-event": "^14.6.1",
+    "dompurify": "^3.3.1",
     "firebase": "^12.6.0",
     "jsdom": "^27.4.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-quill-new": "^3.8.3",
     "react-router": "^7.9.6",
     "react-slick": "^0.31.0",
     "slick-carousel": "^1.8.1",
