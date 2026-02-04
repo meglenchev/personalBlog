@@ -3,6 +3,18 @@ import { getErrorMessage } from "../utils/errorUtils.js";
 import blogServices from "../services/blogServices.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 
+import createDOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
+
+const sanitizeHtml = (html) => {
+    return DOMPurify.sanitize(html, {
+        ALLOWED_TAGS: ['p', 'b', 'i', 'u', 's', 'strong', 'em', 'strike', 'blockquote', 'ol', 'ul', 'li', 'h1', 'h2', 'h3', 'a'],
+        ALLOWED_ATTR: ['href', 'target']
+    });
+};
+
 export const blogController = Router();
 
 // Returns an object with all blogs
@@ -54,7 +66,7 @@ blogController.get('/blogs/categories', async (req, res) => {
 // Returns all posts in the category
 blogController.get('/blogs/:categorie/posts', async (req, res) => {
     const categorie = req.params.categorie;
-    
+
     try {
         const categories = await blogServices.allPostsCategory(categorie);
 
@@ -127,7 +139,7 @@ blogController.get('/blogs/:blogId/edit', verifyToken(['admin', 'moderator']), a
 // Blog edit request
 blogController.put('/blogs/:blogId/edit', verifyToken(['admin', 'moderator']), async (req, res) => {
     const blogId = req.params.blogId;
-    const blogData = req.body;
+    let blogData = req.body;
     const userId = req.user?.id;
 
     try {
@@ -143,6 +155,10 @@ blogController.put('/blogs/:blogId/edit', verifyToken(['admin', 'moderator']), a
             return res.status(403).json({
                 message: 'You are not authorized to edit this blog!'
             });
+        }
+
+        if (blogData.content) {
+            blogData.content = sanitizeHtml(blogData.content);
         }
 
         const updatedBlog = await blogServices.update(blogId, blogData);
@@ -166,7 +182,7 @@ blogController.post('/blogs/create', verifyToken(['admin', 'moderator']), async 
         return res.status(401).json({ error: "You must be logged in to create a blog!" });
     }
 
-    const blogData = req.body;  
+    const blogData = req.body;
 
     const isEmpty = Object.values(blogData).some(value => typeof value === 'string' && value.trim() === '');
 
@@ -178,6 +194,10 @@ blogController.post('/blogs/create', verifyToken(['admin', 'moderator']), async 
     }
 
     try {
+        if (blogData.content) {
+            blogData.content = sanitizeHtml(blogData.content);
+        }
+
         const blog = await blogServices.create(blogData, ownerId);
 
         res.status(201).json(blog);
@@ -209,7 +229,7 @@ blogController.delete('/blogs/:blogId/delete', verifyToken(['admin', 'moderator'
 
         await blogServices.delete(blogId);
 
-        res.status(204).end(); 
+        res.status(204).end();
     } catch (err) {
         res.status(400).json({ error: 'Invalid ID or Server Error' });
     }
