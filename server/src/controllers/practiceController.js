@@ -175,8 +175,6 @@ practiceController.delete('/practices/:practiceId/delete', verifyToken(['admin',
     const practiceId = req.params.practiceId;
     const userId = req.user?.id;
 
-    console.log(practiceId)
-
     try {
         const practice = await practiceServices.getOne(practiceId);
 
