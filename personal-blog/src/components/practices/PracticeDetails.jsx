@@ -4,6 +4,7 @@ import { endPoints } from "../../utils/endpoints.js";
 import { useContext, useEffect, useState } from "react";
 import UserContext from "../../context/UserContext.jsx";
 import { useRequest } from "../../hooks/useRequest.js";
+import DOMPurify from "dompurify";
 
 export function PracticeDetails() {
     const { user, isAuthenticated, isAdmin } = useContext(UserContext);
@@ -61,7 +62,12 @@ export function PracticeDetails() {
                         <p className="post-date practice-date">Практиката ще се проведе на {data.practiceDate.slice(0, 10)}</p>
                         <h2>{data.title}</h2>
                         <p>{data.presentation}</p>
-                        <p>{data.content}</p>
+                        <div 
+                            className="post-content"
+                            dangerouslySetInnerHTML={{ 
+                                __html: DOMPurify.sanitize(data.content) 
+                            }} 
+                        />
 
                         {serverError && <div className="errors">{serverError}</div>}
                         

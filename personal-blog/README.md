@@ -190,8 +190,8 @@
 - [x] Install dompurify `npm i dompurify`
 - [x] Integrate rich text editor for author information, blog details
     - [x] Add react-quill-new to AboutCreate, BlogsCreate, PracticesCreate for formatted author info
-    - [x] Implement secure HTML rendering in AboutAuthor, BlogDetails using DOMPurify
-    - [x] Update AboutAuthor, BlogDetails to use dangerouslySetInnerHTML for sanitized content
+    - [x] Implement secure HTML rendering in AboutAuthor, BlogDetails, PracticesDetails using DOMPurify
+    - [x] Update AboutAuthor, BlogDetails, PracticesDetails to use dangerouslySetInnerHTML for sanitized content
     - [x] Configure custom Quill modules and formats (headers, lists, blockquotes)
     - [x] Add manual state synchronization between Quill and custom useForm hook
 

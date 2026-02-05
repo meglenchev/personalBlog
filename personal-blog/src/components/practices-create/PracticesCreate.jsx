@@ -7,6 +7,7 @@ import { uploadImage } from "../../hooks/uploadImage.js";
 import UserContext from "../../context/UserContext.jsx";
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { quillModules, quillFormats } from "../../utils/quillConfig.js";
 
 const initialPracticeValues = {
     title: '',
@@ -33,25 +34,6 @@ export function PracticesCreate({ mode }) {
 
     const isEditMode = mode === 'edit';
 
-    const [quillContent, setQuillContent] = useState('');
-
-    const quillModules = {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['link'],
-            ['clean']
-        ]
-    };
-
-    const quillFormats = [
-        'header',
-        'bold', 'italic', 'underline', 'strike', 'blockquote',
-        'list',
-        'link',
-    ];
-
     const config = useMemo(() => ({
         method: isEditMode ? 'PUT' : 'POST',
         url: isEditMode ? endPoints.practiceEdit(practiceId) : endPoints.postPractices,
@@ -61,10 +43,15 @@ export function PracticesCreate({ mode }) {
 
     function validate(values) {
         let newErrors = {};
+        const MAX_FILE_SIZE = 1024 * 1024; // 1MB
 
-        if (!values.title) {
-            newErrors.title = 'Полето е задължително!'
-        };
+        const requiredFields = ['title', 'presentation', 'content'];
+
+        requiredFields.forEach(field => {
+            if (!values[field]?.trim()) {
+                newErrors[field] = 'Полето е задължително!';
+            }
+        });
 
         const noImage = isEditMode
             ? !values.imageUrl
@@ -72,15 +59,9 @@ export function PracticesCreate({ mode }) {
 
         if (noImage) {
             newErrors.imageUrl = 'Снимката е задължителна!'
-        };
-
-        if (!values.presentation) {
-            newErrors.presentation = 'Полето е задължително!'
-        };
-
-        if (!values.content) {
-            newErrors.content = 'Полето е задължително!'
-        };
+        } else if (values.imageUrl instanceof File && values.imageUrl.size > MAX_FILE_SIZE) {
+            newErrors.imageUrl = 'Снимката не трябва да надвишава 1MB!';
+        }
 
         if (!values.practiceDate) {
             newErrors.practiceDate = 'Датата е задължителна!'
@@ -91,13 +72,11 @@ export function PracticesCreate({ mode }) {
 
     const handleQuillChange = (value) => {
         const cleanValue = value === '<p><br></p>' || value === '<p></p>' ? '' : value;
-
-        setQuillContent(cleanValue);
         setFormValues(prev => ({ ...prev, content: cleanValue }));
     };
 
     const submitHandler = async (formValues) => {
-        const validationErrors = validate({ ...formValues, content: quillContent });
+        const validationErrors = validate(formValues);
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -111,10 +90,7 @@ export function PracticesCreate({ mode }) {
 
             setServerError('');
 
-            const practiceData = {
-                ...formValues,
-                content: quillContent
-            };
+            const practiceData = { ...formValues, };
 
             if (practiceData.imageUrl instanceof FileList || practiceData.imageUrl instanceof File) {
                 const fileToUpload = practiceData.imageUrl instanceof FileList
@@ -142,12 +118,6 @@ export function PracticesCreate({ mode }) {
     } = useForm(submitHandler, initialPracticeValues);
 
     useEffect(() => {
-        if (isEditMode && formValues.content) {
-            setQuillContent(formValues.content);
-        }
-    }, [formValues.content, isEditMode]);
-
-    useEffect(() => {
         document.title = isEditMode ? 'Редактирай практика' : 'Добави практика';
 
         if (!isEditMode) {
@@ -160,6 +130,10 @@ export function PracticesCreate({ mode }) {
             .then(result => {
                 if (!result || Object.keys(result).length === 0) {
                     return;
+                }
+
+                if (result.practiceDate) {
+                    result.practiceDate = result.practiceDate.slice(0, 10);
                 }
 
                 const isOwner = String(user?._id) === String(result.owner);
@@ -184,8 +158,6 @@ export function PracticesCreate({ mode }) {
             <img src="/images/create-blog-post-img.jpg" alt="Background" />
             <form onSubmit={formAction}>
                 <h2>{isEditMode ? 'Редактирай практика' : 'Добави практика'}</h2>
-
-                {serverError && <div className="errors">{serverError}</div>}
 
                 <div className="form-group">
                     <label htmlFor="title">Заглавие: {errors.title && <span className="error-text">{errors.title}</span>}</label>
@@ -222,7 +194,7 @@ export function PracticesCreate({ mode }) {
                     <label>Съдържание: {errors.content && <span className="error-text">{errors.content}</span>}</label>
                     <ReactQuill
                         theme="snow"
-                        value={quillContent}
+                        value={formValues.content || ''}
                         onChange={handleQuillChange}
                         modules={quillModules}
                         formats={quillFormats}
@@ -241,15 +213,12 @@ export function PracticesCreate({ mode }) {
                     />
                 </div>
 
-                {isPending ? (
-                    <div className="loader">
-                        <img src="/images/loading.svg" alt="Зареждане" />
-                    </div>
-                ) : (
-                    <button type="submit" className="btn btn-register">
-                        {isEditMode ? 'Запази промените' : 'Добави практика'}
-                    </button>
-                )}
+                {serverError && <div className="errors">{serverError}</div>}
+
+                {isPending
+                    ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
+                    : <button type="submit" className="btn btn-register">{isEditMode ? 'Запази промените' : 'Добави практика'}</button>
+                }
             </form>
         </article>
     );
