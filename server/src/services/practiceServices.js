@@ -24,6 +24,6 @@ export default {
         });
     }, 
     delete(practiceId) {
-        return Practice.findOneAndDelete(practiceId)
+        return Practice.findByIdAndDelete(practiceId)
     }
 }
