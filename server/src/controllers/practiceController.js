@@ -2,6 +2,7 @@ import { Router } from "express";
 import { getErrorMessage } from "../utils/errorUtils.js";
 import practiceServices from "../services/practiceServices.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
+import { sanitizeHtml } from "../utils/sanitizeUtils.js";
 
 export const practiceController = Router();
 
@@ -113,6 +114,10 @@ practiceController.put('/practices/:practiceId/edit', verifyToken(['admin', 'mod
             });
         }
 
+        if (practiceData.content) {
+            practiceData.content = sanitizeHtml(practiceData.content);
+        }
+
         const updatedPractice = await practiceServices.update(practiceData, practiceId);
 
         res.json(updatedPractice);
@@ -148,6 +153,10 @@ practiceController.post('/practices/create', verifyToken(['admin', 'moderator'])
     }
 
     try {
+        if (practiceData.content) {
+            practiceData.content = sanitizeHtml(practiceData.content);
+        }
+
         const createdPractice = await practiceServices.create(practiceData, ownerId);
 
         res.status(201).json(createdPractice);
@@ -165,6 +174,8 @@ practiceController.post('/practices/create', verifyToken(['admin', 'moderator'])
 practiceController.delete('/practices/:practiceId/delete', verifyToken(['admin', 'moderator']), async (req, res) => {
     const practiceId = req.params.practiceId;
     const userId = req.user?.id;
+
+    console.log(practiceId)
 
     try {
         const practice = await practiceServices.getOne(practiceId);
