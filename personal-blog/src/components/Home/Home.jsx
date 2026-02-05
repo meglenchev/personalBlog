@@ -35,7 +35,8 @@ export function Home() {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 6000
+        autoplaySpeed: 6000, 
+        adaptiveHeight: true,
     };
 
     return (
