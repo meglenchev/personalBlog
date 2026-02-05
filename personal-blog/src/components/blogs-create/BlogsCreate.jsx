@@ -7,7 +7,7 @@ import { uploadImage } from "../../hooks/uploadImage.js";
 import UserContext from "../../context/UserContext.jsx";
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
-
+import { quillModules, quillFormats } from "../../utils/quillConfig.js";
 
 const initialBlogValues = {
     title: '',
@@ -34,25 +34,6 @@ export function BlogsCreate({ mode }) {
 
     const isEditMode = mode === 'edit';
 
-    const [quillContent, setQuillContent] = useState('');
-
-    const quillModules = {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['link'],
-            ['clean']
-        ]
-    };
-
-    const quillFormats = [
-        'header',
-        'bold', 'italic', 'underline', 'strike', 'blockquote',
-        'list',
-        'link',
-    ];
-
     const config = useMemo(() => ({
         method: isEditMode ? 'PUT' : 'POST',
         url: isEditMode ? endPoints.blogEdit(blogId) : endPoints.postBlog,
@@ -62,10 +43,15 @@ export function BlogsCreate({ mode }) {
 
     function validate(values) {
         let newErrors = {};
+        const MAX_FILE_SIZE = 1024 * 1024; // 1MB
 
-        if (!values.title.trim()) {
-            newErrors.title = 'Полето е задължително!'
-        }
+        const requiredFields = ['title', 'category', 'presentation', 'content'];
+
+        requiredFields.forEach(field => {
+            if (!values[field]?.trim()) {
+                newErrors[field] = 'Полето е задължително!';
+            }
+        });
 
         const noImage = isEditMode
             ? !values.imageUrl
@@ -73,18 +59,8 @@ export function BlogsCreate({ mode }) {
 
         if (noImage) {
             newErrors.imageUrl = 'Снимката е задължителна!'
-        };
-
-        if (!values.category.trim()) {
-            newErrors.category = 'Полето е задължително!'
-        }
-
-        if (!values.presentation.trim()) {
-            newErrors.presentation = 'Полето е задължително!'
-        }
-
-        if (!values.content.trim()) {
-            newErrors.content = 'Полето е задължително!'
+        } else if (values.imageUrl instanceof File && values.imageUrl.size > MAX_FILE_SIZE) {
+            newErrors.imageUrl = 'Снимката не трябва да надвишава 1MB!';
         }
 
         return newErrors;
@@ -92,13 +68,11 @@ export function BlogsCreate({ mode }) {
 
     const handleQuillChange = (value) => {
         const cleanValue = value === '<p><br></p>' || value === '<p></p>' ? '' : value;
-
-        setQuillContent(cleanValue);
         setFormValues(prev => ({ ...prev, content: cleanValue }));
     };
 
     const submitHandler = async (formValues) => {
-        const validationErrors = validate({ ...formValues, content: quillContent });
+        const validationErrors = validate(formValues);
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -112,10 +86,7 @@ export function BlogsCreate({ mode }) {
 
             setServerError('');
 
-            const blogData = {
-                ...formValues,
-                content: quillContent
-            };
+            const blogData = {...formValues};
 
             if (blogData.imageUrl instanceof FileList || blogData.imageUrl instanceof File) {
                 const fileToUpload = blogData.imageUrl instanceof FileList
@@ -140,12 +111,6 @@ export function BlogsCreate({ mode }) {
         setFormValues,
         formValues,
         formAction } = useForm(submitHandler, initialBlogValues);
-
-    useEffect(() => {
-        if (isEditMode && formValues.content) {
-            setQuillContent(formValues.content);
-        }
-    }, [formValues.content, isEditMode]);
 
     useEffect(() => {
         document.title = isEditMode ? 'Редактирай блог' : 'Добави блог';
@@ -187,8 +152,6 @@ export function BlogsCreate({ mode }) {
             <img src="/images/create-blog-post-img.jpg" alt="Background" />
             <form onSubmit={formAction}>
                 <h2>{mode === 'edit' ? 'Редактирай публикацията' : 'Създай нова публикация'}</h2>
-
-                {serverError && <div className="errors">{serverError}</div>}
 
                 <div className="form-group">
                     <label htmlFor="title">Заглавие: {errors.title && <span className="error-text">{errors.title}</span>}</label>
@@ -236,7 +199,7 @@ export function BlogsCreate({ mode }) {
 
                     <ReactQuill
                         theme="snow"
-                        value={quillContent}
+                        value={formValues.content}
                         onChange={handleQuillChange}
                         modules={quillModules}
                         formats={quillFormats}
@@ -244,6 +207,9 @@ export function BlogsCreate({ mode }) {
                         className={errors.content ? 'input-error' : ''}
                     />
                 </div>
+
+                {serverError && <div className="errors">{serverError}</div>}
+
                 {isPending
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
                     : <button type="submit" className="btn btn-register">{mode === 'edit' ? 'Редактирай' : 'Създай публикация'}</button>

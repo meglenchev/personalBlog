@@ -7,6 +7,7 @@ import { useForm } from "../../hooks/useForm.js";
 import UserContext from "../../context/UserContext.jsx";
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { quillModules, quillFormats } from "../../utils/quillConfig.js";
 
 const initialSettingsValues = {
     slogan: '',
@@ -31,25 +32,6 @@ export function AboutCreate({ mode }) {
 
     const isEditMode = mode === 'edit';
 
-    const [quillContent, setQuillContent] = useState('');
-
-    const quillModules = {
-        toolbar: [
-            [{ 'header': [1, 2, 3, false] }],
-            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['link'],
-            ['clean']
-        ]
-    };
-
-    const quillFormats = [
-        'header',
-        'bold', 'italic', 'underline', 'strike', 'blockquote',
-        'list',
-        'link',
-    ];
-
     useEffect(() => {
         if (!isAdmin) {
             navigate('/');
@@ -58,10 +40,15 @@ export function AboutCreate({ mode }) {
 
     function validate(values) {
         let newErrors = {};
+        const MAX_FILE_SIZE = 1024 * 1024; // 1MB
 
-        if (!values.slogan) {
-            newErrors.slogan = 'Полето е задължително!';
-        }
+        const requiredFields = ['slogan', 'summary', 'info'];
+
+        requiredFields.forEach(field => {
+            if (!values[field]?.trim()) {
+                newErrors[field] = 'Полето е задължително!';
+            }
+        });
 
         const noImage = isEditMode
             ? !values.aboutImage
@@ -69,14 +56,8 @@ export function AboutCreate({ mode }) {
 
         if (noImage) {
             newErrors.aboutImage = 'Снимката е задължителна!'
-        };
-
-        if (!values.summary) {
-            newErrors.summary = 'Полето е задължително!';
-        }
-
-        if (!values.info) {
-            newErrors.info = 'Полето е задължително!';
+        } else if (values.aboutImage instanceof File && values.aboutImage.size > MAX_FILE_SIZE) {
+            newErrors.aboutImage = 'Снимката не трябва да надвишава 1MB!';
         }
 
         return newErrors;
@@ -84,13 +65,11 @@ export function AboutCreate({ mode }) {
 
     const handleQuillChange = (value) => {
         const cleanValue = value === '<p><br></p>' || value === '<p></p>' ? '' : value;
-
-        setQuillContent(cleanValue);
         setFormValues(prev => ({ ...prev, info: cleanValue }));
     };
 
     const submitAboutHandler = async (formValues) => {
-        const validationErrors = validate({ ...formValues, info: quillContent });
+        const validationErrors = validate(formValues);
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -104,10 +83,7 @@ export function AboutCreate({ mode }) {
 
             setServerError('');
 
-            const aboutData = {
-                ...formValues,
-                info: quillContent
-            };
+            const aboutData = {...formValues};
 
             if (aboutData.aboutImage instanceof FileList || aboutData.aboutImage instanceof File) {
                 const fileToUpload = aboutData.aboutImage instanceof FileList
@@ -132,12 +108,6 @@ export function AboutCreate({ mode }) {
         setFormValues,
         formValues,
         formAction } = useForm(submitAboutHandler, initialSettingsValues);
-
-    useEffect(() => {
-        if (isEditMode && formValues.info) {
-            setQuillContent(formValues.info);
-        }
-    }, [formValues.info, isEditMode]);
 
     useEffect(() => {
         document.title = isEditMode ? 'Редактиране на информация за автора' : 'Създаване на информация за автора';
@@ -176,8 +146,6 @@ export function AboutCreate({ mode }) {
             <form onSubmit={formAction}>
                 <h2>{isEditMode ? 'Редактиране на информация за автора' : 'Създаване на информация за автора'}</h2>
 
-                {serverError && <div className="errors">{serverError}</div>}
-
                 <div className="form-group">
                     <label htmlFor="slogan">Слоган: {errors.slogan && <span className="error-text">{errors.slogan}</span>}</label>
                     <input
@@ -215,7 +183,7 @@ export function AboutCreate({ mode }) {
                     <label>Подробна информация: {errors.info && <span className="error-text">{errors.info}</span>}</label>
                     <ReactQuill
                         theme="snow"
-                        value={quillContent}
+                        value={formValues.info}
                         onChange={handleQuillChange}
                         modules={quillModules}
                         formats={quillFormats}
@@ -223,6 +191,8 @@ export function AboutCreate({ mode }) {
                         className={errors.info ? 'input-error' : ''}
                     />
                 </div>
+
+                {serverError && <div className="errors">{serverError}</div>}
 
                 {isPendingUpload
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>

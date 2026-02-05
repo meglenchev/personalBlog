@@ -50,9 +50,7 @@ export function UserSettings() {
 
         const fileToUpload = values.authorImg instanceof FileList ? values.authorImg[0] : values.authorImg;
 
-        const hasImage =
-            fileToUpload instanceof File ||
-            (typeof fileToUpload === 'string' && fileToUpload.length > 0);
+        const hasImage = fileToUpload instanceof File || (typeof fileToUpload === 'string' && fileToUpload.length > 0);
 
         if (!hasImage) {
             newErrors.authorImg = 'Снимката е задължителна!';
@@ -141,8 +139,6 @@ export function UserSettings() {
             <form onSubmit={formAction}>
                 <h2>Настройки на страницата</h2>
 
-                {serverError && <div className="errors">{serverError}</div>}
-
                 <div className="form-group-wrap">
                     <div className="form-group">
                         <label htmlFor="name">Име: {errors.name && <span className="error-text">{errors.name}</span>}</label>
@@ -205,6 +201,8 @@ export function UserSettings() {
                         />
                     </div>
                 </div>
+
+                {serverError && <div className="errors">{serverError}</div>}
 
                 {isPendingUpload
                     ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
