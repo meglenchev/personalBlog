@@ -2,18 +2,7 @@ import { Router } from "express";
 import { getErrorMessage } from "../utils/errorUtils.js";
 import blogServices from "../services/blogServices.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
-
-import createDOMPurify from 'dompurify';
-import { JSDOM } from 'jsdom';
-const window = new JSDOM('').window;
-const DOMPurify = createDOMPurify(window);
-
-const sanitizeHtml = (html) => {
-    return DOMPurify.sanitize(html, {
-        ALLOWED_TAGS: ['p', 'b', 'i', 'u', 's', 'strong', 'em', 'strike', 'blockquote', 'ol', 'ul', 'li', 'h1', 'h2', 'h3', 'a'],
-        ALLOWED_ATTR: ['href', 'target']
-    });
-};
+import { sanitizeHtml } from "../utils/sanitizeUtils.js";
 
 export const blogController = Router();
 
