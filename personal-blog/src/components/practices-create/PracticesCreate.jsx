@@ -5,6 +5,8 @@ import { endPoints } from "../../utils/endpoints.js";
 import { useForm } from "../../hooks/useForm.js";
 import { uploadImage } from "../../hooks/uploadImage.js";
 import UserContext from "../../context/UserContext.jsx";
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const initialPracticeValues = {
     title: '',
@@ -30,6 +32,25 @@ export function PracticesCreate({ mode }) {
     const [serverError, setServerError] = useState('');
 
     const isEditMode = mode === 'edit';
+
+    const [quillContent, setQuillContent] = useState('');
+
+    const quillModules = {
+        toolbar: [
+            [{ 'header': [1, 2, 3, false] }],
+            ['bold', 'italic', 'underline', 'strike', 'blockquote'],
+            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+            ['link'],
+            ['clean']
+        ]
+    };
+
+    const quillFormats = [
+        'header',
+        'bold', 'italic', 'underline', 'strike', 'blockquote',
+        'list',
+        'link',
+    ];
 
     const config = useMemo(() => ({
         method: isEditMode ? 'PUT' : 'POST',
@@ -68,8 +89,15 @@ export function PracticesCreate({ mode }) {
         return newErrors;
     }
 
+    const handleQuillChange = (value) => {
+        const cleanValue = value === '<p><br></p>' || value === '<p></p>' ? '' : value;
+
+        setQuillContent(cleanValue);
+        setFormValues(prev => ({ ...prev, content: cleanValue }));
+    };
+
     const submitHandler = async (formValues) => {
-        const validationErrors = validate(formValues);
+        const validationErrors = validate({ ...formValues, content: quillContent });
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -83,7 +111,10 @@ export function PracticesCreate({ mode }) {
 
             setServerError('');
 
-            const practiceData = { ...formValues };
+            const practiceData = {
+                ...formValues,
+                content: quillContent
+            };
 
             if (practiceData.imageUrl instanceof FileList || practiceData.imageUrl instanceof File) {
                 const fileToUpload = practiceData.imageUrl instanceof FileList
@@ -106,8 +137,15 @@ export function PracticesCreate({ mode }) {
         inputPropertiesRegister,
         filePropertiesRegister,
         setFormValues,
+        formValues,
         formAction
     } = useForm(submitHandler, initialPracticeValues);
+
+    useEffect(() => {
+        if (isEditMode && formValues.content) {
+            setQuillContent(formValues.content);
+        }
+    }, [formValues.content, isEditMode]);
 
     useEffect(() => {
         document.title = isEditMode ? 'Редактирай практика' : 'Добави практика';
@@ -181,22 +219,25 @@ export function PracticesCreate({ mode }) {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="content">Съдържание: {errors.content && <span className="error-text">{errors.content}</span>}</label>
-                    <textarea
-                        id="content"
-                        {...inputPropertiesRegister('content')}
-                        rows="10"
-                        className={errors.content && 'input-error'}
-                    ></textarea>
+                    <label>Съдържание: {errors.content && <span className="error-text">{errors.content}</span>}</label>
+                    <ReactQuill
+                        theme="snow"
+                        value={quillContent}
+                        onChange={handleQuillChange}
+                        modules={quillModules}
+                        formats={quillFormats}
+                        placeholder="Добави съдържанието тук..."
+                        className={errors.content ? 'input-error' : ''}
+                    />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="practiceDate">Кога ще се проведе практиката: {errors.practiceDate  && <span className="error-text">{errors.practiceDate }</span>}</label>
+                    <label htmlFor="practiceDate">Кога ще се проведе практиката: {errors.practiceDate && <span className="error-text">{errors.practiceDate}</span>}</label>
                     <input
                         type="date"
                         id="practiceDate"
                         {...inputPropertiesRegister('practiceDate')}
-                        className={errors.practiceDate  && 'input-error'}
+                        className={errors.practiceDate && 'input-error'}
                     />
                 </div>
 

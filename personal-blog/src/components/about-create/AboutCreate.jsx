@@ -83,8 +83,10 @@ export function AboutCreate({ mode }) {
     }
 
     const handleQuillChange = (value) => {
-        setQuillContent(value);
-        setFormValues(prev => ({ ...prev, info: value }));
+        const cleanValue = value === '<p><br></p>' || value === '<p></p>' ? '' : value;
+
+        setQuillContent(cleanValue);
+        setFormValues(prev => ({ ...prev, info: cleanValue }));
     };
 
     const submitAboutHandler = async (formValues) => {

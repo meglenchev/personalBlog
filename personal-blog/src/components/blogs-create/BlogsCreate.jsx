@@ -91,8 +91,10 @@ export function BlogsCreate({ mode }) {
     }
 
     const handleQuillChange = (value) => {
-        setQuillContent(value);
-        setFormValues(prev => ({ ...prev, content: value }));
+        const cleanValue = value === '<p><br></p>' || value === '<p></p>' ? '' : value;
+
+        setQuillContent(cleanValue);
+        setFormValues(prev => ({ ...prev, content: cleanValue }));
     };
 
     const submitHandler = async (formValues) => {
