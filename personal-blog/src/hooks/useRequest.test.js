@@ -71,6 +71,33 @@ describe('useRequest hook', () => {
         );
     });
 
+    test('401 статус със счупен JSON трябва да ползва default съобщение', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+            ok: false,
+            status: 401,
+            json: () => Promise.reject(new Error('Invalid JSON')),
+        }));
+
+        const { result } = renderHook(() => useRequest());
+
+        await expect(result.current.request('/settings/edit'))
+            .rejects.toThrow('Сесията изтече. Моля, влезте отново.');
+    });
+
+    test('Грешка 500 със счупен JSON трябва да генерира съобщение със статус текст', async () => {
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+            ok: false,
+            status: 500,
+            statusText: 'Internal Server Error',
+            json: () => Promise.reject(new Error('Invalid JSON')),
+        }));
+
+        const { result } = renderHook(() => useRequest());
+
+        await expect(result.current.request('/settings/edit'))
+            .rejects.toThrow('Грешка 500: Internal Server Error');
+    });
+
     test('Връща null при статус 204', async () => {
         vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
             ok: true,
