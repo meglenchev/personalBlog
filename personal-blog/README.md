@@ -252,5 +252,7 @@
     - [x] Guaranteed 100% coverage by testing the internal try-catch block
 
 - [x] Implement lazy loading and optimize imports in App.jsx
-    -[x] Added React.lazy and Suspense for better performance.
+    -[x] Added React.lazy and Suspense for better performance
+- [x] Add error boundary and update dependencies
+    -[x] Integrated react-error-boundary to handle runtime and network errors gracefully
 
