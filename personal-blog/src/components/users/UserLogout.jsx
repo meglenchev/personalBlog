@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import UserContext from "../../context/UserContext.jsx";
 import { useEffect } from "react";
 
-export function UserLogout() {
+function UserLogout() {
     const { onLogout } = useContext(UserContext);
 
     const [showModal, setShowModal] = useState(false);
@@ -39,3 +39,5 @@ export function UserLogout() {
         </div>
     )
 }
+
+export default UserLogout;

@@ -17,7 +17,7 @@ const initialPracticeValues = {
     practiceDate: ''
 };
 
-export function PracticesCreate({ mode }) {
+function PracticesCreate({ mode }) {
     const { practiceId } = useParams();
 
     const { request } = useRequest();
@@ -223,3 +223,5 @@ export function PracticesCreate({ mode }) {
         </article>
     );
 }
+
+export default PracticesCreate;

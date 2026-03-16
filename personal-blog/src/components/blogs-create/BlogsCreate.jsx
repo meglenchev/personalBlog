@@ -17,7 +17,7 @@ const initialBlogValues = {
     content: ''
 }
 
-export function BlogsCreate({ mode }) {
+function BlogsCreate({ mode }) {
     const { blogId } = useParams();
 
     const { request } = useRequest();
@@ -218,3 +218,5 @@ export function BlogsCreate({ mode }) {
         </article>
     )
 }
+
+export default BlogsCreate;

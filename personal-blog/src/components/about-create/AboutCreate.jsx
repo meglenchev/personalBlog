@@ -16,7 +16,7 @@ const initialSettingsValues = {
     info: ''
 }
 
-export function AboutCreate({ mode }) {
+function AboutCreate({ mode }) {
 
     const { isAdmin } = useContext(UserContext);
 
@@ -202,3 +202,5 @@ export function AboutCreate({ mode }) {
         </article>
     )
 }
+
+export default AboutCreate;

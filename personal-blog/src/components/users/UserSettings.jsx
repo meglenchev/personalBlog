@@ -15,7 +15,7 @@ const initialSettingsValues = {
     authorImage: '',
 }
 
-export function UserSettings() {
+function UserSettings() {
 
     const { isAdmin } = useContext(UserContext)
 
@@ -212,3 +212,5 @@ export function UserSettings() {
         </article>
     )
 }
+
+export default UserSettings;

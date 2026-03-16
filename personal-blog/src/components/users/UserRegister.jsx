@@ -10,7 +10,7 @@ let initialRegisterData = {
     confirmPassword: ''
 }
 
-export function UserRegister() {
+function UserRegister() {
     const { isAuthenticated, onRegister } = useContext(UserContext);
     const [errors, setErrors] = useState({});
     const [serverError, setServerError] = useState('');
@@ -132,3 +132,5 @@ export function UserRegister() {
         </article>
     )
 }
+
+export default UserRegister;

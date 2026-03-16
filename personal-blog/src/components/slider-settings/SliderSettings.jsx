@@ -12,7 +12,7 @@ const initialSliderValues = {
     sliderContent: '',
 }
 
-export function SliderSettings() {
+function SliderSettings() {
 
     const { isAdmin } = useContext(UserContext);
 
@@ -202,3 +202,5 @@ export function SliderSettings() {
         </article>
     )
 }
+
+export default SliderSettings;
