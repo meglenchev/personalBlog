@@ -1,6 +1,6 @@
 import { endPoints } from "../../utils/endpoints.js";
 import UserContext from "../../context/UserContext.jsx";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router";
 import { useFetch } from "../../hooks/useFetch.js";
 import DOMPurify from "dompurify";
@@ -16,13 +16,16 @@ export function AboutAuthor() {
 
     const hasData = data && Object.keys(data).length > 0;
 
+    const [isLoaded, setIsLoaded] = useState(false);
+
     return (
         <article className="about-author">
             {isPending
                 ? (<div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>)
                 : hasData
                     ? (<>
-                        <img src={data.aboutImage} alt={data.name} />
+                        {!isLoaded && <img src="/images/loading.svg" className="loading-image" alt="Зареждане" />}
+                        <img src={data.aboutImage} alt={data.name} onLoad={() => setIsLoaded(true)} style={{display: isLoaded ? 'block' : 'none'}} />
                         <h2>За автора</h2>
                         <blockquote>{data.slogan}</blockquote>
                         <p>{data.summary}</p>

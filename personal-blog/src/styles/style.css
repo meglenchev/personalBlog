@@ -113,13 +113,13 @@ textarea:focus {
 
 .ql-container.ql-snow,
 .ql-toolbar.ql-snow {
-  border-color: #a7846e;
+  border-color: #a7846e !important;
 }
 
 .ql-container {
-  height: 300px;
-  overflow-y: auto;
-  font-size: 16px;
+  height: 300px !important;
+  overflow-y: auto !important;
+  font-size: 16px !important;
 }
 
 .ql-container::-webkit-scrollbar {
@@ -248,6 +248,11 @@ a:focus-visible {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.loading-image {
+  width: 90px;
+  margin: 0 auto 20px !important;
 }
 
 .modal-overlay {
@@ -844,9 +849,6 @@ main {
   width: 100%;
   height: auto;
   margin-bottom: 20px;
-}
-.latest-posts .posts-container .post .loading-image {
-  margin: 0 auto 20px;
 }
 .latest-posts .posts-container .post h3 {
   line-height: 1.2;
