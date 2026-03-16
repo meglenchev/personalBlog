@@ -3,13 +3,15 @@ import { useEffect, useState } from "react";
 
 export function useFetch(url, initialValue, postId, refreshTrigger) {
     const [data, setData] = useState(initialValue);
-    const [isPending, setIsPending] = useState(true);
+    const [isPending, setIsPending] = useState(!!url);
 
     useEffect(() => {
         if (!url) {
             setIsPending(false);
             return;
         }
+
+        setIsPending(true);
 
         const abortController = new AbortController();
         setIsPending(true);

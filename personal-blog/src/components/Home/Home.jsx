@@ -25,7 +25,7 @@ export function Home() {
     const { data: slidersData, isPending: slidersIsPending } = useFetch(endPoints.sliders, []);
 
     const hasSlidersData = !slidersIsPending && Array.isArray(slidersData) && slidersData.length > 0;
-    
+
     const slidersIsEmpty = !slidersIsPending && (!slidersData || (Array.isArray(slidersData) && slidersData.length === 0));
 
     var sliderSettings = {
@@ -35,24 +35,27 @@ export function Home() {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
-        autoplaySpeed: 6000, 
+        autoplaySpeed: 6000,
         adaptiveHeight: true,
     };
-
+    
     return (
         <>
             <article className="header-image">
-                {slidersIsPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
-                {hasSlidersData && (
-                    <Slider {...sliderSettings}>
-                        {slidersData.map(slide => <Slide 
-                            key={slide._id} 
-                            imageUrl={slide.sliderImage} 
-                            sliderContent={slide.sliderContent} 
-                        />)}
-                    </Slider>
-                )}
-                {slidersIsEmpty && <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-header-image.png?alt=media&token=c875ef81-eaad-4a56-b63a-3a0bf52c30ae" alt="" />}
+                {slidersIsPending ? (<div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>)
+                    : (
+                        <>
+                            {slidersData && slidersData.length > 0 ? (
+                                <Slider {...sliderSettings}>
+                                    {slidersData.map(slide => (
+                                        <Slide key={slide._id} imageUrl={slide.sliderImage} sliderContent={slide.sliderContent} />
+                                    ))}
+                                </Slider>
+                            ) : (
+                                <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-header-image.png?alt=media&token=c875ef81-eaad-4a56-b63a-3a0bf52c30ae" alt="Няма съдържание" />
+                            )}
+                        </>
+                    )}
             </article>
 
             <article className="quick-links">
