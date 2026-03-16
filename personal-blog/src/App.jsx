@@ -34,7 +34,7 @@ function App() {
     const ErrorFallback = ({ error, resetErrorBoundary }) => (
         <div className="error-container">
             <h2>Проблем с мрежата!</h2>
-            <p className='mb-40'>Не успяхме да заредим тази част от приложението. Моля, проверете връзката си.</p>
+            <p>Не успяхме да заредим тази част от приложението. Моля, проверете връзката си.</p>
             <button onClick={resetErrorBoundary} className='btn btn-edit'>Опитай отново</button>
         </div>
     );

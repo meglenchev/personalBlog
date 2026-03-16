@@ -135,6 +135,20 @@ textarea:focus {
   background: #bbb;
 }
 
+.error-container {
+  text-align: center;
+}
+.error-container h2 {
+  color: #c56222;
+  margin-bottom: 20px;
+}
+.error-container p {
+  margin-bottom: 30px;
+}
+.error-container .btn {
+  margin-bottom: 40px;
+}
+
 .error-text {
   display: inline-block;
   padding: 0;
@@ -1316,13 +1330,13 @@ footer .footer-bottom span {
   .latest-posts .posts-container {
     justify-content: space-between;
   }
+  .latest-posts .posts-container .post:nth-child(3n-1) {
+    margin: 0 0 20px 0;
+  }
   .latest-posts .posts-container .post {
     width: calc(50% - 10px);
     margin-bottom: 20px;
     background-color: #f6f6f6;
-  }
-  .latest-posts .posts-container .post:nth-child(3n-1) {
-    margin: 0 0 20px 0;
   }
   .latest-posts .posts-container .post .content {
     padding: 0 20px;
