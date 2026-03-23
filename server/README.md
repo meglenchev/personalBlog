@@ -100,5 +100,9 @@
    - [x] Install dompurify `npm i jsdom`
    - [x] implement server-side HTML sanitization for blogs and author info
 
+## 9. Pagination
+- [x] Add Mongoose Paginate plugin `npm install mongoose-paginate-v2`
+- [x] Add mongoose-paginate-v2 to Blog model
+
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`

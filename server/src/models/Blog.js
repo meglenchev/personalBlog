@@ -1,4 +1,5 @@
 import { Schema, Types, model } from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const blogSchema = new Schema({
     title: {
@@ -39,5 +40,7 @@ const blogSchema = new Schema({
         required: [true, 'Blog should have creator!']
     }
 }, { timestamps: true });
+
+blogSchema.plugin(mongoosePaginate);
 
 export const Blog = model('Blog', blogSchema, 'blogs');
