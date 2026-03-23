@@ -10,7 +10,7 @@ export const blogController = Router();
 blogController.get('/blogs', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 10;
+        const limit = parseInt(req.query.limit) || 6;
 
         const blogs = await blogServices.getAll(page, limit);
 
