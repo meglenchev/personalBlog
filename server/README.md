@@ -103,6 +103,8 @@
 ## 9. Pagination
 - [x] Add Mongoose Paginate plugin `npm install mongoose-paginate-v2`
 - [x] Add mongoose-paginate-v2 to Blog model
+- [x] Implement pagination and sorting in blogServices
+- [] Extract pagination parameters from query string
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`

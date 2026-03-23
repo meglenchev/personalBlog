@@ -7,14 +7,23 @@ export default {
             owner: ownerId,
         });
     },
-    getAll() {
+    getAll(page = 1, limit = 6) {
         // let query = Blog.find().select({
         //     title: true,
         //     image: true,
         //     category: true
         // });
 
-        let query = Blog.find().sort({ createdAt: -1 });
+        //let query = Blog.find().sort({ createdAt: -1 });
+
+        let options = {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            sort: { createdAt: -1 },
+            lean: true
+        };
+
+        const query = Blog.paginate({}, options);
         return query;
     },
     getCategories() {
