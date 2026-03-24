@@ -195,8 +195,18 @@
     - [x] Configure custom Quill modules and formats (headers, lists, blockquotes)
     - [x] Add manual state synchronization between Quill and custom useForm hook
 
+## 10. lazy loading
+- [x] Implement lazy loading and optimize imports in App.jsx
+    -[x] Added React.lazy and Suspense for better performance
+- [x] Add error boundary and update dependencies
+    -[x] Integrated react-error-boundary to handle runtime and network errors gracefully
 
-## 10. Unit Testing
+## 11. Infinite Scroll
+- [x] Create useInfiniteScroll custom hook
+- [x] Integrate infinite scroll with IntersectionObserver
+- [x] Replace static fetch with infinite scroll and useInfiniteScroll hook in Practices
+
+## 12. Unit Testing
 - [x] Installing Vitest `npm install -D vitest`
 - [x] Setup testing environment with Vitest and React Testing Library
 - [x] Setup vitest and coverage configuration
@@ -250,12 +260,3 @@
     - [x] Verified that setting values to null/undefined removes the key from storage
     - [x] Added coverage for edge cases: 'null' string recovery and invalid JSON parsing
     - [x] Guaranteed 100% coverage by testing the internal try-catch block
-
-- [x] Implement lazy loading and optimize imports in App.jsx
-    -[x] Added React.lazy and Suspense for better performance
-- [x] Add error boundary and update dependencies
-    -[x] Integrated react-error-boundary to handle runtime and network errors gracefully
-
-- [x] Create useInfiniteScroll custom hook
-- [x] Integrate infinite scroll with IntersectionObserver
-

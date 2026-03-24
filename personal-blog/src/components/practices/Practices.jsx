@@ -1,10 +1,28 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { endPoints } from "../../utils/endpoints.js";
-import { useFetch } from "../../hooks/useFetch.js";
 import { Practice } from "./Practice.jsx";
+import { useInfiniteScroll } from "../../hooks/useInfiniteScroll.js";
 
 export function Practices() {
-    const { data, isPending } = useFetch(endPoints.allPractices, []);
+    const { items, loading, hasMore, loadMore } = useInfiniteScroll(endPoints.allPractices, 6);
+
+    const observerTarget = useRef(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+            entries => {
+                if (entries[0].isIntersecting && hasMore && !loading) {
+                    loadMore();
+                }
+            }, { threshold: 0.1 }
+        );
+
+        if (observerTarget.current) {
+            observer.observe(observerTarget.current);
+        }
+
+        return () => observer.disconnect();
+    }, [hasMore, loading, loadMore]);
 
     useEffect(() => {
         document.title = 'Практики';
@@ -14,20 +32,22 @@ export function Practices() {
         <article className="latest-posts upcoming-practices">
             <h2>Практики</h2>
 
-            <div className={data.length > 0 ? "posts-container" : "posts-container center"}>
-                {isPending
-                    ? <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>
-                    : data.length > 0
-                        ? (data.map(practice => <Practice
-                            key={practice._id}
-                            id={practice._id}
-                            title={practice.title}
-                            imageUrl={practice.imageUrl}
-                            presentation={practice.presentation}
-                        />))
-                        : <p className="no-articles">Няма добавени практики!</p>
+            <div className={items.length > 0 ? "posts-container" : "posts-container center"}>
+                {items.length > 0 && (items.map(practice => <Practice
+                    key={practice._id}
+                    id={practice._id}
+                    title={practice.title}
+                    imageUrl={practice.imageUrl}
+                    presentation={practice.presentation}
+                />))
                 }
             </div>
+
+            <div ref={observerTarget} className="observer-target">
+                {loading && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
+            </div>
+
+            {!loading && items.length === 0 && <p className="no-articles">Няма добавени практики!</p>}
         </article>
     )
 }
