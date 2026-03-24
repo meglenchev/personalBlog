@@ -8,14 +8,6 @@ export default {
         });
     },
     getAll(page = 1, limit = 6) {
-        // let query = Blog.find().select({
-        //     title: true,
-        //     image: true,
-        //     category: true
-        // });
-
-        //let query = Blog.find().sort({ createdAt: -1 });
-
         let options = {
             page: parseInt(page),
             limit: parseInt(limit),

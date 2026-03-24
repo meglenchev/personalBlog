@@ -18,6 +18,7 @@ blogController.get('/blogs', async (req, res) => {
 
     } catch (err) {
         console.error("Error fetching blogs:", err);
+        
         res.status(500).json({
             message: 'Internal Server Error',
             error: err.message
