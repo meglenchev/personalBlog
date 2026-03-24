@@ -107,6 +107,7 @@
 - [x] Extract pagination parameters from query string
 - [x] Add mongoose-paginate-v2 to Practice model
 - [x] Implement pagination and sorting in practiceServices
+- [x] Implement pagination for getAll practices
 
  ## ToDo 
  - [] Аutomatic generation of "slugs" (friendly URLs) for Blogs and Practices `npm install speakingurl`

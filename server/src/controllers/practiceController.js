@@ -9,7 +9,10 @@ export const practiceController = Router();
 // Returns an object with all practices
 practiceController.get('/practices', async (req, res) => {
     try {
-        const practices = await practiceServices.getAll();
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 6;
+
+        const practices = await practiceServices.getAll(page, limit);
 
         res.json(practices);
     } catch (err) {
