@@ -1,4 +1,5 @@
 import { Schema, Types, model } from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const practiceSchema = new Schema({
     title: {
@@ -35,5 +36,7 @@ const practiceSchema = new Schema({
         required: [true, 'Practice should have creator!']
     }
 }, { timestamps: true });
+
+practiceSchema.plugin(mongoosePaginate);
 
 export const Practice = model('Practice', practiceSchema, 'practices');
