@@ -7,13 +7,20 @@ export default {
             owner: ownerId
         });
     },
-    getAll() {
-        let query = Practice.find().sort({ createdAt: -1 });
+    getAll(page = 1, limit = 6) {
+        let options = {
+            page: parseInt(page),
+            limit: parseInt(limit),
+            sort: { createdAt: -1 },
+            lean: true
+        };
+
+        const query = Practice.paginate({}, options);
         return query;
     },
     getLast() {
         return Practice.find().sort({ _id: -1 }).limit(3)
-    }, 
+    },
     getOne(practiceId) {
         return Practice.findById(practiceId);
     },
@@ -22,7 +29,7 @@ export default {
             runValidators: true,
             new: true
         });
-    }, 
+    },
     delete(practiceId) {
         return Practice.findByIdAndDelete(practiceId)
     }
