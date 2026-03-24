@@ -149,7 +149,7 @@ function BlogsCreate({ mode }) {
 
     return (
         <article className="create-blog-post-container">
-            <img src="/images/create-blog-post-img.jpg" alt="Background" />
+            <img src="/images/create-blog-post-img.avif" alt="Background" />
             <form onSubmit={formAction}>
                 <h2>{mode === 'edit' ? 'Редактирай публикацията' : 'Създай нова публикация'}</h2>
 

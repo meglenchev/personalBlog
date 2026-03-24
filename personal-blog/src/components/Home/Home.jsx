@@ -2,13 +2,12 @@ import { Link } from "react-router";
 import { LatestPosts } from "./latest-posts/LatestPosts.jsx";
 import { LatestPractices } from "./latest-practices/LatestPractices.jsx";
 import { endPoints } from "../../utils/endpoints.js";
-import { useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { useFetch } from "../../hooks/useFetch.js";
 
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import UserContext from "../../context/UserContext.jsx";
 import { Slide } from "./slide/Slide.jsx";
 
 export function Home() {
@@ -23,10 +22,6 @@ export function Home() {
     const isEmpty = !isPending && (!data || Object.keys(data).length === 0);
 
     const { data: slidersData, isPending: slidersIsPending } = useFetch(endPoints.sliders, []);
-
-    const hasSlidersData = !slidersIsPending && Array.isArray(slidersData) && slidersData.length > 0;
-
-    const slidersIsEmpty = !slidersIsPending && (!slidersData || (Array.isArray(slidersData) && slidersData.length === 0));
 
     var sliderSettings = {
         dots: true,
@@ -52,7 +47,7 @@ export function Home() {
                                     ))}
                                 </Slider>
                             ) : (
-                                <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-header-image.png?alt=media&token=c875ef81-eaad-4a56-b63a-3a0bf52c30ae" alt="Няма съдържание" />
+                                <img src="/images/sample-content-header-image.avif" alt="Няма съдържание" />
                             )}
                         </>
                     )}
@@ -87,7 +82,7 @@ export function Home() {
                     <div className="author-photo">
                         {isPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
                         {hasData && <img src={data.authorImg} alt={data.name} />}
-                        {isEmpty && <img src="https://firebasestorage.googleapis.com/v0/b/personal-blog-fadcb.firebasestorage.app/o/sample-content-author.png?alt=media&token=c6033a51-c955-4387-9251-2178f6044ae0" alt="" />}
+                        {isEmpty && <img src="/images/sample-content-author.avif" alt="" />}
                     </div>
                     <div className="author-bio">
                         {isPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}

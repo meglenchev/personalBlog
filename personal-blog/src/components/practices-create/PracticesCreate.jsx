@@ -155,7 +155,7 @@ function PracticesCreate({ mode }) {
 
     return (
         <article className="create-blog-post-container">
-            <img src="/images/create-blog-post-img.jpg" alt="Background" />
+            <img src="/images/create-blog-post-img.avif" alt="Background" />
             <form onSubmit={formAction}>
                 <h2>{isEditMode ? 'Редактирай практика' : 'Добави практика'}</h2>
 

@@ -80,7 +80,7 @@ function UserRegister() {
 
     return (
         <article className="register-container">
-            <img src="/images/register-img.jpg" alt="Регистрация" />
+            <img src="/images/register-img.avif" alt="Регистрация" />
 
             <form onSubmit={formAction}>
                 <h2>Регистрация</h2>
