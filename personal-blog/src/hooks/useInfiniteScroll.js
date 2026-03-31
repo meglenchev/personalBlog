@@ -44,6 +44,9 @@ export function useInfiniteScroll(url, limit = 6) {
     }, [url, limit]);
 
     useEffect(() => {
+        setItems([]);
+        pageRef.current = 1;
+        hasMoreRef.current = true;
         const abortController = new AbortController();
         loadMore(abortController.signal);
         return () => abortController.abort();
