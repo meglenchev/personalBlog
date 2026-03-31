@@ -260,3 +260,8 @@
     - [x] Verified that setting values to null/undefined removes the key from storage
     - [x] Added coverage for edge cases: 'null' string recovery and invalid JSON parsing
     - [x] Guaranteed 100% coverage by testing the internal try-catch block
+- [X] Add unit tests for useInfiniteScroll hook
+    - [x] Verify initial data fetching and loading states
+    - [x] Test item deduplication logic based on _id
+    - [x] Ensure hasMore correctly prevents additional requests
+    - [x] Validate error handling, including specific check for AbortError
