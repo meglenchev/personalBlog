@@ -1,7 +1,7 @@
 import { test, expect, vi, describe, beforeEach } from 'vitest';
 import { render, screen, cleanup, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { UserSettings } from './UserSettings.jsx';
+import UserSettings from './UserSettings.jsx';
 import UserContext from '../../context/UserContext.jsx';
 import { BrowserRouter } from 'react-router';
 

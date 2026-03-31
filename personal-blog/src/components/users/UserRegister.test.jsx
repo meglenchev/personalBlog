@@ -2,7 +2,7 @@ import { test, describe, beforeEach, expect, vi } from 'vitest'
 import { render, screen, cleanup } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router';
-import { UserRegister } from './UserRegister.jsx';
+import UserRegister from './UserRegister.jsx';
 import UserContext from '../../context/UserContext.jsx';
 
 const mockNavigate = vi.fn();

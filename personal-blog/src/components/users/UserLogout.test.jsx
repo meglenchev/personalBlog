@@ -1,6 +1,6 @@
 import { test, expect, vi, describe, beforeEach } from 'vitest';
 import { render, waitFor, screen } from '@testing-library/react';
-import { UserLogout } from './UserLogout.jsx';
+import UserLogout from './UserLogout.jsx';
 import UserContext from '../../context/UserContext.jsx';
 import { BrowserRouter } from 'react-router';
 
