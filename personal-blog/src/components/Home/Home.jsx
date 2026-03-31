@@ -2,7 +2,7 @@ import { Link } from "react-router";
 import { LatestPosts } from "./latest-posts/LatestPosts.jsx";
 import { LatestPractices } from "./latest-practices/LatestPractices.jsx";
 import { endPoints } from "../../utils/endpoints.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useFetch } from "../../hooks/useFetch.js";
 
 import Slider from "react-slick";
@@ -16,6 +16,8 @@ export function Home() {
     }, []);
 
     const { data, isPending } = useFetch(endPoints.settings, {});
+
+    const [isLoaded, setIsLoaded] = useState(false);
 
     const hasData = !isPending && !!data && Object.keys(data).length > 0;
 
@@ -80,8 +82,8 @@ export function Home() {
             <article className="wrap-section">
                 <section className="about-author-short">
                     <div className="author-photo">
-                        {isPending && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
-                        {hasData && <img src={data.authorImg} alt={data.name} />}
+                        {!isEmpty && !isLoaded && <div className="loader"><img src="/images/loading.svg" alt="Зареждане" /></div>}
+                        <img src={data.authorImg} alt={data.name} onLoad={() => setIsLoaded(true)} style={{ display: isLoaded ? 'block' : 'none' }} />
                         {isEmpty && <img src="/images/sample-content-author.avif" alt="" />}
                     </div>
                     <div className="author-bio">
