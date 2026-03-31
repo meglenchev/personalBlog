@@ -73,4 +73,58 @@ describe('useFetch hook', () => {
 
         await waitFor(() => expect(result.current.isPending).toBe(false));
     });
+
+    test('трябва да логне грешка, когато сървърът върне статус, различен от ok', async () => {
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+        const errorMessage = 'Not Found';
+
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+            ok: false,
+            status: 404,
+            text: () => Promise.resolve(errorMessage),
+        }));
+
+        const { result } = renderHook(() => useFetch('/not-found', null));
+
+        await waitFor(() => expect(result.current.isPending).toBe(false));
+
+        expect(consoleSpy).toHaveBeenCalledWith(errorMessage);
+
+        consoleSpy.mockRestore();
+    });
+
+    test('не трябва да логва грешка, ако заявката е прекъсната (AbortError)', async () => {
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+
+        const abortError = new Error('Aborted');
+        abortError.name = 'AbortError';
+
+        vi.stubGlobal('fetch', vi.fn().mockRejectedValue(abortError));
+
+        const { result } = renderHook(() => useFetch('/abort-test', null));
+
+        await waitFor(() => expect(result.current.isPending).toBe(false));
+
+        expect(consoleSpy).not.toHaveBeenCalled();
+
+        consoleSpy.mockRestore();
+    });
+
+    test('трябва да използва статус кода като съобщение за грешка, ако няма текст в тялото', async () => {
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+
+        vi.stubGlobal('fetch', vi.fn().mockResolvedValue({
+            ok: false,
+            status: 500,
+            text: () => Promise.resolve(''),
+        }));
+
+        const { result } = renderHook(() => useFetch('/empty-error', null));
+
+        await waitFor(() => expect(result.current.isPending).toBe(false));
+
+        expect(consoleSpy).toHaveBeenCalledWith('Error 500');
+
+        consoleSpy.mockRestore();
+    });
 });
