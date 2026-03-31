@@ -163,4 +163,72 @@ describe('UserContext', () => {
         expect(screen.getByTestId('auth-status').textContent).toBe('Logged Out');
         expect(window.localStorage.getItem('auth')).toBeNull();
     });
+
+    test('verifySession трябва да логне грешка при провал на заявката', async () => {
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+
+        window.localStorage.setItem('auth', JSON.stringify({ _id: '123', email: 't@t.com' }));
+
+        mockRequest.mockRejectedValueOnce(new Error('Network Error'));
+
+        renderWithProviders(<TestComponent />);
+
+        await waitFor(() => {
+            expect(consoleSpy).toHaveBeenCalledWith("Session verification failed:", 'Network Error');
+        });
+
+        consoleSpy.mockRestore();
+    });
+
+    test('verifySession трябва да зададе роля null, ако сървърът не върне такава', async () => {
+        window.localStorage.setItem('auth', JSON.stringify({ _id: '123', email: 't@t.com' }));
+
+        mockRequest.mockResolvedValueOnce({ _id: '123', email: 't@t.com' });
+
+        renderWithProviders(<TestComponent />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('admin-status').textContent).toBe('Not Admin');
+        });
+    });
+
+    test('не трябва да вика verifySession, ако няма потребител в LocalStorage', async () => {
+        renderWithProviders(<TestComponent />);
+
+        expect(mockRequest).not.toHaveBeenCalledWith(endPoints.me, 'GET', null);
+
+        expect(screen.getByTestId('auth-status').textContent).toBe('Logged Out');
+    });
+
+    test('verifySession трябва да зададе ролята, когато тя е налична', async () => {
+        window.localStorage.setItem('auth', JSON.stringify({ _id: '123', email: 't@t.com' }));
+
+        mockRequest.mockResolvedValueOnce({ _id: '123', email: 't@t.com', role: 'admin' });
+
+        renderWithProviders(<TestComponent />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('admin-status').textContent).toBe('Is Admin');
+        });
+    });
+
+    test('onLogout не трябва да логва грешка при AbortError', async () => {
+        const consoleSpy = vi.spyOn(console, 'error').mockImplementation(() => { });
+
+        const abortError = new Error('Aborted');
+        abortError.name = 'AbortError';
+
+        mockRequest.mockRejectedValueOnce(abortError);
+
+        renderWithProviders(<TestComponent />);
+
+        const logoutBtn = screen.getByText('Изход');
+        await act(async () => {
+            logoutBtn.click();
+        });
+
+        expect(consoleSpy).not.toHaveBeenCalled();
+
+        consoleSpy.mockRestore();
+    });
 });
