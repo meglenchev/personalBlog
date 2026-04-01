@@ -121,4 +121,55 @@ describe('UserSettings Component', () => {
             expect(screen.getByLabelText('Имейл:').value).toBe(mockData.email);
         });
     });
+
+    test('Пренасочва към началната страница, ако потребителят не е админ', () => {
+        const providerValue = { isAdmin: false };
+
+        render(
+            <BrowserRouter>
+                <UserContext.Provider value={providerValue}>
+                    <UserSettings />
+                </UserContext.Provider>
+            </BrowserRouter>
+        );
+
+        expect(mockNavigate).toHaveBeenCalledWith('/');
+    });
+
+    test('Не прави нищо, ако сървърът върне празен резултат', async () => {
+        mockRequest.mockResolvedValueOnce({}); // Празен обект
+        const providerValue = { isAdmin: true };
+
+        render(
+            <BrowserRouter>
+                <UserContext.Provider value={providerValue}>
+                    <UserSettings />
+                </UserContext.Provider>
+            </BrowserRouter>
+        );
+
+        await waitFor(() => {
+            expect(mockRequest).toHaveBeenCalled();
+        });
+    });
+
+    test('Показва грешка при прекъсната заявка и почиства при unmount', async () => {
+        const abortError = new Error('Aborted');
+        abortError.name = 'AbortError';
+        mockRequest.mockRejectedValueOnce(abortError);
+
+        const { unmount } = render(
+            <BrowserRouter>
+                <UserContext.Provider value={{ isAdmin: true }}>
+                    <UserSettings />
+                </UserContext.Provider>
+            </BrowserRouter>
+        );
+
+        await waitFor(() => {
+            expect(screen.getByText(/Неуспешно зареждане/i)).toBeInTheDocument();
+        });
+
+        unmount();
+    });
 });

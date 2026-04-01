@@ -231,6 +231,7 @@
     - [x] Mocked useRequest, uploadImage, and useNavigate for isolated testing
     - [x] Tested successful form submission and data pre-filling from the server
     - [x] Added test coverage for server error handling
+    - [x] Add tests for admin guards and API error handling
 - [x] Add unit tests for UserLogout component
     - [x] Successfully logged out and redirected to the login page
     - [x] Error logging out and displaying a modal window
