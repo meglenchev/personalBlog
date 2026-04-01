@@ -99,7 +99,7 @@ describe('UserRegister Component', () => {
 
     test('пренасочва автоматично, ако потребителят вече е логнат', async () => {
         const user = userEvent.setup();
-        
+
         mockOnRegister.mockResolvedValueOnce({});
         renderWithProviders(<UserRegister />, { providerValue });
 
@@ -113,5 +113,42 @@ describe('UserRegister Component', () => {
         await user.click(submitButton);
 
         expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
+    });
+
+    test('Пренасочва към началната страница, ако потребителят вече е логнат', () => {
+        delete window.location;
+        window.location = { pathname: '/register' };
+
+        const loggedInValue = { isAuthenticated: true, onRegister: vi.fn() };
+
+        render(
+            <BrowserRouter>
+                <UserContext.Provider value={loggedInValue}>
+                    <UserRegister />
+                </UserContext.Provider>
+            </BrowserRouter>
+        );
+
+        expect(mockNavigate).toHaveBeenCalledWith('/', { replace: true });
+    });
+
+    test('Показва грешка при невалиден формат на имейла', async () => {
+        const user = userEvent.setup();
+        renderWithProviders(<UserRegister />, { providerValue });
+
+        await user.type(screen.getByLabelText('Потребител:'), 'Ivan');
+        await user.type(screen.getByLabelText('Имейл:'), 'ivan@test');
+        await user.type(screen.getByLabelText('Парола:'), '123456');
+        await user.type(screen.getByLabelText('Потвърдете паролата:'), '123456');
+
+        const submitButton = screen.getByRole('button', { name: 'Регистрация' });
+        await user.click(submitButton);
+
+        const errorMsg = await screen.findByText((content, element) => {
+            return element.tagName.toLowerCase() === 'span' && content.includes('Имейл формата е неправилен!');
+        });
+
+        expect(errorMsg).toBeInTheDocument();
+        expect(errorMsg).toHaveClass('error-text');
     });
 });

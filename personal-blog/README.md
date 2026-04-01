@@ -224,6 +224,7 @@
     - [x] Test redirection for already authenticated users
     - [x] Test successful registration and error handling
     - [x] Mock navigation and user context actions
+    - [x] Add tests for email validation and auth redirect
 - [x] Add unit tests for UserSettings component
     - [x] Added tests for required field validation and error messaging
     - [x] Verified file size constraints (2MB limit) for image uploads
